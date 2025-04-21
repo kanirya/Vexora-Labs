@@ -7,9 +7,10 @@
 
     <!-- Core CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
     <!-- Preloader -->
@@ -23,9 +24,9 @@
             background: #0a0a1a;
             z-index: 9999;
             display: flex;
-            justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+            justify-content: center;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
             .preloader.hidden {
@@ -33,37 +34,31 @@
                 visibility: hidden;
             }
 
+        .preloader-content {
+            text-align: center;
+        }
+
         .preloader-logo {
-            position: relative;
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
         }
 
-        .preloader-circle {
-            position: absolute;
-            width: 100%;
+        .preloader-progress {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .preloader-bar {
             height: 100%;
-            border: 4px solid transparent;
-            border-top-color: #7928ca;
-            border-radius: 50%;
-            animation: spin 1.5s linear infinite;
-        }
-
-            .preloader-circle:nth-child(2) {
-                border: 4px solid transparent;
-                border-bottom-color: #ff0080;
-                animation: spin 2s linear infinite;
-            }
-
-        .preloader-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: white;
+            width: 0;
+            background: linear-gradient(90deg, #7928CA, #FF0080);
+            transition: width 0.2s ease;
         }
 
     </style>
@@ -71,72 +66,58 @@
 <body>
     <!-- Preloader -->
     <div class="preloader">
-        <div class="preloader-logo">
-            <div class="preloader-circle"></div>
-            <div class="preloader-circle"></div>
-            <div class="preloader-text">VL</div>
+        <div class="preloader-content">
+            <img src="~/images/vexora-logo.svg" alt="Vexora Labs" class="preloader-logo">
+            <div class="preloader-progress">
+                <div class="preloader-bar" id="preloader-bar"></div>
+            </div>
         </div>
     </div>
 
     <!-- Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+    <div class="cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+        <div class="cursor-text"></div>
+    </div>
 
     <!-- Navbar -->
     <header class="header">
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <div class="logo-container">
-                        <div class="logo-text">VEXORA<span>LABS</span></div>
-                        <div class="logo-glow"></div>
+                        <img src="~/images/vexora-logo.svg" alt="Vexora Labs" class="logo-img">
                     </div>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <div class="hamburger-menu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
 
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-                                <span class="nav-link-number">01</span>
-                                <span class="nav-link-text">Home</span>
-                            </a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Services">
-                                <span class="nav-link-number">02</span>
-                                <span class="nav-link-text">Services</span>
-                            </a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Services">Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Projects">
-                                <span class="nav-link-number">03</span>
-                                <span class="nav-link-text">Projects</span>
-                            </a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Projects">Projects</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">
-                                <span class="nav-link-number">04</span>
-                                <span class="nav-link-text">About</span>
-                            </a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">
-                                <span class="nav-link-number">05</span>
-                                <span class="nav-link-text">Contact</span>
-                            </a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
                     </ul>
                     <div class="nav-cta">
-                        <a href="#" class="btn btn-gradient-primary">Get Started</a>
+                        <a href="#contact" class="btn btn-gradient">Get Started</a>
                     </div>
                 </div>
             </div>
@@ -150,13 +131,14 @@
 
     <!-- Footer -->
     <footer class="footer">
+        <div class="footer-pattern"></div>
         <div class="footer-top">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 mb-5 mb-lg-0">
-                        <div class="footer-info" data-aos="fade-up" data-aos-delay="100">
+                        <div class="footer-info">
                             <div class="footer-logo">
-                                <div class="logo-text">VEXORA<span>LABS</span></div>
+                                <img src="~/images/vexora-logo.svg" alt="Vexora Labs" class="logo-img">
                             </div>
                             <p class="footer-desc">
                                 Pioneering the future through innovative software solutions. We transform complex challenges into elegant digital experiences.
@@ -172,7 +154,7 @@
                     </div>
 
                     <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
-                        <div class="footer-links" data-aos="fade-up" data-aos-delay="200">
+                        <div class="footer-links">
                             <h4>Company</h4>
                             <ul>
                                 <li><a asp-controller="Home" asp-action="About">About Us</a></li>
@@ -185,7 +167,7 @@
                     </div>
 
                     <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
-                        <div class="footer-links" data-aos="fade-up" data-aos-delay="300">
+                        <div class="footer-links">
                             <h4>Services</h4>
                             <ul>
                                 <li><a href="#">Web Development</a></li>
@@ -198,13 +180,13 @@
                     </div>
 
                     <div class="col-lg-4 col-md-6">
-                        <div class="footer-newsletter" data-aos="fade-up" data-aos-delay="400">
+                        <div class="footer-newsletter">
                             <h4>Stay Updated</h4>
                             <p>Subscribe to our newsletter for the latest tech insights and company updates.</p>
                             <form action="#" method="post" class="newsletter-form">
                                 <div class="input-group">
                                     <input type="email" name="email" class="form-control" placeholder="Your Email" required>
-                                    <button type="submit" class="btn btn-gradient-primary">Subscribe</button>
+                                    <button type="submit" class="btn btn-gradient">Subscribe</button>
                                 </div>
                             </form>
                             <div class="contact-info mt-4">
@@ -232,7 +214,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="copyright">
-                            &copy; @DateTime.Now.Year <strong>Vexora Labs</strong>. All Rights Reserved.
+                            &copy; <span class="current-year">2023</span> <strong>Vexora Labs</strong>. All Rights Reserved.
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -255,91 +237,35 @@
     <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <!-- Core Animation and Functionality Script -->
+    @await RenderSectionAsync("Scripts", required: false)
+
     <script>
-        // Preloader
-        window.addEventListener('load', function() {
+        // Preloader animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const preloaderBar = document.getElementById('preloader-bar');
+            let width = 0;
+            const interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    document.querySelector('.preloader').classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                } else {
+                    width += 5;
+                    preloaderBar.style.width = width + '%';
+                }
+            }, 30);
+
+            // Fallback to hide preloader if it takes too long
             setTimeout(function() {
                 document.querySelector('.preloader').classList.add('hidden');
-            }, 1000);
-        });
-
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true,
-            mirror: false
-        });
-
-        // Custom cursor
-        document.addEventListener('DOMContentLoaded', function() {
-            const cursor = document.querySelector('.cursor-dot');
-            const cursorOutline = document.querySelector('.cursor-outline');
-
-            document.addEventListener('mousemove', function(e) {
-                gsap.to(cursor, {
-                    x: e.clientX,
-                    y: e.clientY,
-                    duration: 0.1
-                });
-
-                gsap.to(cursorOutline, {
-                    x: e.clientX,
-                    y: e.clientY,
-                    duration: 0.5
-                });
-            });
-
-            // Hover effect on links
-            const links = document.querySelectorAll('a, button, .btn, .nav-link');
-            links.forEach(link => {
-                link.addEventListener('mouseenter', () => {
-                    cursor.classList.add('cursor-hover');
-                    cursorOutline.classList.add('cursor-hover');
-                });
-
-                link.addEventListener('mouseleave', () => {
-                    cursor.classList.remove('cursor-hover');
-                    cursorOutline.classList.remove('cursor-hover');
-                });
-            });
-        });
-
-        // Navbar animation
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('navbar-scrolled');
-            } else {
-                navbar.classList.remove('navbar-scrolled');
-            }
-        });
-
-        // Back to top button
-        window.addEventListener('scroll', function() {
-            const backToTop = document.querySelector('.back-to-top');
-            if (window.scrollY > 300) {
-                backToTop.classList.add('active');
-            } else {
-                backToTop.classList.remove('active');
-            }
-        });
-
-        document.querySelector('.back-to-top').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+                document.body.style.overflow = 'auto';
+            }, 2000);
         });
     </script>
-
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

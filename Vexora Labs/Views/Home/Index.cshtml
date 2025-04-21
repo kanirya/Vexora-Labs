@@ -3,70 +3,57 @@
 }
 
 <!-- Hero Section -->
-<section class="hero-section">
-    <div class="hero-bg">
-        <div class="hero-particles" id="particles-js"></div>
+<section class="hero-section" id="home">
+    <div class="hero-bg"></div>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
     </div>
-
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6" data-aos="fade-up">
+            <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="hero-content">
                     <h1 class="hero-title">Transforming Ideas Into Digital Reality</h1>
                     <p class="hero-subtitle">We create innovative software solutions that drive business growth and deliver exceptional user experiences.</p>
                     <div class="hero-buttons">
-                        <a href="#services" class="btn btn-gradient-primary">Explore Services</a>
-                        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+                        <a href="#services" class="btn btn-gradient btn-lg">Explore Services</a>
+                        <a href="#contact" class="btn btn-outline btn-lg">Get in Touch</a>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-6 d-none d-lg-block" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-lg-6">
                 <div class="hero-image-container">
-                    <div class="hero-image-glow"></div>
-                    <img src="~/images/hero-illustration.svg" alt="Vexora Labs Innovation" class="hero-image">
+                    <img src="~/images/hero-image.jpg" alt="Vexora Labs Innovation" class="hero-image">
                 </div>
             </div>
         </div>
     </div>
 
     <div class="hero-scroll-indicator">
-        <a href="#about">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-            <div>
-                <span class="scroll-arrow">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </span>
-            </div>
-        </a>
+        <div class="hero-scroll-text">Scroll Down</div>
+        <div class="hero-scroll-icon"></div>
     </div>
 </section>
 
 <!-- About Section -->
-<section id="about" class="section">
+<section id="about" class="section section-dark-alt">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6 mb-5 mb-lg-0" data-aos="fade-right">
+            <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="about-image-container">
-                    <div class="about-image-wrapper">
-                        <img src="~/images/about-image.jpg" alt="About Vexora Labs" class="img-fluid rounded-lg shadow-lg">
-                    </div>
+                    <img src="~/images/about-image.jpg" alt="About Vexora Labs" class="about-image img-fluid">
                     <div class="about-experience">
-                        <div class="about-experience-content">
-                            <span class="about-experience-number">10+</span>
-                            <span class="about-experience-text">Years of Experience</span>
-                        </div>
+                        <span class="about-experience-number" data-count="10">0</span>
+                        <span class="about-experience-text">Years of Experience</span>
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-6" data-aos="fade-left">
+            <div class="col-lg-6">
                 <div class="section-header">
-                    <h6 class="text-uppercase text-gradient fw-bold">About Us</h6>
+                    <h6 class="text-gradient text-uppercase fw-bold">About Us</h6>
                     <h2 class="section-title">We Build Software That Matters</h2>
                     <div class="divider"></div>
                 </div>
@@ -115,7 +102,7 @@
                     </div>
                 </div>
 
-                <a href="#" class="btn btn-gradient-primary mt-4">Learn More About Us</a>
+                <a href="#" class="btn btn-gradient mt-4">Learn More About Us</a>
             </div>
         </div>
     </div>
@@ -124,153 +111,83 @@
 <!-- Services Section -->
 <section id="services" class="section section-dark">
     <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <h6 class="text-uppercase text-gradient fw-bold">Our Services</h6>
-            <h2 class="section-title text-white">What We Offer</h2>
+        <div class="text-center mb-5">
+            <h6 class="text-gradient text-uppercase fw-bold">Our Services</h6>
+            <h2 class="section-title">What We Offer</h2>
             <p class="section-subtitle mx-auto">We provide comprehensive software solutions tailored to your business needs</p>
         </div>
 
-        <div class="row g-4">
-            <!-- Service 1 -->
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h3>Web Development</h3>
-                    <p>Custom web applications and responsive websites built with the latest technologies.</p>
-                    <div class="service-hover">
-                        <div class="service-hover-content">
-                            <h4>Technologies</h4>
-                            <ul class="service-tech-list">
-                                <li>ASP.NET Core</li>
-                                <li>React.js</li>
-                                <li>Angular</li>
-                                <li>Node.js</li>
-                                <li>Vue.js</li>
-                            </ul>
-                            <a href="#" class="btn btn-sm btn-light mt-3">Learn More</a>
+        <div class="services-container">
+            <div class="row g-4">
+                <!-- Service 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-laptop-code"></i>
                         </div>
+                        <h3>Web Development</h3>
+                        <p>Custom web applications and responsive websites built with the latest technologies.</p>
+                        <a href="#" class="btn btn-sm btn-gradient">Learn More</a>
                     </div>
                 </div>
-            </div>
 
-            <!-- Service 2 -->
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile Applications</h3>
-                    <p>Native and cross-platform mobile apps for iOS and Android that deliver exceptional user experiences.</p>
-                    <div class="service-hover">
-                        <div class="service-hover-content">
-                            <h4>Technologies</h4>
-                            <ul class="service-tech-list">
-                                <li>React Native</li>
-                                <li>Flutter</li>
-                                <li>Swift</li>
-                                <li>Kotlin</li>
-                                <li>Xamarin</li>
-                            </ul>
-                            <a href="#" class="btn btn-sm btn-light mt-3">Learn More</a>
+                <!-- Service 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-mobile-alt"></i>
                         </div>
+                        <h3>Mobile Applications</h3>
+                        <p>Native and cross-platform mobile apps for iOS and Android that deliver exceptional user experiences.</p>
+                        <a href="#" class="btn btn-sm btn-gradient">Learn More</a>
                     </div>
                 </div>
-            </div>
 
-            <!-- Service 3 -->
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <h3>Cloud Solutions</h3>
-                    <p>Scalable cloud infrastructure and services that optimize performance and reduce costs.</p>
-                    <div class="service-hover">
-                        <div class="service-hover-content">
-                            <h4>Technologies</h4>
-                            <ul class="service-tech-list">
-                                <li>AWS</li>
-                                <li>Azure</li>
-                                <li>Google Cloud</li>
-                                <li>Docker</li>
-                                <li>Kubernetes</li>
-                            </ul>
-                            <a href="#" class="btn btn-sm btn-light mt-3">Learn More</a>
+                <!-- Service 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-cloud"></i>
                         </div>
+                        <h3>Cloud Solutions</h3>
+                        <p>Scalable cloud infrastructure and services that optimize performance and reduce costs.</p>
+                        <a href="#" class="btn btn-sm btn-gradient">Learn More</a>
                     </div>
                 </div>
-            </div>
 
-            <!-- Service 4 -->
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="400">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3>Data Analytics</h3>
-                    <p>Turn your data into actionable insights with our advanced analytics and visualization solutions.</p>
-                    <div class="service-hover">
-                        <div class="service-hover-content">
-                            <h4>Technologies</h4>
-                            <ul class="service-tech-list">
-                                <li>Power BI</li>
-                                <li>Tableau</li>
-                                <li>Python</li>
-                                <li>R</li>
-                                <li>Machine Learning</li>
-                            </ul>
-                            <a href="#" class="btn btn-sm btn-light mt-3">Learn More</a>
+                <!-- Service 4 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-database"></i>
                         </div>
+                        <h3>Data Analytics</h3>
+                        <p>Turn your data into actionable insights with our advanced analytics and visualization solutions.</p>
+                        <a href="#" class="btn btn-sm btn-gradient">Learn More</a>
                     </div>
                 </div>
-            </div>
 
-            <!-- Service 5 -->
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="500">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Cybersecurity</h3>
-                    <p>Protect your digital assets with our comprehensive security solutions and best practices.</p>
-                    <div class="service-hover">
-                        <div class="service-hover-content">
-                            <h4>Technologies</h4>
-                            <ul class="service-tech-list">
-                                <li>Penetration Testing</li>
-                                <li>Security Audits</li>
-                                <li>Encryption</li>
-                                <li>Secure Authentication</li>
-                                <li>Compliance</li>
-                            </ul>
-                            <a href="#" class="btn btn-sm btn-light mt-3">Learn More</a>
+                <!-- Service 5 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-shield-alt"></i>
                         </div>
+                        <h3>Cybersecurity</h3>
+                        <p>Protect your digital assets with our comprehensive security solutions and best practices.</p>
+                        <a href="#" class="btn btn-sm btn-gradient">Learn More</a>
                     </div>
                 </div>
-            </div>
 
-            <!-- Service 6 -->
-            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="600">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>AI & Machine Learning</h3>
-                    <p>Leverage the power of AI to automate processes and gain competitive advantages.</p>
-                    <div class="service-hover">
-                        <div class="service-hover-content">
-                            <h4>Technologies</h4>
-                            <ul class="service-tech-list">
-                                <li>TensorFlow</li>
-                                <li>PyTorch</li>
-                                <li>Natural Language Processing</li>
-                                <li>Computer Vision</li>
-                                <li>Predictive Analytics</li>
-                            </ul>
-                            <a href="#" class="btn btn-sm btn-light mt-3">Learn More</a>
+                <!-- Service 6 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-brain"></i>
                         </div>
+                        <h3>AI & Machine Learning</h3>
+                        <p>Leverage the power of AI to automate processes and gain competitive advantages.</p>
+                        <a href="#" class="btn btn-sm btn-gradient">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -279,32 +196,32 @@
 </section>
 
 <!-- Stats Section -->
-<section class="section section-gradient">
+<section class="stats-section">
     <div class="container">
         <div class="row g-4">
-            <div class="col-md-3 col-6" data-aos="fade-up">
-                <div class="stat-item text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
                     <div class="stat-number" data-count="200">0</div>
                     <div class="stat-text">Projects Completed</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="stat-item text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
                     <div class="stat-number" data-count="50">0</div>
                     <div class="stat-text">Team Members</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="stat-item text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
                     <div class="stat-number" data-count="100">0</div>
                     <div class="stat-text">Happy Clients</div>
                 </div>
             </div>
 
-            <div class="col-md-3 col-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="stat-item text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
                     <div class="stat-number" data-count="15">0</div>
                     <div class="stat-text">Years of Experience</div>
                 </div>
@@ -314,15 +231,15 @@
 </section>
 
 <!-- Projects Section -->
-<section id="projects" class="section">
+<section id="projects" class="section section-dark-alt">
     <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <h6 class="text-uppercase text-gradient fw-bold">Our Portfolio</h6>
+        <div class="text-center mb-5">
+            <h6 class="text-gradient text-uppercase fw-bold">Our Portfolio</h6>
             <h2 class="section-title">Featured Projects</h2>
             <p class="section-subtitle mx-auto">Explore our latest work and see how we've helped businesses achieve their goals</p>
         </div>
 
-        <div class="project-filter mb-5" data-aos="fade-up">
+        <div class="project-filter mb-5">
             <ul class="project-filter-menu">
                 <li class="active" data-filter="*">All</li>
                 <li data-filter=".web">Web Development</li>
@@ -334,7 +251,7 @@
 
         <div class="row g-4 project-grid">
             <!-- Project 1 -->
-            <div class="col-md-6 col-lg-4 project-item web" data-aos="fade-up">
+            <div class="col-md-6 col-lg-4 project-item web">
                 <div class="project-card">
                     <div class="project-image">
                         <img src="~/images/project1.jpg" alt="Project 1" class="img-fluid">
@@ -343,14 +260,14 @@
                         <div class="project-content">
                             <h3>E-Commerce Platform</h3>
                             <p>A comprehensive online shopping solution with advanced features.</p>
-                            <a href="#" class="btn btn-sm btn-light">View Details</a>
+                            <a href="#" class="btn btn-sm btn-gradient">View Details</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Project 2 -->
-            <div class="col-md-6 col-lg-4 project-item mobile" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-md-6 col-lg-4 project-item mobile">
                 <div class="project-card">
                     <div class="project-image">
                         <img src="~/images/project2.jpg" alt="Project 2" class="img-fluid">
@@ -359,14 +276,14 @@
                         <div class="project-content">
                             <h3>Fitness Tracking App</h3>
                             <p>A mobile application for tracking workouts and health metrics.</p>
-                            <a href="#" class="btn btn-sm btn-light">View Details</a>
+                            <a href="#" class="btn btn-sm btn-gradient">View Details</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Project 3 -->
-            <div class="col-md-6 col-lg-4 project-item cloud" data-aos="fade-up" data-aos-delay="200">
+            <div class="col-md-6 col-lg-4 project-item cloud">
                 <div class="project-card">
                     <div class="project-image">
                         <img src="~/images/project3.jpg" alt="Project 3" class="img-fluid">
@@ -375,14 +292,14 @@
                         <div class="project-content">
                             <h3>Cloud Migration</h3>
                             <p>Migrating legacy systems to a modern cloud infrastructure.</p>
-                            <a href="#" class="btn btn-sm btn-light">View Details</a>
+                            <a href="#" class="btn btn-sm btn-gradient">View Details</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Project 4 -->
-            <div class="col-md-6 col-lg-4 project-item ai" data-aos="fade-up" data-aos-delay="300">
+            <div class="col-md-6 col-lg-4 project-item ai">
                 <div class="project-card">
                     <div class="project-image">
                         <img src="~/images/project4.jpg" alt="Project 4" class="img-fluid">
@@ -391,14 +308,14 @@
                         <div class="project-content">
                             <h3>AI-Powered Analytics</h3>
                             <p>Predictive analytics platform for business intelligence.</p>
-                            <a href="#" class="btn btn-sm btn-light">View Details</a>
+                            <a href="#" class="btn btn-sm btn-gradient">View Details</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Project 5 -->
-            <div class="col-md-6 col-lg-4 project-item web" data-aos="fade-up" data-aos-delay="400">
+            <div class="col-md-6 col-lg-4 project-item web">
                 <div class="project-card">
                     <div class="project-image">
                         <img src="~/images/project5.jpg" alt="Project 5" class="img-fluid">
@@ -407,14 +324,14 @@
                         <div class="project-content">
                             <h3>Healthcare Portal</h3>
                             <p>Patient management system for healthcare providers.</p>
-                            <a href="#" class="btn btn-sm btn-light">View Details</a>
+                            <a href="#" class="btn btn-sm btn-gradient">View Details</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Project 6 -->
-            <div class="col-md-6 col-lg-4 project-item mobile" data-aos="fade-up" data-aos-delay="500">
+            <div class="col-md-6 col-lg-4 project-item mobile">
                 <div class="project-card">
                     <div class="project-image">
                         <img src="~/images/project6.jpg" alt="Project 6" class="img-fluid">
@@ -423,15 +340,15 @@
                         <div class="project-content">
                             <h3>Food Delivery App</h3>
                             <p>On-demand food delivery platform with real-time tracking.</p>
-                            <a href="#" class="btn btn-sm btn-light">View Details</a>
+                            <a href="#" class="btn btn-sm btn-gradient">View Details</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="text-center mt-5" data-aos="fade-up">
-            <a href="#" class="btn btn-gradient-primary">View All Projects</a>
+        <div class="text-center mt-5">
+            <a href="#" class="btn btn-gradient btn-lg">View All Projects</a>
         </div>
     </div>
 </section>
@@ -439,64 +356,62 @@
 <!-- Testimonials Section -->
 <section class="section section-dark">
     <div class="container">
-        <div class="text-center mb-5" data-aos="fade-up">
-            <h6 class="text-uppercase text-gradient fw-bold">Testimonials</h6>
-            <h2 class="section-title text-white">What Our Clients Say</h2>
+        <div class="text-center mb-5">
+            <h6 class="text-gradient text-uppercase fw-bold">Testimonials</h6>
+            <h2 class="section-title">What Our Clients Say</h2>
             <p class="section-subtitle mx-auto">Hear from our satisfied clients about their experience working with us</p>
         </div>
 
-        <div class="testimonial-slider" data-aos="fade-up">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="testimonial-card">
-                        <div class="testimonial-quote">
-                            <i class="fas fa-quote-left"></i>
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">Vexora Labs delivered an exceptional e-commerce platform that exceeded our expectations. Their attention to detail and commitment to quality is unmatched.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-author-image">
+                            <img src="~/images/client1.jpg" alt="Client 1">
                         </div>
-                        <p class="testimonial-text">Vexora Labs delivered an exceptional e-commerce platform that exceeded our expectations. Their attention to detail and commitment to quality is unmatched.</p>
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-image">
-                                <img src="~/images/client1.jpg" alt="Client 1">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>John Smith</h4>
-                                <p>CEO, TechRetail</p>
-                            </div>
+                        <div class="testimonial-author-info">
+                            <h4>John Smith</h4>
+                            <p>CEO, TechRetail</p>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-4">
-                    <div class="testimonial-card">
-                        <div class="testimonial-quote">
-                            <i class="fas fa-quote-left"></i>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">Working with Vexora Labs was a game-changer for our business. Their mobile app development expertise helped us reach new customers and increase revenue.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-author-image">
+                            <img src="~/images/client2.jpg" alt="Client 2">
                         </div>
-                        <p class="testimonial-text">Working with Vexora Labs was a game-changer for our business. Their mobile app development expertise helped us reach new customers and increase revenue.</p>
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-image">
-                                <img src="~/images/client2.jpg" alt="Client 2">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Sarah Johnson</h4>
-                                <p>Marketing Director, FitLife</p>
-                            </div>
+                        <div class="testimonial-author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Marketing Director, FitLife</p>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-4">
-                    <div class="testimonial-card">
-                        <div class="testimonial-quote">
-                            <i class="fas fa-quote-left"></i>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">The cloud migration project handled by Vexora Labs was seamless and efficient. Their team's expertise saved us time and resources while improving our system performance.</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-author-image">
+                            <img src="~/images/client3.jpg" alt="Client 3">
                         </div>
-                        <p class="testimonial-text">The cloud migration project handled by Vexora Labs was seamless and efficient. Their team's expertise saved us time and resources while improving our system performance.</p>
-                        <div class="testimonial-author">
-                            <div class="testimonial-author-image">
-                                <img src="~/images/client3.jpg" alt="Client 3">
-                            </div>
-                            <div class="testimonial-author-info">
-                                <h4>Michael Chen</h4>
-                                <p>CTO, CloudSolutions</p>
-                            </div>
+                        <div class="testimonial-author-info">
+                            <h4>Michael Chen</h4>
+                            <p>CTO, CloudSolutions</p>
                         </div>
                     </div>
                 </div>
@@ -506,300 +421,107 @@
 </section>
 
 <!-- Contact Section -->
-<section id="contact" class="section">
+<section id="contact" class="section section-dark-alt">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6" data-aos="fade-right">
+            <div class="col-lg-6 mb-5 mb-lg-0">
                 <div class="section-header">
-                    <h data-aos="fade-right">
-                        <div class="section-header">
-                            <h6 class="text-uppercase text-gradient fw-bold">Contact Us</h6>
-                            <h2 class="section-title">Get In Touch</h2>
-                            <div class="divider"></div>
-                        </div>
-
-                        <p class="mb-4">Ready to start your next project? Contact us today to discuss how Vexora Labs can help transform your ideas into reality.</p>
-
-                        <div class="contact-info">
-                            <div class="contact-info-item">
-                                <div class="contact-info-icon">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="contact-info-text">
-                                    <h5>Our Location</h5>
-                                    <p>123 Innovation Street, Tech City, 10001</p>
-                                </div>
-                            </div>
-
-                            <div class="contact-info-item">
-                                <div class="contact-info-icon">
-                                    <i class="fas fa-phone-alt"></i>
-                                </div>
-                                <div class="contact-info-text">
-                                    <h5>Call Us</h5>
-                                    <p>+1 (123) 456-7890</p>
-                                </div>
-                            </div>
-
-                            <div class="contact-info-item">
-                                <div class="contact-info-icon">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div class="contact-info-text">
-                                    <h5>Email Us</h5>
-                                    <p>info@vexoralabs.com</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="social-links mt-4">
-                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        </div>
+                    <h6 class="text-gradient text-uppercase fw-bold">Contact Us</h6>
+                    <h2 class="section-title">Get In Touch</h2>
+                    <div class="divider"></div>
                 </div>
 
-                <div class="col-lg-6" data-aos="fade-left">
-                    <div class="contact-form-container">
-                        <form class="contact-form">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name" required>
-                                        <label for="name">Your Name</label>
-                                    </div>
-                                </div>
+                <p class="mb-4">Ready to start your next project? Contact us today to discuss how Vexora Labs can help transform your ideas into reality.</p>
 
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email" required>
-                                        <label for="email">Your Email</label>
-                                    </div>
-                                </div>
+                <div class="contact-info">
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-info-text">
+                            <h5>Our Location</h5>
+                            <p>123 Innovation Street, Tech City, 10001</p>
+                        </div>
+                    </div>
 
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="subject" placeholder="Subject" required>
-                                        <label for="subject">Subject</label>
-                                    </div>
-                                </div>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-info-text">
+                            <h5>Call Us</h5>
+                            <p>+1 (123) 456-7890</p>
+                        </div>
+                    </div>
 
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" id="message" placeholder="Your Message" style="height: 150px" required></textarea>
-                                        <label for="message">Your Message</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-gradient-primary w-100">Send Message</button>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="contact-info-item">
+                        <div class="contact-info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-info-text">
+                            <h5>Email Us</h5>
+                            <p>info@vexoralabs.com</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-</section>
 
-<!-- CTA Section -->
-<section class="section section-gradient cta-section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center" data-aos="zoom-in">
-                <h2 class="cta-title">Ready to Transform Your Ideas into Reality?</h2>
-                <p class="cta-text">Let's discuss how Vexora Labs can help you achieve your business goals.</p>
-                <a href="#contact" class="btn btn-light btn-lg mt-4">Start Your Project Today</a>
+                <div class="social-links mt-4">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="contact-form-container">
+                    <form class="contact-form">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="subject" placeholder="Subject" required>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="message" placeholder="Your Message" style="height: 150px" required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-gradient w-100">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-@section Scripts {
-    <!-- Particles.js for hero background -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
-    <!-- Isotope for project filtering -->
-    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-
-    <!-- Custom scripts for this page -->
-    <script>
-        // Particles.js initialization
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof particlesJS !== 'undefined') {
-                particlesJS("particles-js", {
-                    "particles": {
-                        "number": {
-                            "value": 80,
-                            "density": {
-                                "enable": true,
-                                "value_area": 800
-                            }
-                        },
-                        "color": {
-                            "value": "#ffffff"
-                        },
-                        "shape": {
-                            "type": "circle",
-                            "stroke": {
-                                "width": 0,
-                                "color": "#000000"
-                            },
-                            "polygon": {
-                                "nb_sides": 5
-                            }
-                        },
-                        "opacity": {
-                            "value": 0.5,
-                            "random": false,
-                            "anim": {
-                                "enable": false,
-                                "speed": 1,
-                                "opacity_min": 0.1,
-                                "sync": false
-                            }
-                        },
-                        "size": {
-                            "value": 3,
-                            "random": true,
-                            "anim": {
-                                "enable": false,
-                                "speed": 40,
-                                "size_min": 0.1,
-                                "sync": false
-                            }
-                        },
-                        "line_linked": {
-                            "enable": true,
-                            "distance": 150,
-                            "color": "#ffffff",
-                            "opacity": 0.4,
-                            "width": 1
-                        },
-                        "move": {
-                            "enable": true,
-                            "speed": 2,
-                            "direction": "none",
-                            "random": false,
-                            "straight": false,
-                            "out_mode": "out",
-                            "bounce": false,
-                            "attract": {
-                                "enable": false,
-                                "rotateX": 600,
-                                "rotateY": 1200
-                            }
-                        }
-                    },
-                    "interactivity": {
-                        "detect_on": "canvas",
-                        "events": {
-                            "onhover": {
-                                "enable": true,
-                                "mode": "grab"
-                            },
-                            "onclick": {
-                                "enable": true,
-                                "mode": "push"
-                            },
-                            "resize": true
-                        },
-                        "modes": {
-                            "grab": {
-                                "distance": 140,
-                                "line_linked": {
-                                    "opacity": 1
-                                }
-                            },
-                            "bubble": {
-                                "distance": 400,
-                                "size": 40,
-                                "duration": 2,
-                                "opacity": 8,
-                                "speed": 3
-                            },
-                            "repulse": {
-                                "distance": 200,
-                                "duration": 0.4
-                            },
-                            "push": {
-                                "particles_nb": 4
-                            },
-                            "remove": {
-                                "particles_nb": 2
-                            }
-                        }
-                    },
-                    "retina_detect": true
-                });
-            }
-        });
-
-        // Project filtering with Isotope
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                const projectGrid = document.querySelector('.project-grid');
-                if (projectGrid && typeof Isotope !== 'undefined') {
-                    const iso = new Isotope(projectGrid, {
-                        itemSelector: '.project-item',
-                        layoutMode: 'fitRows'
-                    });
-
-                    // Filter items on button click
-                    const filterBtns = document.querySelectorAll('.project-filter-menu li');
-                    filterBtns.forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const filterValue = this.getAttribute('data-filter');
-
-                            // Remove active class from all buttons
-                            filterBtns.forEach(btn => {
-                                btn.classList.remove('active');
-                            });
-
-                            // Add active class to current button
-                            this.classList.add('active');
-
-                            iso.arrange({
-                                filter: filterValue === '*' ? null : filterValue
-                            });
-                        });
-                    });
-                }
-            }, 1000);
-        });
-
-        // Animated counter
-        document.addEventListener('DOMContentLoaded', function() {
-            const counters = document.querySelectorAll('.stat-number');
-            const speed = 200;
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const counter = entry.target;
-                        const target = parseInt(counter.getAttribute('data-count'));
-                        let count = 0;
-                        const updateCount = () => {
-                            const increment = target / speed;
-                            if (count < target) {
-                                count += increment;
-                                counter.innerText = Math.ceil(count);
-                                setTimeout(updateCount, 1);
-                            } else {
-                                counter.innerText = target;
-                            }
-                        };
-                        updateCount();
-                        observer.unobserve(counter);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            counters.forEach(counter => {
-                observer.observe(counter);
-            });
-        });
-    </script>
-}
+<!-- CTA Section -->
+<section class="section stats-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-4">Ready to Transform Your Ideas into Reality?</h2>
+                <p class="mb-4">Let's discuss how Vexora Labs can help you achieve your business goals.</p>
+                <a href="#contact" class="btn btn-light btn-lg">Start Your Project Today</a>
+            </div>
+        </div>
+    </div>
+</section>
