@@ -1177,7 +1177,7 @@ img {
     transition: var(--transition-normal);
 }
 
-    .form-control:focus {
+    .form-control:focus, .form-control::after {
         border-color: var(--primary);
         box-shadow: 0 0 0 0.25rem rgba(121, 40, 202, 0.25);
         background-color: rgba(121, 40, 202, 0.1);
@@ -2103,3 +2103,8 @@ img {
         padding: 1.25rem;
     }
 }
+{
+    background:var(--primary-dark);
+
+}
+   
