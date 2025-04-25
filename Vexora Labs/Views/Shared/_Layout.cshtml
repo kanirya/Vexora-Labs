@@ -16,49 +16,49 @@
     <!-- Preloader -->
     <style>
         .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a1a;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0a0a1a;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-            .preloader.hidden {
-                opacity: 0;
-                visibility: hidden;
-            }
+        .preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+        }
 
         .preloader-content {
-            text-align: center;
+        text-align: center;
         }
 
         .preloader-logo {
-            width: 120px;
-            height: auto;
-            margin-bottom: 20px;
-            animation: pulse 1.5s infinite;
+        width: 120px;
+        height: auto;
+        margin-bottom: 20px;
+        animation: pulse 1.5s infinite;
         }
 
         .preloader-progress {
-            width: 200px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 0 auto;
+        width: 200px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 0 auto;
         }
 
         .preloader-bar {
-            height: 100%;
-            width: 0;
-            background: linear-gradient(90deg, #7928CA, #FF0080);
-            transition: width 0.2s ease;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, #7928CA, #FF0080);
+        transition: width 0.2s ease;
         }
 
     </style>
@@ -93,7 +93,7 @@
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                aria-expanded="false" aria-label="Toggle navigation">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -113,11 +113,19 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/Home/Index" >About</a>
                         </li>
-                       
+
                     </ul>
                     <div class="nav-cta">
                         <a href="#contact" class="btn btn-gradient">Get Started</a>
                     </div>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a id="manage" class="btn btn-gradient mx-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-gradient mx-3" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    }
                 </div>
             </div>
         </nav>
@@ -147,7 +155,7 @@
                                 <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                                 <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                                 <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                                <a href="https://github.com/kanirya" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
