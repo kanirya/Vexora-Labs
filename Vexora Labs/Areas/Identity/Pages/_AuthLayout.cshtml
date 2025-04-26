@@ -1,5 +1,5 @@
 ﻿@{
-	Layout = "/Views/Shared/_Layout.cshtml";
+
 }
 <!DOCTYPE html>
 
@@ -16,9 +16,22 @@
 
 </head>
 <body>
-    <div>
-        @RenderBody()
+    <div class="row justify-content-center">
+       
+            <div style="width:500px;">
+                @RenderBody()
+            </div>
     </div>
+   
 </body>
 </html>
+
+<!-- Scripts -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
 @await RenderSectionAsync("Scripts", required: false)

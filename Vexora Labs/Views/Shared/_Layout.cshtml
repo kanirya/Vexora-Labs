@@ -118,6 +118,7 @@
                     <div class="nav-cta">
                         <a href="#contact" class="btn btn-gradient">Get Started</a>
                     </div>
+                  
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <a id="manage" class="btn btn-gradient mx-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>

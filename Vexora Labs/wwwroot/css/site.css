@@ -64,8 +64,8 @@ body {
     background-color: var(--dark);
     color: var(--text);
     font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -1177,10 +1177,11 @@ img {
     transition: var(--transition-normal);
 }
 
-    .form-control:focus, .form-control::after {
+    .form-control:focus, .form-control::after, form-control:after {
         border-color: var(--primary);
         box-shadow: 0 0 0 0.25rem rgba(121, 40, 202, 0.25);
         background-color: rgba(121, 40, 202, 0.1);
+        color:white;
     }
 
     .form-control::placeholder {
@@ -2107,4 +2108,290 @@ img {
     background:var(--primary-dark);
 
 }
-   
+
+.login-container{
+    border-radius:15px;
+    border:1px solid black;
+    padding:20px;
+    background:var(--gradient-dark);
+    transition:var(--transition-slow);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+}
+
+.login-card {
+    background-color: var(--dark-2);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 40px;
+    overflow: hidden;
+    position: relative;
+}
+
+    .login-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: var(--gradient-primary);
+    }
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .login-header h2 {
+        font-family: var(--font-heading);
+        color: var(--text-dark);
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+
+    .login-header p {
+        color: var(--text-light);
+        font-size: 16px;
+    }
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--text);
+    }
+
+.form-control {
+    width: 100%;
+    padding: 12px 16px;
+    background-color: var(--dark-3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--text-dark);
+    font-size: 16px;
+    transition: var(--transition-fast);
+}
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: var(--shadow-glow);
+    }
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    margin-right: 8px;
+    accent-color: var(--primary);
+}
+
+.form-check-label {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+a {
+    color: var(--primary-light);
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+    a:hover {
+        color: var(--secondary);
+        text-decoration: underline;
+    }
+
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 12px 24px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: var(--radius-md);
+    transition: var(--transition-normal);
+    cursor: pointer;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    box-shadow: var(--shadow-md);
+}
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0);
+    }
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 24px 0;
+}
+
+    .divider::before,
+    .divider::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .divider span {
+        padding: 0 10px;
+        color: var(--text-light);
+        font-size: 14px;
+    }
+
+.social-login {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.btn-social {
+    padding: 10px;
+    font-size: 14px;
+    background-color: var(--dark-3);
+    color: var(--text);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+    .btn-social:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+.btn-google:hover {
+    color: #ea4335;
+}
+
+.btn-github:hover {
+    color: #ffffff;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 24px;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.text-danger {
+    color: var(--danger);
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .login-card {
+        padding: 30px 20px;
+    }
+
+    .social-login {
+        grid-template-columns: 1fr;
+    }
+}
+/* Additional styles for registration page */
+.terms-checkbox {
+    margin-bottom: 24px;
+}
+
+    .terms-checkbox .form-check-label {
+        display: flex;
+        align-items: flex-start;
+        font-size: 14px;
+        color: var(--text-light);
+    }
+
+    .terms-checkbox .form-check-input {
+        margin-top: 3px;
+    }
+
+    .terms-checkbox a {
+        color: var(--primary-light);
+        text-decoration: none;
+        transition: var(--transition-fast);
+        margin: 0 3px;
+    }
+
+        .terms-checkbox a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+/* Password strength indicator styles */
+.password-strength {
+    height: 5px;
+    margin-top: 8px;
+    border-radius: var(--radius-full);
+    background-color: var(--dark-3);
+    overflow: hidden;
+}
+
+.password-strength-meter {
+    height: 100%;
+    width: 0;
+    transition: var(--transition-normal);
+}
+
+.strength-weak {
+    width: 25%;
+    background-color: var(--danger);
+}
+
+.strength-fair {
+    width: 50%;
+    background-color: var(--warning);
+}
+
+.strength-good {
+    width: 75%;
+    background-color: var(--info);
+}
+
+.strength-strong {
+    width: 100%;
+    background-color: var(--success);
+}
+
+.password-feedback {
+    font-size: 12px;
+    margin-top: 4px;
+    color: var(--text-light);
+}

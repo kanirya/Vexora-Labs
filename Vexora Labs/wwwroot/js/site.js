@@ -491,3 +491,76 @@ window.addEventListener("load", () => {
         }
     }, 1000)
 })
+document.addEventListener('DOMContentLoaded', function () {
+    const passwordInput = document.getElementById('Input_Password');
+    if (!passwordInput) return;
+
+    // Create password strength elements
+    const strengthContainer = document.createElement('div');
+    strengthContainer.className = 'password-strength';
+
+    const strengthMeter = document.createElement('div');
+    strengthMeter.className = 'password-strength-meter';
+
+    const strengthFeedback = document.createElement('div');
+    strengthFeedback.className = 'password-feedback';
+
+    // Insert elements after password input
+    const passwordParent = passwordInput.parentNode;
+    passwordParent.insertBefore(strengthContainer, passwordInput.nextSibling);
+    strengthContainer.appendChild(strengthMeter);
+    passwordParent.insertBefore(strengthFeedback, strengthContainer.nextSibling);
+
+    // Add event listener for password input
+    passwordInput.addEventListener('input', function () {
+        const password = this.value;
+        const strength = calculatePasswordStrength(password);
+
+        // Update strength meter
+        strengthMeter.className = 'password-strength-meter';
+        strengthFeedback.textContent = '';
+
+        if (password.length === 0) {
+            strengthMeter.style.width = '0';
+            return;
+        }
+
+        if (strength < 30) {
+            strengthMeter.classList.add('strength-weak');
+            strengthFeedback.textContent = 'Weak: Try adding numbers or symbols';
+        } else if (strength < 60) {
+            strengthMeter.classList.add('strength-fair');
+            strengthFeedback.textContent = 'Fair: Try adding uppercase letters';
+        } else if (strength < 80) {
+            strengthMeter.classList.add('strength-good');
+            strengthFeedback.textContent = 'Good: Your password is solid';
+        } else {
+            strengthMeter.classList.add('strength-strong');
+            strengthFeedback.textContent = 'Strong: Excellent password!';
+        }
+    });
+
+    // Simple password strength calculator
+    function calculatePasswordStrength(password) {
+        let strength = 0;
+
+        // Length contribution
+        if (password.length >= 8) {
+            strength += 25;
+        } else {
+            return 10; // Very weak if less than 8 chars
+        }
+
+        // Complexity contribution
+        if (/[A-Z]/.test(password)) strength += 15; // Uppercase
+        if (/[a-z]/.test(password)) strength += 10; // Lowercase
+        if (/[0-9]/.test(password)) strength += 15; // Numbers
+        if (/[^A-Za-z0-9]/.test(password)) strength += 20; // Special chars
+
+        // Variety contribution
+        const uniqueChars = new Set(password.split('')).size;
+        strength += Math.min(15, uniqueChars / password.length * 15);
+
+        return strength;
+    }
+});
