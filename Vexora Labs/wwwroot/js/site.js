@@ -564,3 +564,525 @@ document.addEventListener('DOMContentLoaded', function () {
         return strength;
     }
 });
+document.addEventListener('DOMContentLoaded', function () {
+    // Tabs functionality
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons and panes
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+
+            // Add active class to clicked button and corresponding pane
+            button.classList.add('active');
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // FAQ accordion functionality
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+
+        question.addEventListener('click', () => {
+            // Toggle active class on clicked item
+            item.classList.toggle('active');
+
+            // Close other items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+        });
+    });
+
+    // Testimonials slider functionality
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    let currentSlide = 0;
+    const testimonials = document.querySelectorAll('.testimonial-card');
+
+    // Hide all testimonials except the first one
+    testimonials.forEach((testimonial, index) => {
+        if (index !== 0) {
+            testimonial.style.display = 'none';
+        }
+    });
+
+    // Function to show a specific slide
+    function showSlide(index) {
+        // Hide all testimonials
+        testimonials.forEach(testimonial => {
+            testimonial.style.display = 'none';
+        });
+
+        // Show the selected testimonial
+        testimonials[index].style.display = 'block';
+
+        // Update dots
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[index].classList.add('active');
+
+        // Update current slide index
+        currentSlide = index;
+    }
+
+    // Event listeners for dots
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+        });
+    });
+
+    // Event listeners for prev/next buttons
+    prevBtn.addEventListener('click', () => {
+        let newIndex = currentSlide - 1;
+        if (newIndex < 0) {
+            newIndex = testimonials.length - 1;
+        }
+        showSlide(newIndex);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        let newIndex = currentSlide + 1;
+        if (newIndex >= testimonials.length) {
+            newIndex = 0;
+        }
+        showSlide(newIndex);
+    });
+
+    // Auto-rotate testimonials
+    setInterval(() => {
+        let newIndex = currentSlide + 1;
+        if (newIndex >= testimonials.length) {
+            newIndex = 0;
+        }
+        showSlide(newIndex);
+    }, 5000);
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Animate elements on scroll
+    const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.tech-category, .process-step, .project-card, .info-card');
+
+        elements.forEach(element => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+
+            if (elementPosition < screenPosition) {
+                element.classList.add('animated');
+            }
+        });
+    };
+
+    // Run on load
+    animateOnScroll();
+
+    // Run on scroll
+    window.addEventListener('scroll', animateOnScroll);
+});
+document.addEventListener('DOMContentLoaded', function () {
+    // Platform cards hover effect
+    const platformCards = document.querySelectorAll('.platform-card');
+    platformCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            platformCards.forEach(c => c.classList.remove('hovered'));
+            card.classList.add('hovered');
+        });
+    });
+
+    // Services carousel functionality
+    const serviceSlides = document.querySelectorAll('.service-slide');
+    const carouselDots = document.querySelector('.carousel-dots');
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    let currentSlideIndex = 0;
+    let slideWidth = 0;
+    let carouselInterval;
+
+    // Create dots for each slide
+    serviceSlides.forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        if (index === 0) dot.classList.add('active');
+        dot.dataset.index = index;
+        carouselDots.appendChild(dot);
+
+        dot.addEventListener('click', () => {
+            goToSlide(index);
+            resetCarouselInterval();
+        });
+    });
+
+    const dots = document.querySelectorAll('.carousel-dots .dot');
+
+    function updateCarouselPosition() {
+        const carousel = document.querySelector('.services-carousel');
+        if (!carousel) return;
+
+        slideWidth = serviceSlides[0].offsetWidth + 30; // width + gap
+        const scrollPosition = currentSlideIndex * slideWidth;
+        carousel.scrollTo({
+            left: scrollPosition,
+            behavior: 'smooth'
+        });
+
+        // Update active dot
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentSlideIndex);
+        });
+    }
+
+    function goToSlide(index) {
+        currentSlideIndex = index;
+        updateCarouselPosition();
+    }
+
+    function goToNextSlide() {
+        currentSlideIndex = (currentSlideIndex + 1) % serviceSlides.length;
+        updateCarouselPosition();
+    }
+
+    function goToPrevSlide() {
+        currentSlideIndex = (currentSlideIndex - 1 + serviceSlides.length) % serviceSlides.length;
+        updateCarouselPosition();
+    }
+
+    function startCarouselInterval() {
+        carouselInterval = setInterval(goToNextSlide, 5000);
+    }
+
+    function resetCarouselInterval() {
+        clearInterval(carouselInterval);
+        startCarouselInterval();
+    }
+
+    // Event listeners for carousel navigation
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+        goToPrevSlide();
+        resetCarouselInterval();
+    });
+
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+        goToNextSlide();
+        resetCarouselInterval();
+    });
+
+    // Initialize carousel
+    updateCarouselPosition();
+    startCarouselInterval();
+
+    // App showcase functionality
+    const showcaseOptions = document.querySelectorAll('.showcase-option');
+    const appScreens = document.querySelectorAll('.app-screen');
+
+    showcaseOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const appType = option.dataset.app;
+
+            // Update active option
+            showcaseOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+
+            // Show corresponding app screen
+            appScreens.forEach(screen => {
+                screen.classList.toggle('active', screen.dataset.app === appType);
+            });
+        });
+    });
+
+    // Technology tabs functionality
+    const techTabBtns = document.querySelectorAll('.tech-tab-btn');
+    const techTabPanes = document.querySelectorAll('.tech-tab-pane');
+
+    techTabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.dataset.tab;
+
+            // Update active tab button
+            techTabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Show corresponding tab pane
+            techTabPanes.forEach(pane => {
+                pane.classList.toggle('active', pane.id === tabId);
+            });
+        });
+    });
+
+    // Lifecycle stages functionality
+    const lifecycleStages = document.querySelectorAll('.lifecycle-stage');
+    const lifecycleIndicators = document.querySelectorAll('.lifecycle-indicators .indicator');
+    const lifecyclePrevBtn = document.querySelector('.lifecycle-prev');
+    const lifecycleNextBtn = document.querySelector('.lifecycle-next');
+    let currentStageIndex = 0;
+
+    function updateLifecycleStage() {
+        // Update active stage
+        lifecycleStages.forEach((stage, index) => {
+            stage.classList.toggle('active', index === currentStageIndex);
+        });
+
+        // Update indicators
+        lifecycleIndicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentStageIndex);
+        });
+
+        // Update progress bar
+        const progressIndicator = document.querySelector('.progress-indicator');
+        if (progressIndicator) {
+            progressIndicator.style.width = `${(currentStageIndex + 1) * (100 / lifecycleStages.length)}%`;
+        }
+
+        // Update button states
+        if (lifecyclePrevBtn) lifecyclePrevBtn.disabled = currentStageIndex === 0;
+        if (lifecycleNextBtn) lifecycleNextBtn.disabled = currentStageIndex === lifecycleStages.length - 1;
+    }
+
+    function goToStage(index) {
+        currentStageIndex = index;
+        updateLifecycleStage();
+    }
+
+    // Event listeners for lifecycle navigation
+    lifecycleIndicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            goToStage(index);
+        });
+    });
+
+    if (lifecyclePrevBtn) {
+        lifecyclePrevBtn.addEventListener('click', () => {
+            if (currentStageIndex > 0) {
+                goToStage(currentStageIndex - 1);
+            }
+        });
+    }
+
+    if (lifecycleNextBtn) {
+        lifecycleNextBtn.addEventListener('click', () => {
+            if (currentStageIndex < lifecycleStages.length - 1) {
+                goToStage(currentStageIndex + 1);
+            }
+        });
+    }
+
+    // Initialize lifecycle
+    updateLifecycleStage();
+
+    // Projects filter functionality
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
+
+            // Update active filter button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filter projects
+            projectCards.forEach(card => {
+                if (filter === 'all' || card.dataset.category === filter) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // Testimonials slider functionality
+    const testimonialCards = document.querySelectorAll('.testimonial-card');
+    const testimonialDots = document.querySelectorAll('.testimonials-dots .dot');
+    const testimonialPrevBtn = document.querySelector('.testimonials-nav .prev-btn');
+    const testimonialNextBtn = document.querySelector('.testimonials-nav .next-btn');
+    let currentTestimonialIndex = 0;
+    let testimonialInterval;
+
+    function showTestimonial(index) {
+        // Hide all testimonials
+        testimonialCards.forEach(card => {
+            card.style.display = 'none';
+        });
+
+        // Show selected testimonial
+        testimonialCards[index].style.display = 'block';
+
+        // Update dots
+        testimonialDots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+
+        currentTestimonialIndex = index;
+    }
+
+    function nextTestimonial() {
+        const newIndex = (currentTestimonialIndex + 1) % testimonialCards.length;
+        showTestimonial(newIndex);
+    }
+
+    function prevTestimonial() {
+        const newIndex = (currentTestimonialIndex - 1 + testimonialCards.length) % testimonialCards.length;
+        showTestimonial(newIndex);
+    }
+
+    // Initialize testimonials
+    testimonialCards.forEach((card, index) => {
+        if (index !== 0) {
+            card.style.display = 'none';
+        }
+    });
+
+    // Event listeners for testimonial navigation
+    testimonialDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showTestimonial(index);
+            resetTestimonialInterval();
+        });
+    });
+
+    if (testimonialPrevBtn) {
+        testimonialPrevBtn.addEventListener('click', () => {
+            prevTestimonial();
+            resetTestimonialInterval();
+        });
+    }
+
+    if (testimonialNextBtn) {
+        testimonialNextBtn.addEventListener('click', () => {
+            nextTestimonial();
+            resetTestimonialInterval();
+        });
+    }
+
+    function startTestimonialInterval() {
+        testimonialInterval = setInterval(nextTestimonial, 6000);
+    }
+
+    function resetTestimonialInterval() {
+        clearInterval(testimonialInterval);
+        startTestimonialInterval();
+    }
+
+    startTestimonialInterval();
+
+    // FAQ accordion functionality
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+
+        question.addEventListener('click', () => {
+            // Toggle active class on clicked item
+            item.classList.toggle('active');
+
+            // Close other items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+        });
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Animate elements on scroll
+    const animateOnScroll = () => {
+        const elements = document.querySelectorAll('.platform-card, .service-slide, .tech-item, .project-card, .info-card');
+
+        elements.forEach(element => {
+            const elementPosition = element.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+
+            if (elementPosition < screenPosition) {
+                element.classList.add('animated');
+            }
+        });
+    };
+
+    // Run on load
+    animateOnScroll();
+
+    // Run on scroll
+    window.addEventListener('scroll', animateOnScroll);
+
+    // Form validation
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function (e) {
+            const requiredFields = contactForm.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('invalid');
+                } else {
+                    field.classList.remove('invalid');
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill in all required fields.');
+            }
+        });
+    }
+
+    // Responsive adjustments
+    function handleResponsiveLayout() {
+        const windowWidth = window.innerWidth;
+
+        if (windowWidth < 768) {
+            // Mobile adjustments
+        } else if (windowWidth < 992) {
+            // Tablet adjustments
+        } else {
+            // Desktop adjustments
+        }
+    }
+
+    // Run on load and resize
+    handleResponsiveLayout();
+    window.addEventListener('resize', handleResponsiveLayout);
+});

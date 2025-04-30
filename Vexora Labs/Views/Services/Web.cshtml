@@ -1,0 +1,624 @@
+﻿@{
+    ViewData["Title"] = "Web Development Services";
+    ViewData["PageCss"] = "web-dev.css";
+}
+
+<div class="web-dev-container">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Web Development Excellence</h1>
+            <p class="hero-subtitle">Transforming ideas into powerful digital experiences</p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary">Get a Free Consultation</a>
+                <a href="#services" class="btn btn-outline">Explore Services</a>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-number">200+</span>
+                <span class="stat-label">Projects Delivered</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">98%</span>
+                <span class="stat-label">Client Satisfaction</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Years Experience</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="section-header">
+            <h2>Our Web Development Services</h2>
+            <p>Comprehensive solutions tailored to your business needs</p>
+        </div>
+
+        <div class="services-tabs">
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="frontend">Frontend Development</button>
+                <button class="tab-btn" data-tab="backend">Backend Development</button>
+                <button class="tab-btn" data-tab="ecommerce">E-Commerce</button>
+                <button class="tab-btn" data-tab="cms">CMS Solutions</button>
+                <button class="tab-btn" data-tab="mobile">Progressive Web Apps</button>
+            </div>
+
+            <div class="tabs-content">
+                <div class="tab-pane active" id="frontend">
+                    <div class="tab-content-inner">
+                        <div class="tab-image">
+                            <img src="/images/frontend-development.svg" alt="Frontend Development" />
+                        </div>
+                        <div class="tab-info">
+                            <h3>Frontend Development</h3>
+                            <p>We create stunning, responsive user interfaces that captivate your audience and drive engagement. Our frontend development services focus on delivering exceptional user experiences across all devices.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> Responsive Web Design</li>
+                                <li><i class="fas fa-check-circle"></i> Interactive UI/UX</li>
+                                <li><i class="fas fa-check-circle"></i> React, Angular & Vue.js</li>
+                                <li><i class="fas fa-check-circle"></i> Performance Optimization</li>
+                                <li><i class="fas fa-check-circle"></i> Accessibility Compliance</li>
+                                <li><i class="fas fa-check-circle"></i> Cross-Browser Compatibility</li>
+                            </ul>
+                            <a href="/services/frontend" class="btn btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="backend">
+                    <div class="tab-content-inner">
+                        <div class="tab-image">
+                            <img src="/images/backend-development.svg" alt="Backend Development" />
+                        </div>
+                        <div class="tab-info">
+                            <h3>Backend Development</h3>
+                            <p>Our backend development services provide the robust foundation your applications need. We build secure, scalable, and high-performance server-side solutions that power your digital products.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> API Development</li>
+                                <li><i class="fas fa-check-circle"></i> Database Design</li>
+                                <li><i class="fas fa-check-circle"></i> ASP.NET Core & C#</li>
+                                <li><i class="fas fa-check-circle"></i> Node.js & Express</li>
+                                <li><i class="fas fa-check-circle"></i> Cloud Integration</li>
+                                <li><i class="fas fa-check-circle"></i> Security Implementation</li>
+                            </ul>
+                            <a href="/services/backend" class="btn btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="ecommerce">
+                    <div class="tab-content-inner">
+                        <div class="tab-image">
+                            <img src="/images/ecommerce-development.svg" alt="E-Commerce Development" />
+                        </div>
+                        <div class="tab-info">
+                            <h3>E-Commerce Solutions</h3>
+                            <p>Transform your business with our custom e-commerce solutions. We build online stores that drive sales, enhance customer experience, and streamline your operations.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> Custom E-Commerce Platforms</li>
+                                <li><i class="fas fa-check-circle"></i> Shopify & WooCommerce</li>
+                                <li><i class="fas fa-check-circle"></i> Payment Gateway Integration</li>
+                                <li><i class="fas fa-check-circle"></i> Inventory Management</li>
+                                <li><i class="fas fa-check-circle"></i> Mobile Shopping Experience</li>
+                                <li><i class="fas fa-check-circle"></i> Analytics & Reporting</li>
+                            </ul>
+                            <a href="/services/ecommerce" class="btn btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="cms">
+                    <div class="tab-content-inner">
+                        <div class="tab-image">
+                            <img src="/images/cms-development.svg" alt="CMS Development" />
+                        </div>
+                        <div class="tab-info">
+                            <h3>CMS Solutions</h3>
+                            <p>Take control of your content with our custom CMS solutions. We develop intuitive content management systems that make updating and managing your website effortless.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> Custom CMS Development</li>
+                                <li><i class="fas fa-check-circle"></i> WordPress & Umbraco</li>
+                                <li><i class="fas fa-check-circle"></i> Content Workflow Automation</li>
+                                <li><i class="fas fa-check-circle"></i> Multi-language Support</li>
+                                <li><i class="fas fa-check-circle"></i> User Role Management</li>
+                                <li><i class="fas fa-check-circle"></i> SEO-friendly Structure</li>
+                            </ul>
+                            <a href="/services/cms" class="btn btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="mobile">
+                    <div class="tab-content-inner">
+                        <div class="tab-image">
+                            <img src="/images/pwa-development.svg" alt="Progressive Web Apps" />
+                        </div>
+                        <div class="tab-info">
+                            <h3>Progressive Web Apps</h3>
+                            <p>Combine the best of web and mobile apps with our PWA development services. We build fast, reliable, and engaging progressive web applications that work offline and feel like native apps.</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check-circle"></i> Offline Functionality</li>
+                                <li><i class="fas fa-check-circle"></i> App-like Experience</li>
+                                <li><i class="fas fa-check-circle"></i> Push Notifications</li>
+                                <li><i class="fas fa-check-circle"></i> Fast Loading Times</li>
+                                <li><i class="fas fa-check-circle"></i> Cross-platform Compatibility</li>
+                                <li><i class="fas fa-check-circle"></i> Low Data Usage</li>
+                            </ul>
+                            <a href="/services/pwa" class="btn btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="technologies-section">
+        <div class="section-header">
+            <h2>Technologies We Master</h2>
+            <p>Cutting-edge tools and frameworks for modern web development</p>
+        </div>
+
+        <div class="tech-grid">
+            <div class="tech-category">
+                <h3>Frontend</h3>
+                <div class="tech-items">
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-react"></i></div>
+                        <span>React</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-angular"></i></div>
+                        <span>Angular</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-vuejs"></i></div>
+                        <span>Vue.js</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-js"></i></div>
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-sass"></i></div>
+                        <span>Sass</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-bootstrap"></i></div>
+                        <span>Bootstrap</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3>Backend</h3>
+                <div class="tech-items">
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-microsoft"></i></div>
+                        <span>ASP.NET</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-node-js"></i></div>
+                        <span>Node.js</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-php"></i></div>
+                        <span>PHP</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fas fa-database"></i></div>
+                        <span>SQL</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fas fa-server"></i></div>
+                        <span>MongoDB</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-python"></i></div>
+                        <span>Python</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3>Tools & Platforms</h3>
+                <div class="tech-items">
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-aws"></i></div>
+                        <span>AWS</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-azure"></i></div>
+                        <span>Azure</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-docker"></i></div>
+                        <span>Docker</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-github"></i></div>
+                        <span>GitHub</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-jenkins"></i></div>
+                        <span>Jenkins</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon"><i class="fab fa-jira"></i></div>
+                        <span>Jira</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <div class="section-header">
+            <h2>Our Development Process</h2>
+            <p>A proven methodology for successful project delivery</p>
+        </div>
+
+        <div class="process-timeline">
+            <div class="process-step">
+                <div class="process-number">1</div>
+                <div class="process-content">
+                    <h3>Discovery & Planning</h3>
+                    <p>We begin by understanding your business goals, target audience, and project requirements. Our team conducts thorough research and creates a detailed project roadmap.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">2</div>
+                <div class="process-content">
+                    <h3>Design & Prototyping</h3>
+                    <p>Our designers create wireframes and interactive prototypes that visualize the user experience. We refine these designs based on your feedback until they perfectly match your vision.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">3</div>
+                <div class="process-content">
+                    <h3>Development</h3>
+                    <p>Our development team brings the designs to life using the most appropriate technologies. We follow best practices for clean, maintainable code and conduct regular code reviews.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">4</div>
+                <div class="process-content">
+                    <h3>Testing & QA</h3>
+                    <p>We rigorously test all aspects of your application to ensure it's bug-free, secure, and performs well across all devices and browsers.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">5</div>
+                <div class="process-content">
+                    <h3>Deployment</h3>
+                    <p>Once approved, we deploy your application to your chosen hosting environment, ensuring a smooth transition and minimal downtime.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="process-number">6</div>
+                <div class="process-content">
+                    <h3>Maintenance & Support</h3>
+                    <p>Our relationship doesn't end at launch. We provide ongoing maintenance, support, and updates to keep your application running smoothly and securely.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Showcase -->
+    <section class="projects-section">
+        <div class="section-header">
+            <h2>Our Success Stories</h2>
+            <p>Explore some of our recent web development projects</p>
+        </div>
+
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="/images/project-ecommerce.jpg" alt="E-Commerce Platform" />
+                    <div class="project-overlay">
+                        <a href="/case-studies/luxury-ecommerce" class="btn btn-primary btn-sm">View Case Study</a>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Luxury E-Commerce Platform</h3>
+                    <p>A high-end shopping experience with advanced filtering and personalization</p>
+                    <div class="project-tags">
+                        <span>E-Commerce</span>
+                        <span>React</span>
+                        <span>Node.js</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="/images/project-healthcare.jpg" alt="Healthcare Portal" />
+                    <div class="project-overlay">
+                        <a href="/case-studies/healthcare-portal" class="btn btn-primary btn-sm">View Case Study</a>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Healthcare Patient Portal</h3>
+                    <p>Secure patient management system with telemedicine capabilities</p>
+                    <div class="project-tags">
+                        <span>Healthcare</span>
+                        <span>ASP.NET Core</span>
+                        <span>SQL Server</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="/images/project-fintech.jpg" alt="Fintech Dashboard" />
+                    <div class="project-overlay">
+                        <a href="/case-studies/fintech-dashboard" class="btn btn-primary btn-sm">View Case Study</a>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Fintech Analytics Dashboard</h3>
+                    <p>Real-time financial data visualization and reporting platform</p>
+                    <div class="project-tags">
+                        <span>Fintech</span>
+                        <span>Angular</span>
+                        <span>Python</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="/images/project-education.jpg" alt="Education Platform" />
+                    <div class="project-overlay">
+                        <a href="/case-studies/education-platform" class="btn btn-primary btn-sm">View Case Study</a>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <h3>Online Learning Platform</h3>
+                    <p>Interactive educational platform with course management and progress tracking</p>
+                    <div class="project-tags">
+                        <span>Education</span>
+                        <span>Vue.js</span>
+                        <span>Laravel</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="projects-cta">
+            <a href="/portfolio" class="btn btn-secondary">View All Projects</a>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="section-header">
+            <h2>What Our Clients Say</h2>
+            <p>Hear from businesses we've helped transform</p>
+        </div>
+
+        <div class="testimonials-slider">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Working with this team was a game-changer for our business. They delivered a web application that exceeded our expectations and has significantly improved our customer engagement."</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="/images/testimonial-1.jpg" alt="Sarah Johnson" />
+                    <div class="author-info">
+                        <h4>Sarah Johnson</h4>
+                        <p>CEO, TechInnovate</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"The e-commerce platform they built for us has increased our online sales by 200% in just six months. Their attention to detail and focus on user experience made all the difference."</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="/images/testimonial-2.jpg" alt="Michael Chen" />
+                    <div class="author-info">
+                        <h4>Michael Chen</h4>
+                        <p>Marketing Director, StyleHub</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Their team's technical expertise and project management skills are outstanding. They delivered our complex healthcare portal on time and within budget, which is rare in this industry."</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="/images/testimonial-3.jpg" alt="Dr. Emily Rodriguez" />
+                    <div class="author-info">
+                        <h4>Dr. Emily Rodriguez</h4>
+                        <p>CTO, HealthConnect</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonials-nav">
+            <button class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <div class="testimonials-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <button class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+            <p>Common questions about our web development services</p>
+        </div>
+
+        <div class="faq-accordion">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How long does it take to develop a website?</h3>
+                    <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>The timeline for web development varies based on the complexity of the project. A simple informational website might take 4-6 weeks, while a complex web application could take 3-6 months. During our initial consultation, we'll provide a more accurate timeline based on your specific requirements.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>What is your development process?</h3>
+                    <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Our development process follows an agile methodology with six key phases: Discovery & Planning, Design & Prototyping, Development, Testing & QA, Deployment, and Maintenance & Support. This approach allows for flexibility, regular client feedback, and iterative improvements throughout the project.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>How much does a website or web application cost?</h3>
+                    <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>The cost depends on various factors including the complexity of features, design requirements, and the scale of the project. We offer customized quotes based on your specific needs. Contact us for a free consultation and estimate tailored to your project.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Do you provide ongoing maintenance and support?</h3>
+                    <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, we offer various maintenance and support packages to keep your website or application running smoothly after launch. These include regular updates, security patches, performance optimization, content updates, and technical support.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Can you redesign my existing website?</h3>
+                    <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>We specialize in website redesigns that improve both aesthetics and functionality. Our team will analyze your current website, identify areas for improvement, and develop a modern, user-friendly design that better serves your business goals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="section-header">
+            <h2>Start Your Web Development Project</h2>
+            <p>Get in touch for a free consultation and quote</p>
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-form-container">
+                <form class="contact-form" asp-page-handler="Contact" method="post">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" class="form-control" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company Name</label>
+                            <input type="text" id="company" name="company" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectType">Project Type</label>
+                        <select id="projectType" name="projectType" class="form-control">
+                            <option value="">Select Project Type</option>
+                            <option value="website">Website Development</option>
+                            <option value="webapp">Web Application</option>
+                            <option value="ecommerce">E-Commerce</option>
+                            <option value="cms">CMS Implementation</option>
+                            <option value="pwa">Progressive Web App</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Project Details</label>
+                        <textarea id="message" name="message" class="form-control" rows="5" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <input type="checkbox" id="consent" name="consent" class="form-check-input" required />
+                            <label for="consent" class="form-check-label">I agree to the processing of my personal data in accordance with the <a href="/privacy-policy">Privacy Policy</a></label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Submit Inquiry</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3>Visit Us</h3>
+                        <p>123 Tech Boulevard, Suite 456<br />Innovation District, CA 94103</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3>Call Us</h3>
+                        <p>+1 (555) 123-4567<br />Mon-Fri, 9am-6pm</p>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="info-content">
+                        <h3>Email Us</h3>
+                        <p>info@yoursoftwarehouse.com<br />support@yoursoftwarehouse.com</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Transform Your Digital Presence?</h2>
+            <p>Let's build something amazing together</p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary">Get Started</a>
+                <a href="/portfolio" class="btn btn-outline">View Our Work</a>
+            </div>
+        </div>
+    </section>
+</div>
