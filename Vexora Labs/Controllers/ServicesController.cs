@@ -12,5 +12,8 @@ namespace Vexora_Labs.Controllers
         {
             return View();
         }
+        public IActionResult Cloud(){
+            return View();
+        }
     }
 }

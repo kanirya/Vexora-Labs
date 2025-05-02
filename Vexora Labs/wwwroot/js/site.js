@@ -1086,3 +1086,267 @@ document.addEventListener('DOMContentLoaded', function () {
     handleResponsiveLayout();
     window.addEventListener('resize', handleResponsiveLayout);
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all components
+    initCloudAnimation();
+    initPlatformTabs();
+    initCaseStudiesSlider();
+    initPricingToggle();
+    initFaqAccordion();
+    initSmoothScrolling();
+    initAnimations();
+    initFormValidation();
+
+    // Cloud animation effect
+    function initCloudAnimation() {
+        const clouds = document.querySelectorAll('.cloud');
+        
+        clouds.forEach(cloud => {
+            const randomDelay = Math.random() * 5;
+            cloud.style.animationDelay = `${randomDelay}s`;
+        });
+    }
+
+    // Platform tabs functionality
+    function initPlatformTabs() {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+                
+                // Update active tab button
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Show corresponding tab pane
+                tabPanes.forEach(pane => {
+                    pane.classList.toggle('active', pane.id === tabId);
+                });
+            });
+        });
+    }
+
+    // Case studies slider functionality
+    function initCaseStudiesSlider() {
+        const caseStudyCards = document.querySelectorAll('.case-study-card');
+        const dots = document.querySelectorAll('.case-studies-dots .dot');
+        const prevBtn = document.querySelector('.case-studies-nav .prev-btn');
+        const nextBtn = document.querySelector('.case-studies-nav .next-btn');
+        let currentIndex = 0;
+        let interval;
+
+        function showCaseStudy(index) {
+            // Hide all case studies
+            caseStudyCards.forEach(card => {
+                card.style.display = 'none';
+            });
+            
+            // Show selected case study
+            caseStudyCards[index].style.display = 'block';
+            
+            // Update dots
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            
+            currentIndex = index;
+        }
+
+        function nextCaseStudy() {
+            const newIndex = (currentIndex + 1) % caseStudyCards.length;
+            showCaseStudy(newIndex);
+        }
+
+        function prevCaseStudy() {
+            const newIndex = (currentIndex - 1 + caseStudyCards.length) % caseStudyCards.length;
+            showCaseStudy(newIndex);
+        }
+
+        // Initialize case studies
+        if (caseStudyCards.length > 0) {
+            caseStudyCards.forEach((card, index) => {
+                if (index !== 0) {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Event listeners for navigation
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showCaseStudy(index);
+                    resetInterval();
+                });
+            });
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    prevCaseStudy();
+                    resetInterval();
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    nextCaseStudy();
+                    resetInterval();
+                });
+            }
+
+            function startInterval() {
+                interval = setInterval(nextCaseStudy, 6000);
+            }
+
+            function resetInterval() {
+                clearInterval(interval);
+                startInterval();
+            }
+
+            startInterval();
+        }
+    }
+
+    // Pricing toggle functionality
+    function initPricingToggle() {
+        const billingToggle = document.getElementById('billing-toggle');
+        const pricingPlans = document.querySelector('.pricing-plans');
+        
+        if (billingToggle && pricingPlans) {
+            billingToggle.addEventListener('change', () => {
+                pricingPlans.classList.toggle('annual', billingToggle.checked);
+                
+                const monthlyAmounts = document.querySelectorAll('.amount.monthly');
+                const annualAmounts = document.querySelectorAll('.amount.annual');
+                
+                if (billingToggle.checked) {
+                    monthlyAmounts.forEach(amount => amount.style.display = 'none');
+                    annualAmounts.forEach(amount => amount.style.display = 'inline');
+                } else {
+                    monthlyAmounts.forEach(amount => amount.style.display = 'inline');
+                    annualAmounts.forEach(amount => amount.style.display = 'none');
+                }
+            });
+        }
+    }
+
+    // FAQ accordion functionality
+    function initFaqAccordion() {
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Toggle active class on clicked item
+                item.classList.toggle('active');
+                
+                // Close other items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+            });
+        });
+    }
+
+    // Smooth scrolling for anchor links
+    function initSmoothScrolling() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+
+    // Animate elements on scroll
+    function initAnimations() {
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.service-card, .benefit-card, .process-step, .case-study-card, .pricing-plan, .info-card');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.classList.add('animated');
+                }
+            });
+        };
+
+        // Run on load
+        animateOnScroll();
+
+        // Run on scroll
+        window.addEventListener('scroll', animateOnScroll);
+    }
+
+    // Form validation
+    function initFormValidation() {
+        const contactForm = document.querySelector('.contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                const requiredFields = contactForm.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('invalid');
+                    } else {
+                        field.classList.remove('invalid');
+                    }
+                });
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    alert('Please fill in all required fields.');
+                }
+            });
+        }
+    }
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (navbar) {
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        }
+    });
+
+    // Back to top button
+    const backToTopBtn = document.querySelector('.back-to-top');
+    if (backToTopBtn) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('active');
+            } else {
+                backToTopBtn.classList.remove('active');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+});
