@@ -15,5 +15,10 @@ namespace Vexora_Labs.Controllers
         public IActionResult Cloud(){
             return View();
         }
+
+        public IActionResult CRM()
+        {
+            return View();
+        }
     }
 }

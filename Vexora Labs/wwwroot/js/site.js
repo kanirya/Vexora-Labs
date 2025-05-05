@@ -1350,3 +1350,359 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Particle animation
+    initParticleAnimation();
+
+    // Testimonial slider
+    initTestimonialSlider();
+
+    // Animate elements on scroll
+    initScrollAnimations();
+});
+
+// Particle animation
+function initParticleAnimation() {
+    const canvas = document.createElement('canvas');
+    const container = document.getElementById('particle-container');
+    if (!container) return;
+
+    container.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas dimensions
+    canvas.width = container.offsetWidth;
+    canvas.height = container.offsetHeight;
+
+    // Particle properties
+    const particleCount = 50;
+    const particles = [];
+
+    // Create particles
+    for (let i = 0; i < particleCount; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 3 + 1,
+            color: `hsla(${Math.random() * 60 + 250}, 100%, 70%, ${Math.random() * 0.5 + 0.3})`,
+            speedX: (Math.random() - 0.5) * 1,
+            speedY: (Math.random() - 0.5) * 1
+        });
+    }
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(particle => {
+            // Move particle
+            particle.x += particle.speedX;
+            particle.y += particle.speedY;
+
+            // Bounce off edges
+            if (particle.x < 0 || particle.x > canvas.width) {
+                particle.speedX *= -1;
+            }
+
+            if (particle.y < 0 || particle.y > canvas.height) {
+                particle.speedY *= -1;
+            }
+
+            // Draw particle
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+            ctx.fillStyle = particle.color;
+            ctx.fill();
+        });
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        canvas.width = container.offsetWidth;
+        canvas.height = container.offsetHeight;
+    });
+
+    animate();
+}
+
+// Testimonial slider
+function initTestimonialSlider() {
+    const testimonials = [
+        {
+            quote: "Vexora Labs CRM has completely transformed how we manage our customer relationships. The intuitive interface and powerful features have helped us increase sales by 35% in just three months.",
+            name: "Sarah Johnson",
+            position: "CEO, TechStart",
+            avatar: "/images/avatar-1.jpg"
+        },
+        {
+            quote: "After trying several CRM solutions, we finally found Vexora Labs. The automation features have saved our team countless hours, and the analytics provide invaluable insights for our sales strategy.",
+            name: "Michael Chen",
+            position: "Sales Director, GrowthForce",
+            avatar: "/images/avatar-2.jpg"
+        },
+        {
+            quote: "The integration capabilities of Vexora Labs CRM are outstanding. We've connected all our marketing tools, and now have a unified view of our customer journey. Highly recommended!",
+            name: "Emily Rodriguez",
+            position: "Marketing Manager, Innovate Inc",
+            avatar: "/images/avatar-3.jpg"
+        }
+    ];
+
+    const container = document.getElementById('testimonial-container');
+    const indicators = document.getElementById('testimonial-indicators');
+    const prevBtn = document.getElementById('prev-testimonial');
+    const nextBtn = document.getElementById('next-testimonial');
+
+    if (!container || !indicators || !prevBtn || !nextBtn) return;
+
+    let currentIndex = 0;
+
+    // Create indicators
+    testimonials.forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.classList.add('indicator');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(index));
+        indicators.appendChild(dot);
+    });
+
+    // Create initial testimonial
+    renderTestimonial(currentIndex);
+
+    // Event listeners
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+
+    // Auto slide
+    let interval = setInterval(nextSlide, 5000);
+
+    // Reset interval on manual navigation
+    function resetInterval() {
+        clearInterval(interval);
+        interval = setInterval(nextSlide, 5000);
+    }
+
+    function renderTestimonial(index) {
+        const testimonial = testimonials[index];
+
+        container.innerHTML = `
+            <div class="testimonial-quote">${testimonial.quote}</div>
+            <div class="testimonial-author">
+                <div class="author-avatar">
+                    <img src="${testimonial.avatar || '/images/avatar-placeholder.jpg'}" alt="${testimonial.name}">
+                </div>
+                <div class="author-name">${testimonial.name}</div>
+                <div class="author-position">${testimonial.position}</div>
+            </div>
+        `;
+
+        // Update indicators
+        const dots = indicators.querySelectorAll('.indicator');
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    function nextSlide() {
+        currentIndex = (currentIndex + 1) % testimonials.length;
+        renderTestimonial(currentIndex);
+        resetInterval();
+    }
+
+    function prevSlide() {
+        currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+        renderTestimonial(currentIndex);
+        resetInterval();
+    }
+
+    function goToSlide(index) {
+        currentIndex = index;
+        renderTestimonial(currentIndex);
+        resetInterval();
+    }
+}
+
+// Scroll animations
+function initScrollAnimations() {
+    const animatedElements = document.querySelectorAll('.feature-card, .section-header, .hero-content, .hero-visual');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    animatedElements.forEach(element => {
+        observer.observe(element);
+        element.classList.add('fade-in-element');
+    });
+
+    // Add CSS for animations
+    const style = document.createElement('style');
+    style.textContent = `
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in-element.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize animations
+    initAnimations();
+
+    // Initialize pricing toggle
+    initPricingToggle();
+
+    // Initialize timeline animations
+    initTimelineAnimations();
+});
+
+// Initialize animations
+function initAnimations() {
+    // Add fade-in class to elements
+    const elements = document.querySelectorAll('.section-header, .detailed-feature, .pricing-card, .timeline-item');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    elements.forEach((element, index) => {
+        // Add delay based on index for staggered animation
+        element.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(element);
+        element.classList.add('fade-in-element');
+    });
+
+    // Add CSS for animations
+    const style = document.createElement('style');
+    style.textContent = `
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in-element.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .detailed-feature .feature-list li {
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .detailed-feature.animated .feature-list li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .detailed-feature.animated .feature-list li:nth-child(1) { transition-delay: 0.2s; }
+        .detailed-feature.animated .feature-list li:nth-child(2) { transition-delay: 0.3s; }
+        .detailed-feature.animated .feature-list li:nth-child(3) { transition-delay: 0.4s; }
+        .detailed-feature.animated .feature-list li:nth-child(4) { transition-delay: 0.5s; }
+        .detailed-feature.animated .feature-list li:nth-child(5) { transition-delay: 0.6s; }
+    `;
+    document.head.appendChild(style);
+}
+
+// Initialize pricing toggle
+function initPricingToggle() {
+    const toggle = document.getElementById('billing-toggle');
+    const monthlyPrices = document.querySelectorAll('.pricing-price .amount.monthly');
+    const annualPrices = document.querySelectorAll('.pricing-price .amount.annual');
+
+    if (!toggle) return;
+
+    toggle.addEventListener('change', function() {
+        if (this.checked) {
+            // Annual pricing
+            monthlyPrices.forEach(price => price.style.display = 'none');
+            annualPrices.forEach(price => price.style.display = 'inline');
+        } else {
+            // Monthly pricing
+            monthlyPrices.forEach(price => price.style.display = 'inline');
+            annualPrices.forEach(price => price.style.display = 'none');
+        }
+    });
+
+    // Initialize display
+    monthlyPrices.forEach(price => price.style.display = 'inline');
+    annualPrices.forEach(price => price.style.display = 'none');
+}
+
+// Initialize timeline animations
+function initTimelineAnimations() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    timelineItems.forEach((item, index) => {
+        // Add delay based on index for staggered animation
+        item.style.transitionDelay = `${index * 0.2}s`;
+        observer.observe(item);
+
+        // Add animation class based on position
+        if (item.classList.contains('timeline-item-left')) {
+            item.classList.add('slide-in-left');
+        } else {
+            item.classList.add('slide-in-right');
+        }
+    });
+
+    // Add CSS for animations
+    const style = document.createElement('style');
+    style.textContent = `
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .slide-in-left.animated,
+        .slide-in-right.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    `;
+    document.head.appendChild(style);
+}
