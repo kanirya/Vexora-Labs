@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Vexora_Labs.Data;
 using Vexora_Labs.Models;
 
 namespace Vexora_Labs.Controllers
@@ -7,10 +8,10 @@ namespace Vexora_Labs.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _context;
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
-            
+            _context = context;
             
             
             _logger = logger;
@@ -27,7 +28,18 @@ namespace Vexora_Labs.Controllers
         }
           public IActionResult UserForm()
         {
-            return View();
+            return View(new ServiceInquiryViewModel());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(ServiceInquiryViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            await _context.ServiceInquiryViewModels.AddAsync(model);
+            _context.SaveChanges();
+            return RedirectToAction("ThankYou");
+            
         }
 
 

@@ -20,5 +20,15 @@ namespace Vexora_Labs.Controllers
         {
             return View();
         }
+
+        public IActionResult ERPSolutions()
+        {
+            return View();
+        }
+
+        public IActionResult OdooSolutions()
+        {
+            return View();
+        }
     }
 }

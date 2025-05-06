@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ServiceInquiryViewModel
+
+@{
     ViewData["Title"] = "Get in Touch";
 }
 
@@ -91,140 +93,128 @@
                         <p>Please fill out the form below to help us understand your project better.</p>
                     </div>
 
-                    <form id="serviceInquiryForm" class="needs-validation" novalidate>
-                        <div class="row g-4">
-                            <!-- Personal Information -->
-                            <div class="col-12">
-                                <h5 class="form-section-title">Personal Information</h5>
-                            </div>
+<form asp-action="Index" method="post" class="needs-validation" novalidate>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input asp-for="FullName" class="form-control" placeholder="Full Name" required />
+                <label asp-for="FullName"></label>
+                <span asp-validation-for="FullName" class="invalid-feedback"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input asp-for="Email" class="form-control" placeholder="Email Address" required />
+                <label asp-for="Email"></label>
+                <span asp-validation-for="Email" class="invalid-feedback"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input asp-for="Phone" class="form-control" placeholder="Phone Number (Optional)" />
+                <label asp-for="Phone"></label>
+                <span asp-validation-for="Phone" class="invalid-feedback"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input asp-for="Company" class="form-control" placeholder="Company Name (Optional)" />
+                <label asp-for="Company"></label>
+                <span asp-validation-for="Company" class="invalid-feedback"></span>
+            </div>
+        </div>
 
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="fullName" placeholder="Full Name" required>
-                                    <label for="fullName">Full Name</label>
-                                    <div class="invalid-feedback">Please provide your full name.</div>
-                                </div>
-                            </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <select asp-for="ServiceType" class="form-select" required>
+                    <option value="">Select a service</option>
+                    <option value="web-development">Web Development</option>
+                    <option value="mobile-app">Mobile Application</option>
+                    <option value="cloud-solutions">Cloud Solutions</option>
+                    <option value="data-analytics">Data Analytics</option>
+                    <option value="cybersecurity">Cybersecurity</option>
+                    <option value="ai-ml">AI & Machine Learning</option>
+                    <option value="other">Other</option>
+                </select>
+                <label asp-for="ServiceType"></label>
+                <span asp-validation-for="ServiceType" class="invalid-feedback"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <select asp-for="ProjectBudget" class="form-select">
+                    <option value="">Select budget range</option>
+                    <option value="less-5k">Less than $5,000</option>
+                    <option value="5k-10k">$5,000 - $10,000</option>
+                    <option value="10k-25k">$10,000 - $25,000</option>
+                    <option value="25k-50k">$25,000 - $50,000</option>
+                    <option value="50k-plus">$50,000+</option>
+                    <option value="not-sure">Not sure yet</option>
+                </select>
+                <label asp-for="ProjectBudget"></label>
+            </div>
+        </div>
 
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="email" class="form-control" id="email" placeholder="Email Address" required>
-                                    <label for="email">Email Address</label>
-                                    <div class="invalid-feedback">Please provide a valid email address.</div>
-                                </div>
-                            </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <select asp-for="ProjectTimeline" class="form-select">
+                    <option value="">Select timeline</option>
+                    <option value="asap">As soon as possible</option>
+                    <option value="1-month">Within 1 month</option>
+                    <option value="1-3-months">1-3 months</option>
+                    <option value="3-6-months">3-6 months</option>
+                    <option value="6-plus-months">6+ months</option>
+                    <option value="not-sure">Not sure yet</option>
+                </select>
+                <label asp-for="ProjectTimeline"></label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <select asp-for="HearAboutUs" class="form-select">
+                    <option value="">How did you get us?</option>
+                    <option value="search-engine">Search Engine</option>
+                    <option value="social-media">Social Media</option>
+                    <option value="referral">Referral</option>
+                    <option value="advertisement">Advertisement</option>
+                    <option value="other">Other</option>
+                </select>
+                <label asp-for="HearAboutUs"></label>
+            </div>
+        </div>
 
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="tel" class="form-control" id="phone" placeholder="Phone Number">
-                                    <label for="phone">Phone Number (Optional)</label>
-                                </div>
-                            </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <textarea asp-for="ProjectDescription" class="form-control" style="height:150px" required></textarea>
+                <label asp-for="ProjectDescription"></label>
+                <span asp-validation-for="ProjectDescription" class="invalid-feedback"></span>
+            </div>
+        </div>
 
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="company" placeholder="Company Name">
-                                    <label for="company">Company Name (Optional)</label>
-                                </div>
-                            </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input asp-for="PrivacyPolicy" class="form-check-input" />
+                <label asp-for="PrivacyPolicy" class="form-check-label"></label>
+                <span asp-validation-for="PrivacyPolicy" class="invalid-feedback"></span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input asp-for="Newsletter" class="form-check-input" />
+                <label asp-for="Newsletter" class="form-check-label"></label>
+            </div>
+        </div>
 
-                            <!-- Project Details -->
-                            <div class="col-12 mt-4">
-                                <h5 class="form-section-title">Project Details</h5>
-                            </div>
+        <div class="col-12 mt-4">
+            <button type="submit" class="btn btn-gradient btn-lg w-100">
+                <span>Submit Inquiry</span>
+            </button>
+        </div>
+    </div>
+</form>
 
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <select class="form-select" id="serviceType" required style="background:var( --dark);color:white;">
-                                        <option value="" selected disabled>Select a service</option>
-                                        <option value="web-development">Web Development</option>
-                                        <option value="mobile-app">Mobile Application</option>
-                                        <option value="cloud-solutions">Cloud Solutions</option>
-                                        <option value="data-analytics">Data Analytics</option>
-                                        <option value="cybersecurity">Cybersecurity</option>
-                                        <option value="ai-ml">AI & Machine Learning</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <div class="invalid-feedback">Please select a service type.</div>
-                                </div>
-                            </div>
 
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <select class="form-select" id="projectBudget" style="background:var( --dark);color:white;">
-                                        <option value="" selected disabled>Select budget range</option>
-                                        <option value="less-5k">Less than $5,000</option>
-                                        <option value="5k-10k">$5,000 - $10,000</option>
-                                        <option value="10k-25k">$10,000 - $25,000</option>
-                                        <option value="25k-50k">$25,000 - $50,000</option>
-                                        <option value="50k-plus">$50,000+</option>
-                                        <option value="not-sure">Not sure yet</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <select style="background:var( --dark);color:white;" class="form-select" id="projectTimeline">
-                                        <option value="" selected disabled>Select timeline</option>
-                                        <option value="asap">As soon as possible</option>
-                                        <option value="1-month">Within 1 month</option>
-                                        <option value="1-3-months">1-3 months</option>
-                                        <option value="3-6-months">3-6 months</option>
-                                        <option value="6-plus-months">6+ months</option>
-                                        <option value="not-sure">Not sure yet</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-floating">
-                                    <select style="background:var( --dark);color:white;" class="form-select" id="hearAboutUs">
-                                        <option value="" selected disabled>How did you get us?</option>
-                                        <option value="search-engine">Search Engine</option>
-                                        <option value="social-media">Social Media</option>
-                                        <option value="referral">Referral</option>
-                                        <option value="advertisement">Advertisement</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="form-floating">
-                                    <textarea class="form-control" id="projectDescription" placeholder="Project Description" style="height: 150px" required></textarea>
-                                    <label for="projectDescription">Project Description</label>
-                                    <div class="invalid-feedback">Please provide a brief description of your project.</div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="privacyPolicy" required>
-                                    <label class="form-check-label" for="privacyPolicy">
-                                        I agree to the <a href="#" class="text-gradient">Privacy Policy</a> and consent to the processing of my personal data.
-                                    </label>
-                                    <div class="invalid-feedback">You must agree before submitting.</div>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="newsletter">
-                                    <label class="form-check-label" for="newsletter">
-                                        I would like to receive updates and newsletters about services and events.
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="col-12 mt-4">
-                                <button type="submit" class="btn btn-gradient btn-lg w-100" id="submitButton">
-                                    <span class="btn-text">Submit Inquiry</span>
-                                    <span class="btn-icon"><i class="fas fa-paper-plane"></i></span>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Success Message (Hidden by default) -->
                     <div class="form-success-message" id="formSuccessMessage" style="display: none;">
@@ -361,6 +351,7 @@
 
 @section Scripts {
     <script>
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Form validation
             const form = document.getElementById('serviceInquiryForm');
