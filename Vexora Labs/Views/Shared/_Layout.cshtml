@@ -84,20 +84,19 @@
         <div class="cursor-outline"></div>
         <div class="cursor-text"></div>
     </div>
-
+  
     <!-- Navbar -->
     <header class="header">
         <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <div class="logo-container">
-                        <h5 style="font-size:25px; font-weight:bold;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Vexora Labs</h5>
-                        @* <img src="~/images/vexora-logo.svg" alt="Vexora Labs" class="logo-img"> *@
-                    </div>
-                </a>
-
+       
+                    <a href="/" class="logo d-flex" >
+                        <div class="logo-icon "></div>
+                        <span class="logo-text mx-2">Vexora Labs</span>
+                    </a>
+              
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
+                        aria-expanded="false" aria-label="Toggle navigation">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -120,23 +119,24 @@
 
                     </ul>
                     <div class="nav-cta">
-                        <a href="#contact" class="btn btn-gradient">Get Started</a>
+                        <a asp-controller="Home" asp-action="UserForm" class="btn btn-gradient">Start your project</a>
                     </div>
-                  
+
                     @if (SignInManager.IsSignedIn(User))
                     {
-                       var user= await UserManager.GetUserAsync(User);
+                        var user = await UserManager.GetUserAsync(User);
 
                         <a id="manage" class="btn btn-gradient mx-3" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@user.Name</a>
-                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"  asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                             <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
                         </form>
-                    
+
                     }
                     else
                     {
                         <a class="btn btn-gradient mx-3" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
                     }
+                    <a id="themeToggle" class="social-link"><i class="fa-brands fa-affiliatetheme"></i></a>
                 </div>
             </div>
         </nav>
@@ -162,37 +162,27 @@
                                 Pioneering the future through innovative software solutions. We transform complex challenges into elegant digital experiences.
                             </p>
                             <div class="social-links">
-                                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="https://www.instagram.com/vexoralabs.official/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                                <a href="https://wa.me/923276507343?text=Hello%20there" target="_blank" rel="noopener noreferrer" class="social-link">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+
                                 <a href="https://github.com/kanirya" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-2 col-md-6 mb-5 mb-lg-0">
-                        <div class="footer-links">
-                            <h4>Company</h4>
-                            <ul>
-                                <li><a asp-controller="Home" asp-action="About">About Us</a></li>
-                                <li><a asp-controller="Home" asp-action="Team">Our Team</a></li>
-                                <li><a asp-controller="Home" asp-action="Careers">Careers</a></li>
-                                <li><a asp-controller="Home" asp-action="Blog">Blog</a></li>
-                                <li><a asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
+                 
                     <div class="col-lg-2 col-md-6 mb-5 mb-md-0">
                         <div class="footer-links">
                             <h4>Services</h4>
                             <ul>
-                                <li><a href="#">Web Development</a></li>
-                                <li><a href="#">Mobile Applications</a></li>
-                                <li><a href="#">Cloud Solutions</a></li>
-                                <li><a href="#">AI & Machine Learning</a></li>
-                                <li><a href="#">DevOps & Automation</a></li>
+                                <li><a asp-controller="Services" asp-action="Web">Web Development</a></li>
+                                <li><a asp-controller="Services" asp-action="MobileDev">Mobile Applications</a></li>
+                                <li><a asp-controller="Services" asp-action="Cloud">Cloud Solutions</a></li>
+                                <li><a asp-controller="Services" asp-action="CRM">CRM</a></li>
+                                <li><a asp-controller="Services" asp-action="ERPSolutions">ERP</a></li>
+                                <li><a asp-controller="Services" asp-action="OdooSolutions">Odoo</a></li>
                             </ul>
                         </div>
                     </div>
@@ -210,7 +200,7 @@
                             <div class="contact-info mt-4">
                                 <div class="contact-item">
                                     <i class="fas fa-envelope"></i>
-                                    <a href="mailto:codewithartist1@gmail.com">codewithartist1@gmail.com</a>
+                                    <a href="mailto:info.vexoralabs@gmail.com">info.vexoralabs@gmail.com</a>
                                 </div>
                                 <div class="contact-item">
                                     <i class="fas fa-phone-alt"></i>
@@ -267,6 +257,18 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>
+            const btn = document.getElementById('themeToggle');
+            btn.addEventListener('click', () => {
+            const html = document.documentElement;
+            html.classList.toggle('theme-alt');
+            localStorage.setItem(
+            'theme',
+            html.classList.contains('theme-alt') ? 'alt' : 'default'
+            );
+        });
+            if (localStorage.getItem('theme') === 'alt') {
+            document.documentElement.classList.add('theme-alt');
+        }
         // Preloader animation
         document.addEventListener('DOMContentLoaded', function() {
             const preloaderBar = document.getElementById('preloader-bar');

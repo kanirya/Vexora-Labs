@@ -4,21 +4,8 @@
 }
 
 <!-- Header -->
-<div class="mt-5"></div>
-<header class="details-header">
-    <div class="container">
-        <div class="header-content">
-            <a href="/" class="logo">
-                <div class="logo-icon"></div>
-                <span class="logo-text">Vexora Labs</span>
-            </a>
-            <a href="/" class="back-link">
-                <i class="fas fa-arrow-left"></i>
-                <span>Back to Home</span>
-            </a>
-        </div>
-    </div>
-</header>
+<div class="mt-5"  style=""></div>
+
 
 <!-- Hero Section -->
 <section class="hero-section">
@@ -30,8 +17,7 @@
             <h1>Comprehensive <span class="gradient-text">CRM Solution</span></h1>
             <p class="hero-subtitle">Discover how Vexora Labs CRM can revolutionize your business operations and customer relationships with our feature-rich platform.</p>
             <div class="hero-cta">
-                <a href="#" class="btn btn-gradient btn-lg">Schedule Demo</a>
-                <a href="#pricing" class="btn btn-outline btn-lg">View Pricing</a>
+                <a href="/Home/UserForm" class="btn btn-gradient btn-lg">Schedule Demo</a>
             </div>
         </div>
     </div>
@@ -175,80 +161,6 @@
     </div>
 </section>
 
-<!-- Pricing Section -->
-<section class="pricing-section" id="pricing">
-    <div class="container">
-        <div class="section-header">
-            <h2>Flexible Pricing Plans</h2>
-            <p>Choose the plan that best fits your business needs. All plans include core CRM features.</p>
-        </div>
-        <div class="pricing-toggle">
-            <span>Monthly</span>
-            <label class="switch">
-                <input type="checkbox" id="billing-toggle">
-                <span class="slider"></span>
-            </label>
-            <span>Annual <span class="discount">Save 20%</span></span>
-        </div>
-        <div class="pricing-plans">
-            <div class="pricing-card">
-                <h3>Starter</h3>
-                <div class="pricing-price">
-                    <span class="price">$29</span>
-                    <span class="period">/month</span>
-                </div>
-                <p>Perfect for small businesses just getting started with CRM.</p>
-                <ul class="pricing-features">
-                    <li><i class="fas fa-check-circle"></i> Up to 1,000 contacts</li>
-                    <li><i class="fas fa-check-circle"></i> Basic contact management</li>
-                    <li><i class="fas fa-check-circle"></i> Email integration</li>
-                    <li><i class="fas fa-check-circle"></i> Mobile app access</li>
-                    <li><i class="fas fa-check-circle"></i> Standard support</li>
-                </ul>
-                <button class="btn btn-outline btn-block">Start Free Trial</button>
-            </div>
-            <div class="pricing-card highlighted">
-                <div class="pricing-popular">POPULAR</div>
-                <h3>Professional</h3>
-                <div class="pricing-price">
-                    <span class="price">$79</span>
-                    <span class="period">/month</span>
-                </div>
-                <p>Ideal for growing businesses with advanced CRM needs.</p>
-                <ul class="pricing-features">
-                    <li><i class="fas fa-check-circle"></i> Up to 10,000 contacts</li>
-                    <li><i class="fas fa-check-circle"></i> Advanced contact management</li>
-                    <li><i class="fas fa-check-circle"></i> Full communication suite</li>
-                    <li><i class="fas fa-check-circle"></i> Workflow automation</li>
-                    <li><i class="fas fa-check-circle"></i> Analytics & reporting</li>
-                    <li><i class="fas fa-check-circle"></i> Priority support</li>
-                </ul>
-                <button class="btn btn-light btn-block">Start Free Trial</button>
-            </div>
-            <div class="pricing-card">
-                <h3>Enterprise</h3>
-                <div class="pricing-price">
-                    <span class="price">$199</span>
-                    <span class="period">/month</span>
-                </div>
-                <p>Comprehensive solution for large organizations.</p>
-                <ul class="pricing-features">
-                    <li><i class="fas fa-check-circle"></i> Unlimited contacts</li>
-                    <li><i class="fas fa-check-circle"></i> Complete feature access</li>
-                    <li><i class="fas fa-check-circle"></i> Advanced security controls</li>
-                    <li><i class="fas fa-check-circle"></i> Dedicated account manager</li>
-                    <li><i class="fas fa-check-circle"></i> Custom integrations</li>
-                    <li><i class="fas fa-check-circle"></i> 24/7 premium support</li>
-                    <li><i class="fas fa-check-circle"></i> White labeling options</li>
-                </ul>
-                <button class="btn btn-outline btn-block">Contact Sales</button>
-            </div>
-        </div>
-        <div class="pricing-note">
-            <p>Need a custom plan? <a href="#" class="pricing-link">Contact our sales team</a> for a tailored solution.</p>
-        </div>
-    </div>
-</section>
 
 <!-- CTA Section -->
 <section class="cta-section cta-alt">
@@ -258,28 +170,13 @@
                 <h2>Ready to Transform Your Customer Relationships?</h2>
                 <p>Join hundreds of businesses that have already improved their operations with Vexora Labs CRM.</p>
                 <div class="cta-buttons">
-                    <a href="#" class="btn btn-light btn-lg">Start Free Trial</a>
-                    <a href="#" class="btn btn-outline-light btn-lg">Schedule Demo</a>
+                    <a href="/Home/UserForm" class="btn btn-outline-light btn-lg">Start working on your CRM Right now</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <div class="logo-icon"></div>
-                <span class="logo-text">Vexora Labs</span>
-            </div>
-            <div class="footer-copyright">
-                © @DateTime.Now.Year Vexora Labs. All rights reserved.
-            </div>
-        </div>
-    </div>
-</footer>
 
 @section Scripts {
     <script src="~/js/crm-details.js"></script>

@@ -38,7 +38,7 @@
                             </div>
                             <div class="contact-info-text">
                                 <h5>Our Location</h5>
-                                <p>123 Innovation Street, Tech City, 10001</p>
+                                <p>Chaai Khana street, 6th road Rawalpindi, Rawalpindi, Pakistan</p>
                             </div>
                         </div>
 
@@ -48,7 +48,7 @@
                             </div>
                             <div class="contact-info-text">
                                 <h5>Call Us</h5>
-                                <p>+1 (123) 456-7890</p>
+                                <a href="tel:+923276507343"><p>+923276507343</p></a>
                             </div>
                         </div>
 
@@ -58,31 +58,13 @@
                             </div>
                             <div class="contact-info-text">
                                 <h5>Email Us</h5>
-                                <p>info@vexoralabs.com</p>
+                                <a href="mailto:info.vexoralabs@gmail.com">info.vexoralabs@gmail.com</a>
                             </div>
                         </div>
 
-                        <div class="contact-info-item">
-                            <div class="contact-info-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div class="contact-info-text">
-                                <h5>Working Hours</h5>
-                                <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                            </div>
-                        </div>
                     </div>
 
-                    <div class="contact-social">
-                        <h5>Connect With Us</h5>
-                        <div class="social-links">
-                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
+              
                 </div>
             </div>
 
@@ -127,7 +109,7 @@
 
         <div class="col-md-6">
             <div class="form-floating">
-                <select asp-for="ServiceType" class="form-select" required>
+                <select asp-for="ServiceType" class="form-select" required >
                     <option value="">Select a service</option>
                     <option value="web-development">Web Development</option>
                     <option value="mobile-app">Mobile Application</option>
@@ -145,11 +127,11 @@
             <div class="form-floating">
                 <select asp-for="ProjectBudget" class="form-select">
                     <option value="">Select budget range</option>
-                    <option value="less-5k">Less than $5,000</option>
+                    <option value="less-1k">Less than $1,000</option>
+                    <option value="1k-5k">$1,000 - $5,000</option>
                     <option value="5k-10k">$5,000 - $10,000</option>
-                    <option value="10k-25k">$10,000 - $25,000</option>
-                    <option value="25k-50k">$25,000 - $50,000</option>
-                    <option value="50k-plus">$50,000+</option>
+                    <option value="10k-20k">$10,000 - $20,000</option>
+                    <option value="20k-plus">$20,000+</option>
                     <option value="not-sure">Not sure yet</option>
                 </select>
                 <label asp-for="ProjectBudget"></label>
@@ -316,22 +298,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- Map Section -->
-<section class="map-section">
-    <div class="container-fluid p-0">
-        <div class="map-container">
-            <iframe width="600"
-                    height="450"
-                    style="border:0"
-                    loading="lazy"
-                    allowfullscreen
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps?q=33.641258,73.072129&output=embed">
-            </iframe>
         </div>
     </div>
 </section>
