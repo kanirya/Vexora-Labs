@@ -621,8 +621,8 @@ section {
     border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Footer */
 .footer {
+    
     padding: 2rem 0;
     border-top: 1px solid var(--dark-3);
 }
