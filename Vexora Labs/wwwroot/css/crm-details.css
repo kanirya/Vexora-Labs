@@ -742,7 +742,6 @@ section {
 }
 
 /* Import base styles from crm.css */
-@import url('crm.css');
 
 /* Additional styles specific to the details page */
 
