@@ -1,0 +1,464 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Vexora Labs Admin</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+    @if (ViewData["PageCss"] != null)
+    {
+        <link rel="stylesheet" href="~/css/@ViewData["PageCss"]" />
+    }
+
+    <!-- Preloader -->
+    <style>
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a1a;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader-content {
+            text-align: center;
+        }
+
+        .preloader-logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .preloader-progress {
+            width: 200px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .preloader-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, #7928CA, #FF0080);
+            transition: width 0.2s ease;
+        }
+    </style>
+</head>
+<body class="admin-body">
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <img src="~/images/Vexora.svg" alt="Vexora Labs" class="preloader-logo">
+            <div class="preloader-progress">
+                <div class="preloader-bar" id="preloader-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <a href="/Admin/Dashboard" class="sidebar-logo">
+                    <img src="~/images/Vexora.svg" alt="Vexora Labs" class="sidebar-logo-img">
+                    <span class="sidebar-logo-text">Vexora</span>
+                </a>
+                <button id="sidebarToggle" class="sidebar-toggle d-md-none">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="sidebar-user">
+                <div class="user-avatar">
+                    <img src="~/images/avatar-placeholder.jpg" alt="Admin User">
+                    <span class="status-indicator online"></span>
+                </div>
+                <div class="user-info">
+                    <h5 class="user-name">Admin User</h5>
+                    <span class="user-role">Administrator</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h6 class="nav-section-title">Main</h6>
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="/Admin/Dashboard" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Dashboard" ? "active" : "")">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Projects" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Projects" ? "active" : "")">
+                                <i class="fas fa-project-diagram"></i>
+                                <span>Projects</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Clients" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Clients" ? "active" : "")">
+                                <i class="fas fa-users"></i>
+                                <span>Clients</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Inquiries" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Inquiries" ? "active" : "")">
+                                <i class="fas fa-envelope"></i>
+                                <span>Inquiries</span>
+                                <span class="badge">5</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <h6 class="nav-section-title">Content</h6>
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="/Admin/Services" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Services" ? "active" : "")">
+                                <i class="fas fa-cogs"></i>
+                                <span>Services</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Testimonials" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Testimonials" ? "active" : "")">
+                                <i class="fas fa-quote-right"></i>
+                                <span>Testimonials</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Team" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Team" ? "active" : "")">
+                                <i class="fas fa-user-friends"></i>
+                                <span>Team</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Blog" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Blog" ? "active" : "")">
+                                <i class="fas fa-blog"></i>
+                                <span>Blog</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <h6 class="nav-section-title">Settings</h6>
+                    <ul class="nav-menu">
+                        <li class="nav-item">
+                            <a href="/Admin/Settings" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Settings" ? "active" : "")">
+                                <i class="fas fa-cog"></i>
+                                <span>General Settings</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Users" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Users" ? "active" : "")">
+                                <i class="fas fa-user-shield"></i>
+                                <span>User Management</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="/" class="footer-link" title="View Website">
+                    <i class="fas fa-globe"></i>
+                </a>
+                <a href="/Admin/Profile" class="footer-link" title="Profile">
+                    <i class="fas fa-user"></i>
+                </a>
+                <a href="/Account/Logout" class="footer-link" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <div class="admin-content-wrapper">
+            <!-- Admin Header -->
+            <header class="admin-header">
+                <div class="header-left">
+                    <button id="menuToggle" class="menu-toggle d-md-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="page-title">
+                        <h1>@ViewData["AdminTitle"]</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/Admin/Dashboard">Admin</a></li>
+                                @if (ViewData["BreadcrumbLevel1"] != null)
+                                {
+                                    <li class="breadcrumb-item"><a href="@ViewData["BreadcrumbLevel1Link"]">@ViewData["BreadcrumbLevel1"]</a></li>
+                                }
+                                <li class="breadcrumb-item active" aria-current="page">@ViewData["AdminTitle"]</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button class="action-btn" id="searchToggle">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <div class="dropdown">
+                            <button class="action-btn" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bell"></i>
+                                <span class="badge">3</span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end notifications-dropdown" aria-labelledby="notificationsDropdown">
+                                <div class="dropdown-header">
+                                    <h6>Notifications</h6>
+                                    <a href="/Admin/Notifications">View All</a>
+                                </div>
+                                <div class="notifications-list">
+                                    <a href="#" class="notification-item">
+                                        <div class="notification-icon bg-primary">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <p class="notification-text">New client registration</p>
+                                            <span class="notification-time">2 hours ago</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="notification-item">
+                                        <div class="notification-icon bg-success">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <p class="notification-text">Project "E-commerce Platform" completed</p>
+                                            <span class="notification-time">1 day ago</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="notification-item">
+                                        <div class="notification-icon bg-warning">
+                                            <i class="fas fa-exclamation"></i>
+                                        </div>
+                                        <div class="notification-content">
+                                            <p class="notification-text">Server load at 85%</p>
+                                            <span class="notification-time">3 days ago</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="action-btn" id="quickActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-end quick-actions-dropdown" aria-labelledby="quickActionsDropdown">
+                                <div class="dropdown-header">
+                                    <h6>Quick Actions</h6>
+                                </div>
+                                <a class="dropdown-item" href="/Admin/Projects/Create">
+                                    <i class="fas fa-plus-circle"></i> New Project
+                                </a>
+                                <a class="dropdown-item" href="/Admin/Clients/Create">
+                                    <i class="fas fa-user-plus"></i> New Client
+                                </a>
+                                <a class="dropdown-item" href="/Admin/Blog/Create">
+                                    <i class="fas fa-edit"></i> New Blog Post
+                                </a>
+                                <a class="dropdown-item" href="/Admin/Invoices/Create">
+                                    <i class="fas fa-file-invoice-dollar"></i> New Invoice
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-dropdown dropdown">
+                        <button class="user-dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar">
+                                <img src="~/images/avatar-placeholder.jpg" alt="Admin User">
+                            </div>
+                            <div class="user-info d-none d-md-block">
+                                <h6 class="user-name">Admin User</h6>
+                                <span class="user-role">Administrator</span>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="/Admin/Profile">
+                                <i class="fas fa-user"></i> My Profile
+                            </a>
+                            <a class="dropdown-item" href="/Admin/Settings">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/Account/Logout">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Search Overlay -->
+            <div class="search-overlay" id="searchOverlay">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search...">
+                    <button class="search-close" id="searchClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-results">
+                    <div class="search-results-header">
+                        <h6>Recent Searches</h6>
+                    </div>
+                    <div class="search-results-list">
+                        <a href="#" class="search-result-item">
+                            <i class="fas fa-search"></i>
+                            <span>Project dashboard</span>
+                        </a>
+                        <a href="#" class="search-result-item">
+                            <i class="fas fa-search"></i>
+                            <span>Client invoices</span>
+                        </a>
+                        <a href="#" class="search-result-item">
+                            <i class="fas fa-search"></i>
+                            <span>User settings</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <main class="admin-main">
+                <div class="admin-container">
+                    @RenderBody()
+                </div>
+            </main>
+
+            <!-- Admin Footer -->
+            <footer class="admin-footer">
+                <div class="footer-left">
+                    &copy; <span class="current-year">2023</span> <strong>Vexora Labs</strong>. All Rights Reserved.
+                </div>
+                <div class="footer-right">
+                    <a href="/Admin/Support">Support</a>
+                    <a href="/Admin/Documentation">Documentation</a>
+                    <a id="themeToggle" class="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+    @if (ViewData["PageJs"] != null)
+    {
+        <script src="~/js/@ViewData["PageJs"]"></script>
+    }
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            const html = document.documentElement;
+            html.classList.toggle('theme-alt');
+            
+            // Update icon
+            const icon = themeToggle.querySelector('i');
+            if (html.classList.contains('theme-alt')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+            
+            localStorage.setItem(
+                'theme',
+                html.classList.contains('theme-alt') ? 'alt' : 'default'
+            );
+        });
+        
+        // Set initial theme
+        if (localStorage.getItem('theme') === 'alt') {
+            document.documentElement.classList.add('theme-alt');
+            const icon = themeToggle.querySelector('i');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+        
+        // Preloader animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const preloaderBar = document.getElementById('preloader-bar');
+            let width = 0;
+            const interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    document.querySelector('.preloader').classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                } else {
+                    width += 5;
+                    preloaderBar.style.width = width + '%';
+                }
+            }, 30);
+
+            // Fallback to hide preloader if it takes too long
+            setTimeout(function() {
+                document.querySelector('.preloader').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 2000);
+            
+            // Set current year in footer
+            document.querySelector('.current-year').textContent = new Date().getFullYear();
+        });
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const adminSidebar = document.getElementById('adminSidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            adminSidebar.classList.add('show');
+        });
+        
+        sidebarToggle.addEventListener('click', () => {
+            adminSidebar.classList.remove('show');
+        });
+        
+        // Search overlay
+        const searchToggle = document.getElementById('searchToggle');
+        const searchOverlay = document.getElementById('searchOverlay');
+        const searchClose = document.getElementById('searchClose');
+        
+        searchToggle.addEventListener('click', () => {
+            searchOverlay.classList.add('show');
+            setTimeout(() => {
+                searchOverlay.querySelector('.search-input').focus();
+            }, 100);
+        });
+        
+        searchClose.addEventListener('click', () => {
+            searchOverlay.classList.remove('show');
+        });
+    </script>
+</body>
+</html>

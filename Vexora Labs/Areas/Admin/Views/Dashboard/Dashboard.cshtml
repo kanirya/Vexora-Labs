@@ -1,0 +1,437 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    ViewData["AdminTitle"] = "Dashboard";
+}
+
+<div class="row">
+    <!-- Stats Cards -->
+    <div class="col-xl-3 col-md-6">
+        <div class="stats-card">
+            <div class="stats-icon" style="background-color: var(--admin-primary);">
+                <i class="fas fa-project-diagram"></i>
+            </div>
+            <div class="stats-info">
+                <h3 class="stats-value">24</h3>
+                <p class="stats-label">Active Projects</p>
+                <div class="stats-trend trend-up">
+                    <i class="fas fa-arrow-up"></i> 12% from last month
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="stats-card">
+            <div class="stats-icon" style="background-color: var(--admin-success);">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stats-info">
+                <h3 class="stats-value">156</h3>
+                <p class="stats-label">Total Clients</p>
+                <div class="stats-trend trend-up">
+                    <i class="fas fa-arrow-up"></i> 8% from last month
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="stats-card">
+            <div class="stats-icon" style="background-color: var(--admin-secondary);">
+                <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <div class="stats-info">
+                <h3 class="stats-value">$52,945</h3>
+                <p class="stats-label">Monthly Revenue</p>
+                <div class="stats-trend trend-up">
+                    <i class="fas fa-arrow-up"></i> 18% from last month
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="stats-card">
+            <div class="stats-icon" style="background-color: var(--admin-warning);">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <div class="stats-info">
+                <h3 class="stats-value">78%</h3>
+                <p class="stats-label">Tasks Completed</p>
+                <div class="stats-trend trend-down">
+                    <i class="fas fa-arrow-down"></i> 5% from last month
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Revenue Chart -->
+    <div class="col-xl-8 col-lg-7">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h4 class="card-title">Revenue Overview</h4>
+                <div class="card-actions">
+                    <button class="card-action" title="Download Report">
+                        <i class="fas fa-download"></i>
+                    </button>
+                    <button class="card-action" title="More Options">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="height: 350px;">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Projects Chart -->
+    <div class="col-xl-4 col-lg-5">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h4 class="card-title">Project Status</h4>
+                <div class="card-actions">
+                    <button class="card-action" title="More Options">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="height: 350px;">
+                    <canvas id="projectsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Recent Projects -->
+    <div class="col-xl-8 col-lg-7">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h4 class="card-title">Recent Projects</h4>
+                <div class="card-actions">
+                    <a href="/Admin/Projects" class="admin-btn admin-btn-sm">View All</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Client</th>
+                                <th>Status</th>
+                                <th>Completion</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="table-avatar me-3" style="background-color: rgba(121, 40, 202, 0.1); display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-globe" style="color: var(--admin-primary);"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">E-commerce Website</h6>
+                                            <small class="text-muted">Web Development</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Acme Corporation</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <i class="fas fa-circle"></i> Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 6px; background-color: var(--admin-dark-3); border-radius: 10px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 75%; background: var(--admin-gradient); border-radius: 10px;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <small class="text-muted">75%</small>
+                                </td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="table-action" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="table-action edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="table-avatar me-3" style="background-color: rgba(0, 160, 157, 0.1); display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-mobile-alt" style="color: var(--admin-secondary);"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Mobile Banking App</h6>
+                                            <small class="text-muted">App Development</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Global Finance</td>
+                                <td>
+                                    <span class="status-badge status-pending">
+                                        <i class="fas fa-circle"></i> In Progress
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 6px; background-color: var(--admin-dark-3); border-radius: 10px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 45%; background: var(--admin-gradient); border-radius: 10px;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <small class="text-muted">45%</small>
+                                </td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="table-action" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="table-action edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="table-avatar me-3" style="background-color: rgba(16, 185, 129, 0.1); display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-server" style="color: var(--admin-success);"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Cloud Migration</h6>
+                                            <small class="text-muted">DevOps</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Tech Solutions Inc.</td>
+                                <td>
+                                    <span class="status-badge status-active">
+                                        <i class="fas fa-circle"></i> Active
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 6px; background-color: var(--admin-dark-3); border-radius: 10px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 60%; background: var(--admin-gradient); border-radius: 10px;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <small class="text-muted">60%</small>
+                                </td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="table-action" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="table-action edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="table-avatar me-3" style="background-color: rgba(245, 158, 11, 0.1); display: flex; align-items: center; justify-content: center;">
+                                            <i class="fas fa-cogs" style="color: var(--admin-warning);"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">CRM Implementation</h6>
+                                            <small class="text-muted">Business Solutions</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Retail Enterprises</td>
+                                <td>
+                                    <span class="status-badge status-inactive">
+                                        <i class="fas fa-circle"></i> On Hold
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 6px; background-color: var(--admin-dark-3); border-radius: 10px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 30%; background: var(--admin-gradient); border-radius: 10px;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <small class="text-muted">30%</small>
+                                </td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="table-action" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="table-action edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Inquiries -->
+    <div class="col-xl-4 col-lg-5">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h4 class="card-title">Recent Inquiries</h4>
+                <div class="card-actions">
+                    <a href="/Admin/Inquiries" class="admin-btn admin-btn-sm">View All</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="inquiry-list">
+                    <div class="inquiry-item">
+                        <div class="inquiry-avatar">
+                            <img src="~/images/avatar-placeholder.jpg" alt="John Doe">
+                        </div>
+                        <div class="inquiry-content">
+                            <h6 class="inquiry-name">John Doe</h6>
+                            <p class="inquiry-message">I'm interested in your web development services. Can you provide a quote for an e-commerce website?</p>
+                            <div class="inquiry-meta">
+                                <span class="inquiry-time"><i class="far fa-clock"></i> 2 hours ago</span>
+                                <span class="inquiry-type">Web Development</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inquiry-item">
+                        <div class="inquiry-avatar">
+                            <img src="~/images/avatar-placeholder.jpg" alt="Sarah Johnson">
+                        </div>
+                        <div class="inquiry-content">
+                            <h6 class="inquiry-name">Sarah Johnson</h6>
+                            <p class="inquiry-message">We need to migrate our existing CRM to a more scalable solution. Do you offer CRM implementation services?</p>
+                            <div class="inquiry-meta">
+                                <span class="inquiry-time"><i class="far fa-clock"></i> 5 hours ago</span>
+                                <span class="inquiry-type">CRM Solutions</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inquiry-item">
+                        <div class="inquiry-avatar">
+                            <img src="~/images/avatar-placeholder.jpg" alt="Michael Chen">
+                        </div>
+                        <div class="inquiry-content">
+                            <h6 class="inquiry-name">Michael Chen</h6>
+                            <p class="inquiry-message">Looking for a mobile app developer for our startup. Can we schedule a consultation?</p>
+                            <div class="inquiry-meta">
+                                <span class="inquiry-time"><i class="far fa-clock"></i> 1 day ago</span>
+                                <span class="inquiry-type">Mobile Development</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inquiry-item">
+                        <div class="inquiry-avatar">
+                            <img src="~/images/avatar-placeholder.jpg" alt="Emily Rodriguez">
+                        </div>
+                        <div class="inquiry-content">
+                            <h6 class="inquiry-name">Emily Rodriguez</h6>
+                            <p class="inquiry-message">We're looking to implement Odoo for our manufacturing business. What's your experience with Odoo customization?</p>
+                            <div class="inquiry-meta">
+                                <span class="inquiry-time"><i class="far fa-clock"></i> 2 days ago</span>
+                                <span class="inquiry-type">Odoo Solutions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Additional dashboard-specific JavaScript can go here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Example of showing a toast notification
+            setTimeout(() => {
+                showToast('Welcome to Vexora Labs Admin Dashboard', 'success');
+            }, 1000);
+        });
+    </script>
+    
+    <style>
+        /* Additional dashboard-specific styles */
+        .inquiry-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .inquiry-item {
+            display: flex;
+            padding: 1rem;
+            background-color: var(--admin-dark-3);
+            border-radius: 8px;
+            transition: var(--admin-transition);
+        }
+        
+        .inquiry-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--admin-card-shadow);
+        }
+        
+        .inquiry-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .inquiry-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .inquiry-content {
+            flex: 1;
+        }
+        
+        .inquiry-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin: 0 0 0.25rem;
+            color: var(--admin-text-dark);
+        }
+        
+        .inquiry-message {
+            font-size: 0.8125rem;
+            color: var(--admin-text);
+            margin: 0 0 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .inquiry-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--admin-text-light);
+        }
+        
+        .inquiry-time i {
+            margin-right: 0.25rem;
+        }
+        
+        .inquiry-type {
+            padding: 0.125rem 0.5rem;
+            background-color: rgba(121, 40, 202, 0.1);
+            color: var(--admin-primary);
+            border-radius: 20px;
+        }
+    </style>
+}

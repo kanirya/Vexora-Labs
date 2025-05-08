@@ -294,67 +294,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    // Form validation
-    const contactForm = document.querySelector(".contact-form")
-    if (contactForm) {
-        contactForm.addEventListener("submit", (e) => {
-            e.preventDefault()
-
-            // Basic form validation
-            let isValid = true
-            const formInputs = contactForm.querySelectorAll("input, textarea")
-
-            formInputs.forEach((input) => {
-                if (input.hasAttribute("required") && !input.value.trim()) {
-                    isValid = false
-                    input.classList.add("is-invalid")
-                } else {
-                    input.classList.remove("is-invalid")
-                }
-            })
-
-            // Email validation
-            const emailInput = contactForm.querySelector('input[type="email"]')
-            if (emailInput && emailInput.value) {
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-                if (!emailRegex.test(emailInput.value)) {
-                    isValid = false
-                    emailInput.classList.add("is-invalid")
-                }
-            }
-
-            if (isValid) {
-                // Show success message (in a real application, you would submit the form to the server)
-                const formContainer = contactForm.closest(".contact-form-container")
-                formContainer.innerHTML = `
-                    <div class="text-center py-5">
-                        <div class="mb-4">
-                            <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
-                        </div>
-                        <h3>Message Sent Successfully!</h3>
-                        <p class="mb-4">Thank you for contacting us. We'll get back to you shortly.</p>
-                        <button type="button" class="btn btn-gradient" id="resetForm">Send Another Message</button>
-                    </div>
-                `
-
-                // Add event listener to reset form button
-                const resetButton = document.getElementById("resetForm")
-                if (resetButton) {
-                    resetButton.addEventListener("click", () => {
-                        window.location.reload()
-                    })
-                }
-            }
-        })
-
-        // Clear validation on input
-        const formInputs = contactForm.querySelectorAll("input, textarea")
-        formInputs.forEach((input) => {
-            input.addEventListener("input", function () {
-                this.classList.remove("is-invalid")
-            })
-        })
-    }
 
     // Newsletter form submission
     const newsletterForm = document.querySelector(".newsletter-form")
