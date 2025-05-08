@@ -32,7 +32,7 @@ namespace Vexora_Labs.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(ServiceInquiryViewModel model)
+        public async Task<IActionResult> UserForm(ServiceInquiryViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
@@ -42,7 +42,24 @@ namespace Vexora_Labs.Controllers
             
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(UserForm model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            await _context.UserForms.AddAsync(model);
+            _context.SaveChanges();
+            
+            return RedirectToAction("ThankYou");
+        }
 
+        public IActionResult ThankYou()
+        {
+            return View();
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

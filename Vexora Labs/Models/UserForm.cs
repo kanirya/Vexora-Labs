@@ -49,3 +49,32 @@ public class ServiceInquiryViewModel
     [Display(Name = "Subscribe to Newsletter")]
     public bool Newsletter { get; set; }
 }
+
+
+public class UserForm
+{
+    [Key]
+    public int Id { get; set; }
+    [Required(ErrorMessage = "Please provide your full name.")]
+    [StringLength(100, ErrorMessage = "Full name cannot exceed 100 characters.")]
+    [Display(Name = "Full Name")]
+    public string FullName { get; set; }
+
+    [Required(ErrorMessage = "Please provide a valid email address.")]
+    [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+    [Display(Name = "Email Address")]
+    public string Email { get; set; }
+
+    [Phone(ErrorMessage = "Please enter a valid phone number.")]
+    [Display(Name = "Phone Number (Optional)")]
+    public string Phone { get; set; }
+
+    [StringLength(100, ErrorMessage = "Subject cannot exceed 100 characters.")]
+    [Display(Name = "Subject (Optional)")]
+    public string Subject { get; set; }
+
+    [Display(Name = "Message")]
+    public string Message { get; set; }
+
+
+}

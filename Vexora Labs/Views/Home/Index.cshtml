@@ -1,4 +1,5 @@
-﻿@{
+﻿@model UserForm
+@{
     ViewData["Title"] = "Home";
 }
 
@@ -353,9 +354,7 @@
             </div>
         </div>
 
-        <div class="text-center mt-5">
-            <a href="#" class="btn btn-gradient btn-lg">View All Projects</a>
-        </div>
+    
     </div>
 </section>
 
@@ -481,29 +480,35 @@
 
             <div class="col-lg-6">
                 <div class="contact-form-container">
-                    <form class="contact-form">
+                    <form class="contact-form" asp-action="Index">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="text" class="form-control custom-input" id="name" placeholder="Your Name" required>
+                                    
+                                    <input type="text" asp-for="FullName" class="form-control custom-input" id="name" placeholder="Your Name" required>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                                    <input type="number" asp-for="Phone" class="form-control" id="phone" placeholder="Your phone number" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="email" asp-for="Email" class="form-control" id="email" placeholder="Your Email" required>
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form-group">
-                                    <input type="text" class="form-control text-white" id="subject" placeholder="Subject" required>
+                                    <input type="text" asp-for="Subject" class="form-control text-white" id="subject" placeholder="Subject" required>
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form-group">
-                                    <textarea class="form-control" id="message" placeholder="Your Message" style="height: 150px" required></textarea>
+                                    <textarea class="form-control"  asp-for="Message" id="message" placeholder="Your Message" style="height: 150px" required></textarea>
                                 </div>
                             </div>
 

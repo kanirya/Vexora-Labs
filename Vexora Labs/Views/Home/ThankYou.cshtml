@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Thank You";
+    ViewData["PageCss"] = "Thank-You.css";
+}
+
+<div class="thank-you-container">
+    <div class="thank-you-card">
+        <div class="success-animation">
+            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+        </div>
+        
+        <h1>Thank You!</h1>
+        <p class="message">Your form has been successfully submitted.</p>
+        <p class="details">We've received your information and will contact you shortly regarding your Odoo implementation needs.</p>
+        
+        <div class="redirect-info">
+            <p>You will be redirected to the home page in <span id="countdown">5</span> seconds</p>
+            <div class="progress-bar">
+                <div class="progress" id="progress-bar"></div>
+            </div>
+        </div>
+        
+        <a href="/" class="btn btn-gradient">Return to Home Now</a>
+    </div>
+    
+    <div class="background-elements">
+        <div class="bg-circle circle-1"></div>
+        <div class="bg-circle circle-2"></div>
+        <div class="bg-circle circle-3"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/thank-you.js"></script>
+}

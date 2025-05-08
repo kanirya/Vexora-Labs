@@ -1705,4 +1705,94 @@ function initTimelineAnimations() {
         }
     `;
     document.head.appendChild(style);
+}document.addEventListener('DOMContentLoaded', function() {
+    // Set the redirect time in seconds
+    const redirectTime = 5;
+    let timeLeft = redirectTime;
+
+    // Get DOM elements
+    const countdownElement = document.getElementById('countdown');
+    const progressBar = document.getElementById('progress-bar');
+
+    // Update countdown every second
+    const countdownInterval = setInterval(function() {
+        timeLeft--;
+
+        // Update countdown text
+        countdownElement.textContent = timeLeft;
+
+        // Update progress bar
+        const progressPercentage = ((redirectTime - timeLeft) / redirectTime) * 100;
+        progressBar.style.width = `${progressPercentage}%`;
+
+        // Redirect when countdown reaches 0
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            window.location.href = '/';
+        }
+    }, 1000);
+
+    // Add confetti effect
+    createConfetti();
+});
+
+// Confetti animation
+function createConfetti() {
+    const confettiCount = 150;
+    const container = document.querySelector('.thank-you-container');
+
+    // Create confetti elements
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+
+        // Random properties for each confetti piece
+        const size = Math.random() * 10 + 5;
+        const colors = ['#714b67', '#00a09d', '#10b981', '#f59e0b', '#0ea5e9'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        // Set confetti styles
+        confetti.style.width = `${size}px`;
+        confetti.style.height = `${size}px`;
+        confetti.style.background = color;
+        confetti.style.position = 'absolute';
+        confetti.style.top = '-50px';
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.opacity = Math.random() * 0.7 + 0.3;
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        confetti.style.zIndex = '0';
+
+        // Animation properties
+        const duration = Math.random() * 3 + 2;
+        const delay = Math.random() * 2;
+
+        confetti.style.animation = `confettiFall ${duration}s ease-in ${delay}s forwards`;
+
+        // Add to container
+        container.appendChild(confetti);
+
+        // Remove confetti after animation completes
+        setTimeout(() => {
+            confetti.remove();
+        }, (duration + delay) * 1000);
+    }
+
+    // Add confetti animation to CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(${window.innerHeight}px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 }
