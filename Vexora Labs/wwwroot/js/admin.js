@@ -2,7 +2,7 @@
  * Vexora Labs Admin Dashboard JavaScript
  */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", () => {
     // Initialize any charts if they exist
     initCharts();
 
@@ -24,128 +24,184 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 function initCharts() {
     // Check if Chart.js is loaded and if there are any chart canvases
-    if (typeof Chart !== 'undefined') {
+    if (typeof Chart !== "undefined") {
         // Set default Chart.js options to match our theme
-        Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue('--admin-text').trim();
-        Chart.defaults.borderColor = getComputedStyle(document.documentElement).getPropertyValue('--admin-border').trim();
+        Chart.defaults.color = getComputedStyle(document.documentElement).getPropertyValue("--admin-text").trim();
+        Chart.defaults.borderColor = getComputedStyle(document.documentElement).getPropertyValue("--admin-border").trim();
 
         // Revenue Chart
-        const revenueChartEl = document.getElementById('revenueChart');
+        const revenueChartEl = document.getElementById("revenueChart");
         if (revenueChartEl) {
             const revenueChart = new Chart(revenueChartEl, {
-                type: 'line',
+                type: "line",
                 data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    datasets: [{
-                        label: 'Revenue',
-                        data: [12000, 19000, 15000, 25000, 22000, 30000, 28000, 25000, 30000, 35000, 40000, 50000],
-                        borderColor: '#7928CA',
-                        backgroundColor: 'rgba(121, 40, 202, 0.1)',
-                        tension: 0.4,
-                        fill: true
-                    }]
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    datasets: [
+                        {
+                            label: "Revenue",
+                            data: [12000, 19000, 15000, 25000, 22000, 30000, 28000, 25000, 30000, 35000, 40000, 50000],
+                            borderColor: "#7928CA",
+                            backgroundColor: "rgba(121, 40, 202, 0.1)",
+                            tension: 0.4,
+                            fill: true,
+                        },
+                    ],
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            display: false
+                            display: false,
+                        },
+                        tooltip: {
+                            backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            titleColor: "#1e293b",
+                            bodyColor: "#334155",
+                            borderColor: "#e2e8f0",
+                            borderWidth: 1,
+                            padding: 12,
+                            boxPadding: 6,
+                            usePointStyle: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return `$${context.parsed.y.toLocaleString()}`;
+                                }
+                            }
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
                             grid: {
-                                drawBorder: false
+                                drawBorder: false,
                             },
                             ticks: {
-                                callback: function(value) {
-                                    return '$' + value.toLocaleString();
-                                }
-                            }
+                                callback: (value) => "$" + value.toLocaleString(),
+                            },
                         },
                         x: {
                             grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
+                                display: false,
+                            },
+                        },
+                    },
+                },
+            });
+
+            // Update chart when theme changes
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                setTimeout(() => {
+                    revenueChart.update();
+                }, 300);
             });
         }
 
         // Projects Chart
-        const projectsChartEl = document.getElementById('projectsChart');
+        const projectsChartEl = document.getElementById("projectsChart");
         if (projectsChartEl) {
             const projectsChart = new Chart(projectsChartEl, {
-                type: 'doughnut',
+                type: "doughnut",
                 data: {
-                    labels: ['Completed', 'In Progress', 'On Hold', 'Cancelled'],
-                    datasets: [{
-                        data: [65, 25, 8, 2],
-                        backgroundColor: [
-                            '#10b981',
-                            '#7928CA',
-                            '#f59e0b',
-                            '#ef4444'
-                        ],
-                        borderWidth: 0
-                    }]
+                    labels: ["Completed", "In Progress", "On Hold", "Cancelled"],
+                    datasets: [
+                        {
+                            data: [65, 25, 8, 2],
+                            backgroundColor: ["#10b981", "#7928CA", "#f59e0b", "#ef4444"],
+                            borderWidth: 0,
+                        },
+                    ],
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            position: 'bottom',
+                            position: "bottom",
                             labels: {
                                 padding: 20,
                                 usePointStyle: true,
-                                pointStyle: 'circle'
-                            }
+                                pointStyle: "circle",
+                            },
+                        },
+                        tooltip: {
+                            backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            titleColor: "#1e293b",
+                            bodyColor: "#334155",
+                            borderColor: "#e2e8f0",
+                            borderWidth: 1,
+                            padding: 12,
+                            boxPadding: 6,
+                            usePointStyle: true,
                         }
                     },
-                    cutout: '75%'
-                }
+                    cutout: "75%",
+                },
+            });
+
+            // Update chart when theme changes
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                setTimeout(() => {
+                    projectsChart.update();
+                }, 300);
             });
         }
 
         // Clients Chart
-        const clientsChartEl = document.getElementById('clientsChart');
+        const clientsChartEl = document.getElementById("clientsChart");
         if (clientsChartEl) {
             const clientsChart = new Chart(clientsChartEl, {
-                type: 'bar',
+                type: "bar",
                 data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'New Clients',
-                        data: [5, 8, 12, 7, 10, 15],
-                        backgroundColor: '#FF0080'
-                    }]
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                    datasets: [
+                        {
+                            label: "New Clients",
+                            data: [5, 8, 12, 7, 10, 15],
+                            backgroundColor: "#FF0080",
+                            borderRadius: 4,
+                        },
+                    ],
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            display: false
+                            display: false,
+                        },
+                        tooltip: {
+                            backgroundColor: "rgba(255, 255, 255, 0.9)",
+                            titleColor: "#1e293b",
+                            bodyColor: "#334155",
+                            borderColor: "#e2e8f0",
+                            borderWidth: 1,
+                            padding: 12,
+                            boxPadding: 6,
+                            usePointStyle: true,
                         }
                     },
                     scales: {
                         y: {
                             beginAtZero: true,
                             grid: {
-                                drawBorder: false
-                            }
+                                drawBorder: false,
+                            },
                         },
                         x: {
                             grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
+                                display: false,
+                            },
+                        },
+                    },
+                },
+            });
+
+            // Update chart when theme changes
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                setTimeout(() => {
+                    clientsChart.update();
+                }, 300);
             });
         }
     }
@@ -156,26 +212,11 @@ function initCharts() {
  */
 function initTooltips() {
     // Check if Bootstrap is loaded
-    if (typeof bootstrap !== 'undefined') {
+    if (typeof bootstrap !== "undefined") {
         const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(function(tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
+        tooltipTriggerList.map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl));
     } else {
-        // Attempt to load bootstrap from CDN if not already loaded
-        const bootstrapScript = document.createElement('script');
-        bootstrapScript.src = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js';
-        bootstrapScript.onload = function() {
-            console.log('Bootstrap loaded successfully from CDN.');
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
-        };
-        bootstrapScript.onerror = function() {
-            console.error('Failed to load Bootstrap from CDN.');
-        };
-        document.head.appendChild(bootstrapScript);
+        console.warn("Bootstrap is not loaded. Tooltips will not be initialized.");
     }
 }
 
@@ -206,7 +247,7 @@ function initCustomDropdowns() {
  */
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(e => {
+        document.documentElement.requestFullscreen().catch((e) => {
             console.log(`Error attempting to enable full-screen mode: ${e.message}`);
         });
     } else {
@@ -217,111 +258,80 @@ function toggleFullscreen() {
 }
 
 /**
- * Handle theme switching
- */
-function handleThemeSwitch() {
-    const html = document.documentElement;
-    const themeToggle = document.getElementById('themeToggle');
-    const icon = themeToggle.querySelector('i');
-
-    html.classList.toggle('theme-alt');
-
-    if (html.classList.contains('theme-alt')) {
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-    } else {
-        icon.classList.remove('fa-sun');
-        icon.classList.add('fa-moon');
-    }
-
-    localStorage.setItem(
-        'theme',
-        html.classList.contains('theme-alt') ? 'alt' : 'default'
-    );
-
-    // If we have any charts, update them for the new theme
-    if (typeof Chart !== 'undefined') {
-        Chart.instances.forEach(chart => {
-            chart.update();
-        });
-    }
-}
-
-/**
  * Create a toast notification
  * @param {string} message - The message to display
  * @param {string} type - The type of toast (success, error, warning, info)
  * @param {number} duration - How long to show the toast in milliseconds
  */
-function showToast(message, type = 'info', duration = 3000) {
+function showToast(message, type = "info", duration = 3000) {
     // Create toast container if it doesn't exist
-    let toastContainer = document.querySelector('.toast-container');
+    let toastContainer = document.querySelector(".toast-container");
     if (!toastContainer) {
-        toastContainer = document.createElement('div');
-        toastContainer.className = 'toast-container';
+        toastContainer = document.createElement("div");
+        toastContainer.className = "toast-container";
         document.body.appendChild(toastContainer);
 
         // Add toast container styles if not in CSS
-        const style = document.createElement('style');
+        const style = document.createElement("style");
         style.textContent = `
-            .toast-container {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                z-index: 9999;
-            }
-            .toast {
-                padding: 12px 20px;
-                border-radius: 8px;
-                margin-bottom: 10px;
-                min-width: 250px;
-                max-width: 350px;
-                color: white;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                animation: slideInRight 0.3s ease forwards;
-            }
-            .toast.success { background-color: var(--admin-success); }
-            .toast.error { background-color: var(--admin-danger); }
-            .toast.warning { background-color: var(--admin-warning); }
-            .toast.info { background-color: var(--admin-info); }
-            .toast-close {
-                background: transparent;
-                border: none;
-                color: white;
-                font-size: 16px;
-                cursor: pointer;
-                margin-left: 10px;
-            }
-            @keyframes slideInRight {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; }
-            }
-        `;
+      .toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+      }
+      .toast {
+        padding: 12px 20px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        min-width: 250px;
+        max-width: 350px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        animation: slideInRight 0.3s ease forwards;
+      }
+      .toast.success { background-color: var(--admin-success); }
+      .toast.error { background-color: var(--admin-danger); }
+      .toast.warning { background-color: var(--admin-warning); }
+      .toast.info { background-color: var(--admin-info); }
+      .toast-close {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+      @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+    `;
         document.head.appendChild(style);
     }
 
     // Create toast element
-    const toast = document.createElement('div');
+    const toast = document.createElement("div");
     toast.className = `toast ${type}`;
     toast.innerHTML = `
-        <span>${message}</span>
-        <button class="toast-close">&times;</button>
-    `;
+    <span>${message}</span>
+    <button class="toast-close">&times;</button>
+  `;
 
     // Add to container
     toastContainer.appendChild(toast);
 
     // Add close button functionality
-    const closeBtn = toast.querySelector('.toast-close');
-    closeBtn.addEventListener('click', () => {
-        toast.style.animation = 'fadeOut 0.3s ease forwards';
+    const closeBtn = toast.querySelector(".toast-close");
+    closeBtn.addEventListener("click", () => {
+        toast.style.animation = "fadeOut 0.3s ease forwards";
         setTimeout(() => {
             toast.remove();
         }, 300);
@@ -330,7 +340,7 @@ function showToast(message, type = 'info', duration = 3000) {
     // Auto remove after duration
     setTimeout(() => {
         if (toast.parentNode) {
-            toast.style.animation = 'fadeOut 0.3s ease forwards';
+            toast.style.animation = "fadeOut 0.3s ease forwards";
             setTimeout(() => {
                 toast.remove();
             }, 300);

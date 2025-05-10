@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,12 +10,13 @@
     <title>@ViewData["Title"] - Vexora Labs Admin</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
     @if (ViewData["PageCss"] != null)
     {
+        
         <link rel="stylesheet" href="~/css/@ViewData["PageCss"]" />
     }
 
@@ -23,7 +28,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0a0a1a;
+            background: #ffffff;
             z-index: 9999;
             display: flex;
             align-items: center;
@@ -49,9 +54,9 @@
 
         .preloader-progress {
             width: 200px;
-            height: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
             overflow: hidden;
             margin: 0 auto;
         }
@@ -62,49 +67,30 @@
             background: linear-gradient(90deg, #7928CA, #FF0080);
             transition: width 0.2s ease;
         }
+
     </style>
 </head>
 <body class="admin-body">
     <!-- Preloader -->
-    <div class="preloader">
-        <div class="preloader-content">
-            <img src="~/images/Vexora.svg" alt="Vexora Labs" class="preloader-logo">
-            <div class="preloader-progress">
-                <div class="preloader-bar" id="preloader-bar"></div>
-            </div>
-        </div>
-    </div>
+    
 
     <div class="admin-wrapper">
         <!-- Sidebar -->
         <aside class="admin-sidebar" id="adminSidebar">
             <div class="sidebar-header">
-                <a href="/Admin/Dashboard" class="sidebar-logo">
+                <a href="/Admin/Dashboard/Dashboard" class="sidebar-logo">
                     <img src="~/images/Vexora.svg" alt="Vexora Labs" class="sidebar-logo-img">
-                    <span class="sidebar-logo-text">Vexora</span>
                 </a>
                 <button id="sidebarToggle" class="sidebar-toggle d-md-none">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            
-            <div class="sidebar-user">
-                <div class="user-avatar">
-                    <img src="~/images/avatar-placeholder.jpg" alt="Admin User">
-                    <span class="status-indicator online"></span>
-                </div>
-                <div class="user-info">
-                    <h5 class="user-name">Admin User</h5>
-                    <span class="user-role">Administrator</span>
-                </div>
-            </div>
-            
             <nav class="sidebar-nav">
                 <div class="nav-section">
-                    <h6 class="nav-section-title">Main</h6>
+                    <h6 class="nav-section-title">MAIN NAVIGATION</h6>
                     <ul class="nav-menu">
                         <li class="nav-item">
-                            <a href="/Admin/Dashboard" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Dashboard" ? "active" : "")">
+                            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Dashboard" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Dashboard" ? "active" : "")">
                                 <i class="fas fa-tachometer-alt"></i>
                                 <span>Dashboard</span>
                             </a>
@@ -113,6 +99,7 @@
                             <a href="/Admin/Projects" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Projects" ? "active" : "")">
                                 <i class="fas fa-project-diagram"></i>
                                 <span>Projects</span>
+                                <span class="nav-badge">12</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -122,17 +109,44 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/Admin/Inquiries" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Inquiries" ? "active" : "")">
+                            <a asp-area="Admin" asp-controller="Inquiries" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Inquiries" ? "active" : "")">
                                 <i class="fas fa-envelope"></i>
                                 <span>Inquiries</span>
-                                <span class="badge">5</span>
+                                <span class="nav-badge pulse">5</span>
                             </a>
+                        </li>
+                        <li class="nav-item nav-item-has-children">
+                            <a href="#" class="nav-link nav-dropdown-toggle">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Analytics</span>
+                                <i class="fas fa-chevron-right dropdown-icon"></i>
+                            </a>
+                            <ul class="nav-dropdown-menu">
+                                <li class="nav-dropdown-item">
+                                    <a href="/Admin/Analytics/Sales" class="nav-dropdown-link">
+                                        <i class="fas fa-chart-line"></i>
+                                        <span>Sales Analytics</span>
+                                    </a>
+                                </li>
+                                <li class="nav-dropdown-item">
+                                    <a href="/Admin/Analytics/Traffic" class="nav-dropdown-link">
+                                        <i class="fas fa-chart-area"></i>
+                                        <span>Traffic Analytics</span>
+                                    </a>
+                                </li>
+                                <li class="nav-dropdown-item">
+                                    <a href="/Admin/Analytics/Conversion" class="nav-dropdown-link">
+                                        <i class="fas fa-chart-pie"></i>
+                                        <span>Conversion Rates</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
                 
                 <div class="nav-section">
-                    <h6 class="nav-section-title">Content</h6>
+                    <h6 class="nav-section-title">CONTENT MANAGEMENT</h6>
                     <ul class="nav-menu">
                         <li class="nav-item">
                             <a href="/Admin/Services" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Services" ? "active" : "")">
@@ -156,13 +170,14 @@
                             <a href="/Admin/Blog" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Blog" ? "active" : "")">
                                 <i class="fas fa-blog"></i>
                                 <span>Blog</span>
+                                <span class="nav-badge">New</span>
                             </a>
                         </li>
                     </ul>
                 </div>
                 
                 <div class="nav-section">
-                    <h6 class="nav-section-title">Settings</h6>
+                    <h6 class="nav-section-title">ADMINISTRATION</h6>
                     <ul class="nav-menu">
                         <li class="nav-item">
                             <a href="/Admin/Settings" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Settings" ? "active" : "")">
@@ -174,6 +189,18 @@
                             <a href="/Admin/Users" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Users" ? "active" : "")">
                                 <i class="fas fa-user-shield"></i>
                                 <span>User Management</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Roles" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Roles" ? "active" : "")">
+                                <i class="fas fa-user-tag"></i>
+                                <span>Roles & Permissions</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Admin/Logs" class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Logs" ? "active" : "")">
+                                <i class="fas fa-history"></i>
+                                <span>Activity Logs</span>
                             </a>
                         </li>
                     </ul>
@@ -192,10 +219,7 @@
                 </a>
             </div>
         </aside>
-
-        <!-- Main Content Wrapper -->
         <div class="admin-content-wrapper">
-            <!-- Admin Header -->
             <header class="admin-header">
                 <div class="header-left">
                     <button id="menuToggle" class="menu-toggle d-md-none">
@@ -203,16 +227,7 @@
                     </button>
                     <div class="page-title">
                         <h1>@ViewData["AdminTitle"]</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="/Admin/Dashboard">Admin</a></li>
-                                @if (ViewData["BreadcrumbLevel1"] != null)
-                                {
-                                    <li class="breadcrumb-item"><a href="@ViewData["BreadcrumbLevel1Link"]">@ViewData["BreadcrumbLevel1"]</a></li>
-                                }
-                                <li class="breadcrumb-item active" aria-current="page">@ViewData["AdminTitle"]</li>
-                            </ol>
-                        </nav>
+                       
                     </div>
                 </div>
                 <div class="header-right">
@@ -221,9 +236,9 @@
                             <i class="fas fa-search"></i>
                         </button>
                         <div class="dropdown">
-                            <button class="action-btn" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="action-btn notification-btn" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-bell"></i>
-                                <span class="badge">3</span>
+                                <span class="badge pulse">3</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end notifications-dropdown" aria-labelledby="notificationsDropdown">
                                 <div class="dropdown-header">
@@ -284,28 +299,44 @@
                             </div>
                         </div>
                     </div>
+                    @{
+                      
+                    }
                     <div class="user-dropdown dropdown">
                         <button class="user-dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="user-avatar">
-                                <img src="~/images/avatar-placeholder.jpg" alt="Admin User">
-                            </div>
+                          
                             <div class="user-info d-none d-md-block">
-                                <h6 class="user-name">Admin User</h6>
-                                <span class="user-role">Administrator</span>
+                                <h6 class="user-name">@user.Name</h6>
+                                <span class="user-role">@user.Email</span>
                             </div>
                             <i class="fas fa-chevron-down"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="/Admin/Profile">
-                                <i class="fas fa-user"></i> My Profile
+                            <div class="dropdown-user-details">
+                               
+                                <div class="dropdown-user-info">
+                                    <h6 class="dropdown-user-name">@user.Name</h6>
+                                    <span class="dropdown-user-email">@user.Email</span>
+                                </div>
+                            </div>
+                            
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item btn btn-link dropdown-item text-start" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                                <i class="fas fa-user "></i> My Profile
                             </a>
                             <a class="dropdown-item" href="/Admin/Settings">
                                 <i class="fas fa-cog"></i> Settings
                             </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/Account/Logout">
-                                <i class="fas fa-sign-out-alt"></i> Logout
+                            <a class="dropdown-item" href="/Admin/Help">
+                                <i class="fas fa-question-circle"></i> Help Center
                             </a>
+                            <div class="dropdown-divider"></div>
+                            <form id="logoutForm" class="dropdown-item p-0 m-0" method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="btn btn-link dropdown-item text-start">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -380,11 +411,11 @@
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             const html = document.documentElement;
-            html.classList.toggle('theme-alt');
+            html.classList.toggle('theme-dark');
             
             // Update icon
             const icon = themeToggle.querySelector('i');
-            if (html.classList.contains('theme-alt')) {
+            if (html.classList.contains('theme-dark')) {
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
             } else {
@@ -394,13 +425,13 @@
             
             localStorage.setItem(
                 'theme',
-                html.classList.contains('theme-alt') ? 'alt' : 'default'
+                html.classList.contains('theme-dark') ? 'dark' : 'light'
             );
         });
         
         // Set initial theme
-        if (localStorage.getItem('theme') === 'alt') {
-            document.documentElement.classList.add('theme-alt');
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('theme-dark');
             const icon = themeToggle.querySelector('i');
             icon.classList.remove('fa-moon');
             icon.classList.add('fa-sun');
@@ -458,6 +489,37 @@
         
         searchClose.addEventListener('click', () => {
             searchOverlay.classList.remove('show');
+        });
+        
+        // Dropdown menu toggle
+        const dropdownToggles = document.querySelectorAll('.nav-dropdown-toggle');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const parent = toggle.parentElement;
+                const dropdownMenu = parent.querySelector('.nav-dropdown-menu');
+                
+                // Close all other open dropdowns
+                document.querySelectorAll('.nav-item-has-children.open').forEach(item => {
+                    if (item !== parent) {
+                        item.classList.remove('open');
+                        item.querySelector('.nav-dropdown-menu').style.maxHeight = '0px';
+                        item.querySelector('.dropdown-icon').style.transform = 'rotate(0deg)';
+                    }
+                });
+                
+                // Toggle current dropdown
+                parent.classList.toggle('open');
+                
+                if (parent.classList.contains('open')) {
+                    dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
+                    toggle.querySelector('.dropdown-icon').style.transform = 'rotate(90deg)';
+                } else {
+                    dropdownMenu.style.maxHeight = '0px';
+                    toggle.querySelector('.dropdown-icon').style.transform = 'rotate(0deg)';
+                }
+            });
         });
     </script>
 </body>
