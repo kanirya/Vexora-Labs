@@ -7,8 +7,7 @@ namespace Vexora.Models
     {
         public List<ServiceInquiryViewModel> ServiceInquiries { get; set; }
         public List<UserForm> UserForms { get; set; }
-        public InquiriesFilterViewModel Filter { get; set; }
-        public string ActiveTab { get; set; }
+      
     }
 
     public class InquiriesFilterViewModel

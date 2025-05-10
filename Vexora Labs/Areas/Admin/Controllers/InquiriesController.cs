@@ -17,11 +17,10 @@ public class InquiriesController : Controller
             _context = context;
         }
 
-
-
         public IActionResult Index()
         {
-            return View();
+            
+            return View(_context.ServiceInquiryViewModels.ToList());
         }
     }
 
