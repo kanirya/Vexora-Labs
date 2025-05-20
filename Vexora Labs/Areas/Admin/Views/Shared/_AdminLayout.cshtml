@@ -214,9 +214,17 @@
                 <a href="/Admin/Profile" class="footer-link" title="Profile">
                     <i class="fas fa-user"></i>
                 </a>
-                <a href="/Account/Logout" class="footer-link" title="Logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                </a>
+                <button id="themeToggle" class="footer-link">
+                    <i class="fas fa-moon"></i>
+
+                    <span id="themeText"></span>
+                </button>
+                <form id="logoutForm" class=" p-0 m-0" method="post" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="btn footer-link text-start">
+                        <i class="fas fa-sign-out-alt"></i> 
+                    </button>
+                </form>
+               
             </div>
         </aside>
         <div class="admin-content-wrapper">
@@ -389,6 +397,7 @@
                     <a id="themeToggle" class="theme-toggle">
                         <i class="fas fa-moon"></i>
                     </a>
+                  
                 </div>
             </footer>
         </div>
