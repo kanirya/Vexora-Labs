@@ -7,11 +7,10 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
-COPY ["VexoraLabs/VexoraLabs.csproj", "VexoraLabs/"]
-RUN dotnet restore "VexoraLabs/VexoraLabs.csproj"
+COPY ["VexoraLabs.csproj", "./"]
+RUN dotnet restore "VexoraLabs.csproj"
 
 COPY . .
-WORKDIR "/src/VexoraLabs"
 RUN dotnet build "VexoraLabs.csproj" -c $BUILD_CONFIGURATION -o /app/build
 RUN dotnet publish "VexoraLabs.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
