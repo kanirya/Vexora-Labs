@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vexora Labs", "Vexora Labs\Vexora Labs.csproj", "{F260FFF2-6563-4A21-A6E7-D800C8F863D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VexoraLabs", "Vexora Labs\VexoraLabs.csproj", "{F260FFF2-6563-4A21-A6E7-D800C8F863D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
