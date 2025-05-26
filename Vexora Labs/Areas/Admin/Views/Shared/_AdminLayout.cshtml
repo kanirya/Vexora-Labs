@@ -75,6 +75,8 @@
     
 
     <div class="admin-wrapper">
+        <div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
         <!-- Sidebar -->
         <aside class="admin-sidebar" id="adminSidebar">
             <div class="sidebar-header">
@@ -243,47 +245,22 @@
                         <button class="action-btn" id="searchToggle">
                             <i class="fas fa-search"></i>
                         </button>
-                        <div class="dropdown">
-                            <button class="action-btn notification-btn" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-bell"></i>
-                                <span class="badge pulse">3</span>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end notifications-dropdown" aria-labelledby="notificationsDropdown">
-                                <div class="dropdown-header">
-                                    <h6>Notifications</h6>
-                                    <a href="/Admin/Notifications">View All</a>
-                                </div>
-                                <div class="notifications-list">
-                                    <a href="#" class="notification-item">
-                                        <div class="notification-icon bg-primary">
-                                            <i class="fas fa-user"></i>
-                                        </div>
-                                        <div class="notification-content">
-                                            <p class="notification-text">New client registration</p>
-                                            <span class="notification-time">2 hours ago</span>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="notification-item">
-                                        <div class="notification-icon bg-success">
-                                            <i class="fas fa-check"></i>
-                                        </div>
-                                        <div class="notification-content">
-                                            <p class="notification-text">Project "E-commerce Platform" completed</p>
-                                            <span class="notification-time">1 day ago</span>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="notification-item">
-                                        <div class="notification-icon bg-warning">
-                                            <i class="fas fa-exclamation"></i>
-                                        </div>
-                                        <div class="notification-content">
-                                            <p class="notification-text">Server load at 85%</p>
-                                            <span class="notification-time">3 days ago</span>
-                                        </div>
-                                    </a>
-                                </div>
+                        <button class="action-btn notification-btn" id="notificationsDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge pulse" id="notificationCount">0</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end notifications-dropdown" aria-labelledby="notificationsDropdown">
+                            <div class="dropdown-header">
+                                <h6>Notifications</h6>
+                                <a href="/Admin/Notifications">View All</a>
+                            </div>
+                            <div class="notifications-list" id="notificationList">
+                                <!-- Live notifications will appear here -->
                             </div>
                         </div>
+
+                       
+
                         <div class="dropdown">
                             <button class="action-btn" id="quickActionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-plus"></i>
@@ -408,14 +385,77 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="~/js/admin.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
     @if (ViewData["PageJs"] != null)
     {
         <script src="~/js/@ViewData["PageJs"]"></script>
     }
 
     @await RenderSectionAsync("Scripts", required: false)
-
     <script>
+
+                function showToast(message) {
+            const container = document.getElementById("toastContainer");
+            const toast = document.createElement("div");
+            toast.classList.add("toast");
+            toast.textContent = message;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = "0";
+                setTimeout(() => container.removeChild(toast), 500);
+            }, 2000);
+        }
+        connection.on("ReceiveNotification", function (message) {
+            // existing notification list update
+            const notifList = document.getElementById("notificationList");
+            const div = document.createElement("div");
+            div.textContent = message;
+            notifList.prepend(div);
+
+            // show green toast in corner
+            showToast("Notification received");
+        });
+
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chathub")
+            .build();
+
+        connection.start()
+            .then(() => {
+                console.log("SignalR connected");
+
+                // 🟢 Join admin group manually
+                connection.invoke("JoinAdminGroup")
+                    .then(() => console.log("Joined Admins group"))
+                    .catch(err => console.error("JoinAdminGroup error", err));
+            })
+            .catch(err => console.error("Connection error:", err));
+
+        connection.on("ReceiveNotification", function (data) {
+            console.log("Notification received:", data);
+
+            const notificationList = document.querySelector('.notifications-list');
+            const newItem = `
+                <a href="#" class="notification-item">
+                    <div class="notification-icon bg-info"><i class="fas fa-bell"></i></div>
+                    <div class="notification-content">
+                        <p class="notification-text">${data.Message}</p>
+                        <span class="notification-time">${data.Time}</span>
+                    </div>
+                </a>
+            `;
+            notificationList.insertAdjacentHTML('afterbegin', newItem);
+
+            const badge = document.querySelector('.notification-btn .badge');
+            if (badge) {
+                let count = parseInt(badge.textContent || '0');
+                badge.textContent = count + 1;
+                badge.classList.add("pulse");
+            }
+        });
+
         // Theme toggle
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {

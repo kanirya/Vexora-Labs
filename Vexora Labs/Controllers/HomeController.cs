@@ -1,7 +1,9 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using Vexora_Labs.Data;
 using Vexora_Labs.Models;
+using Vexora_Labs.Repo.SignalR;
 
 namespace Vexora_Labs.Controllers
 {
@@ -9,13 +11,21 @@ namespace Vexora_Labs.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+
+
+        private readonly IHubContext<ChatHub> _hubContext;
+
+
+        public HomeController(
+            ILogger<HomeController> logger,
+            ApplicationDbContext context,
+            IHubContext<ChatHub> hubContext)
         {
             _context = context;
-            
-            
             _logger = logger;
+            _hubContext = hubContext; // ✅ this was missing
         }
+
 
         public IActionResult Index()
         {
@@ -36,11 +46,22 @@ namespace Vexora_Labs.Controllers
         {
             if (!ModelState.IsValid)
                 return View(model);
+
+            // Save inquiry to database
             await _context.ServiceInquiryViewModels.AddAsync(model);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
+            // Send SignalR message to Admin group
+            await _hubContext.Clients.Group("Admins")
+                .SendAsync("ReceiveNotification", new
+                {
+                    Message = "📩 New service inquiry submitted",
+                    Time = DateTime.Now.ToString("HH:mm:ss")
+                });
+
             return RedirectToAction("ThankYou");
-            
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

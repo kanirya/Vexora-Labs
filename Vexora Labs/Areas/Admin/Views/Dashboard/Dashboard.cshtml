@@ -1,0 +1,72 @@
+@{
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SignalR ChatHub Notification Test</title>
+    <style>
+        #notificationArea {
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-width: 400px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+
+        #notificationList div {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+</head>
+<body>
+
+    <div id="notificationArea">
+        <h3>SignalR Notifications</h3>
+        <div id="notificationList"></div>
+
+        <input type="text" id="messageInput" placeholder="Type notification here..." style="width: 80%;" />
+        <button onclick="sendNotification()">Send Notification</button>
+    </div>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chatHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        connection.on("ReceiveNotification", function (message) {
+            const notifList = document.getElementById("notificationList");
+            const div = document.createElement("div");
+            div.textContent = message;
+            notifList.prepend(div);
+        });
+
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.error(err);
+                setTimeout(start, 5000);
+            }
+        }
+
+        start();
+
+        async function sendNotification() {
+            const message = document.getElementById("messageInput").value;
+            if (!message) return alert("Type a message first");
+            try {
+                await connection.invoke("SendNotification", message);
+                document.getElementById("messageInput").value = "";
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    </script>
+
+</body>
+</html>
