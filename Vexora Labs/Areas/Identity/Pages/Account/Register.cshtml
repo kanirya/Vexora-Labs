@@ -56,17 +56,20 @@
             <div class="divider">
                 <span>OR</span>
             </div>
-            
+        
             <div class="social-login">
-                <button type="button" class="btn btn-social btn-google">
-                    <i class="fab fa-google"></i> Sign up with Google
-                </button>
-                <button type="button" class="btn btn-social btn-github">
-                    <i class="fab fa-github"></i> Sign up with GitHub
-                </button>
+     
+             
             </div>
         </form>
-        
+    <form method="post" asp-page-handler="ExternalLogin" asp-route-provider="Google" asp-route-returnUrl="@Model.ReturnUrl">
+        <button type="submit" class="btn btn-social btn-google">
+            <i class="fab fa-google"></i> Sign up with Google
+        </button>
+    </form>
+    <button type="button" class="btn btn-social btn-github">
+        <i class="fab fa-github"></i> Sign up with GitHub
+    </button>
         <div class="login-footer">
             <p>Already have an account? <a asp-page="./Login">Sign in</a></p>
         </div>

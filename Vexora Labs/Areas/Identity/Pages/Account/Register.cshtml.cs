@@ -2,14 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +10,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading;
+using System.Threading.Tasks;
 using Vexora_Labs.Areas.Identity.Data;
 
 namespace Vexora_Labs.Areas.Identity.Pages.Account
@@ -59,10 +60,7 @@ namespace Vexora_Labs.Areas.Identity.Pages.Account
         /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
+
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         /// <summary>
@@ -173,6 +171,8 @@ namespace Vexora_Labs.Areas.Identity.Pages.Account
             }
         }
 
+
+
         private IUserEmailStore<ApplicationUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
@@ -181,5 +181,83 @@ namespace Vexora_Labs.Areas.Identity.Pages.Account
             }
             return (IUserEmailStore<ApplicationUser>)_userStore;
         }
+
+
+
+        public IActionResult OnPostExternalLogin(string provider, string returnUrl = null)
+        {
+            var redirectUrl = Url.Page("./Register", pageHandler: "ExternalLoginCallback", values: new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+        public async Task<IActionResult> OnGetExternalLoginCallbackAsync(string returnUrl = null, string remoteError = null)
+        {
+            returnUrl ??= Url.Content("~/");
+            if (remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                return Page();
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+                return RedirectToPage("./Register");
+
+            var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+
+            if (signInResult.Succeeded)
+                return LocalRedirect(returnUrl);
+
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            var name = info.Principal.FindFirstValue(ClaimTypes.Name);  // get full name
+
+            if (email != null)
+            {
+                var user = CreateUser();
+
+                await _userStore.SetUserNameAsync(user, email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, email, CancellationToken.None);
+
+                user.Name = name;
+
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        {
+                            var userId = await _userManager.GetUserIdAsync(user);
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                            var callbackUrl = Url.Page(
+                                "/Account/ConfirmEmail",
+                                pageHandler: null,
+                                values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                                protocol: Request.Scheme);
+
+                            await _emailSender.SendEmailAsync(email, "Confirm your email",
+                                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                            return RedirectToPage("RegisterConfirmation", new { email = email, returnUrl = returnUrl });
+                        }
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
+                }
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            return Page();
+        }
+
     }
+
+
+
 }
