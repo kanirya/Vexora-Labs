@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+using Vexora_Labs.Areas.Admin.Models;
 
 namespace Vexora_Labs.Areas.Identity.Data;
 
@@ -13,5 +14,15 @@ public class ApplicationUser : IdentityUser
     [Required]
     [StringLength(80)]
     public string Name { get; set; }
+    public ICollection<Project> Projects { get; set; }
+    public ICollection<CommitLog> CommitLogs { get; set; }
+    public ICollection<ProjectStepLog> StepLogs { get; set; }
+}
+
+public enum UserRole
+{
+    Client,
+    Employee,
+    Admin
 }
 

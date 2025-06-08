@@ -3,6 +3,8 @@
     ViewData["Title"] = "Service Inquiries";
     ViewData["PageCss"] = "admin-inquiries.css";
 }
+@using Newtonsoft.Json
+
 
 
 <div class="dashboard-container">
@@ -95,50 +97,10 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="inquiry-actions">
-                            <button class="action-button" onclick="toggleActionMenu(this)">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                                </svg>
-                            </button>
-                            <div class="action-menu">
-                                <div class="action-item" onclick="viewInquiryDetails(@inquiry.Id)">
-                                    <span class="action-item-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                        </svg>
-                                    </span>
-                                    <span class="action-item-text">View Details</span>
-                                </div>
-                                <div class="action-item" onclick="toggleDescription(@inquiry.Id)">
-                                    <span class="action-item-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                                            <path d="M5 6.25a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5zm3.5 0a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5z"/>
-                                        </svg>
-                                    </span>
-                                    <span class="action-item-text">Show Description</span>
-                                </div>
-                                <div class="action-item">
-                                    <span class="action-item-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
-                                        </svg>
-                                    </span>
-                                    <span class="action-item-text">Reply</span>
-                                </div>
-                                <div class="action-item">
-                                    <span class="action-item-icon" style="color: var(--danger);">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-                                        </svg>
-                                    </span>
-                                    <span class="action-item-text" style="color: var(--danger);">Delete</span>
-                                </div>
-                            </div>
-                        </div>
+                    
+<button class="btn btn-gradient" onclick="openConfirmDialog(@inquiry.Id)">Approved</button>
+
+
                     </div>
                     <div id="description-@inquiry.Id" class="inquiry-description">
                         <div class="description-label">Project Description</div>
@@ -181,6 +143,21 @@
     }
 </div>
 
+<div id="confirmModal" style="display:none; position:fixed; top:50%; left:50%;
+    transform:translate(-50%, -50%); background:white; padding:20px;
+    box-shadow:0 0 15px rgba(0,0,0,0.4); border-radius:8px; z-index:9999;">
+    <p>Are you sure you want to approve?</p>
+    <form id="approveForm" method="post" asp-action="Approve">
+        <input type="hidden" name="id" id="hiddenId" />
+        <button type="submit" class="btn btn-success">Approve</button>
+        <button type="button" onclick="closeDialog()" class="btn btn-secondary">Cancel</button>
+    </form>
+</div>
+
+<div id="modalOverlay" style="display:none; position:fixed; top:0; left:0; width:100%;
+    height:100%; background:rgba(0,0,0,0.5); z-index:9998;"></div>
+
+
 <!-- Modal for detailed view -->
 <div id="detailModal" class="modal-backdrop">
     <div class="modal">
@@ -204,6 +181,18 @@
 </div>
 
 <script>
+
+    function openConfirmDialog(id) {
+        document.getElementById("hiddenId").value = id;
+        document.getElementById("confirmModal").style.display = "block";
+        document.getElementById("modalOverlay").style.display = "block";
+    }
+
+    function closeDialog() {
+        document.getElementById("confirmModal").style.display = "none";
+        document.getElementById("modalOverlay").style.display = "none";
+    }
+
     // Theme toggle functionality
     document.addEventListener('DOMContentLoaded', function() {
         const themeToggle = document.getElementById('themeToggle');

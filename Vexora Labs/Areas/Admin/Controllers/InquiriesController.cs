@@ -22,5 +22,17 @@ public class InquiriesController : Controller
             
             return View(_context.ServiceInquiryViewModels.ToList());
         }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public int Approve(int id)
+    {
+        // your logic here, save to db, etc.
+        return id;
     }
+
+
+
+
+}
 
