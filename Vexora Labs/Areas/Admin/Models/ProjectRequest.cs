@@ -37,6 +37,8 @@ namespace Vexora_Labs.Areas.Admin.Models
         WebApplication,
         MobileApplication,
         DesktopApplication,
+        Odoo,
+        CRM,
         Other
     }
 

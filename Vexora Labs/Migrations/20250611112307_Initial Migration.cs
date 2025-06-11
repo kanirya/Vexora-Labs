@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace Vexora_Labs.Data.Migrations
+namespace Vexora_Labs.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

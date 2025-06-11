@@ -69,7 +69,7 @@
                      data-email="@inquiry.Email.ToLower()" 
                      data-phone="@inquiry.Phone"
                      data-company="@(inquiry.Company?.ToLower() ?? "")" 
-                     data-service="@inquiry.ServiceType.ToLower()" 
+                     data-service="@inquiry.ServiceType" 
                      data-budget="@(inquiry.ProjectBudget?.ToLower() ?? "")">
                     <div class="inquiry-content">
                         <div class="inquiry-avatar">

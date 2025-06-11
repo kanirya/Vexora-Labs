@@ -9,11 +9,11 @@ using Vexora_Labs.Data;
 
 #nullable disable
 
-namespace Vexora_Labs.Data.Migrations
+namespace Vexora_Labs.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250608174653_Adding Project models")]
-    partial class AddingProjectmodels
+    [Migration("20250611112235_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -226,9 +226,8 @@ namespace Vexora_Labs.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ServiceType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ServiceType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

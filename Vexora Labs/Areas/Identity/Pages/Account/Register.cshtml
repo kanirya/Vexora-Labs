@@ -57,11 +57,9 @@
                 <span>OR</span>
             </div>
         
-            <div class="social-login">
-     
-             
-            </div>
+          
         </form>
+        <div class="social-login">
     <form method="post" asp-page-handler="ExternalLogin" asp-route-provider="Google" asp-route-returnUrl="@Model.ReturnUrl">
         <button type="submit" class="btn btn-social btn-google">
             <i class="fab fa-google"></i> Sign up with Google
@@ -70,6 +68,7 @@
     <button type="button" class="btn btn-social btn-github">
         <i class="fab fa-github"></i> Sign up with GitHub
     </button>
+    </div>
         <div class="login-footer">
             <p>Already have an account? <a asp-page="./Login">Sign in</a></p>
         </div>

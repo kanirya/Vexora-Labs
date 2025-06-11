@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Vexora_Labs.Areas.Admin.Models;
 
 public class ServiceInquiryViewModel
 {
@@ -24,7 +25,8 @@ public class ServiceInquiryViewModel
 
     [Required(ErrorMessage = "Please select a service type.")]
     [Display(Name = "Service Type")]
-    public string ServiceType { get; set; }
+    public ProjectType ServiceType { get; set; }
+
 
     [Display(Name = "Project Budget")]
     public string ProjectBudget { get; set; }

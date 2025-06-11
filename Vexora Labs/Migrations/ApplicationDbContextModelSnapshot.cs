@@ -223,9 +223,8 @@ namespace Vexora_Labs.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ServiceType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ServiceType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

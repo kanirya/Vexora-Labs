@@ -1,0 +1,67 @@
+﻿@model Vexora_Labs.Areas.Admin.Models.ProjectRequest
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>ProjectRequest</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ClientName" class="control-label"></label>
+                <input asp-for="ClientName" class="form-control" />
+                <span asp-validation-for="ClientName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClientEmail" class="control-label"></label>
+                <input asp-for="ClientEmail" class="form-control" />
+                <span asp-validation-for="ClientEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectType" class="control-label"></label>
+                <select asp-for="ProjectType" class="form-control"></select>
+                <span asp-validation-for="ProjectType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubmittedAt" class="control-label"></label>
+                <input asp-for="SubmittedAt" class="form-control" />
+                <span asp-validation-for="SubmittedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsApproved" /> @Html.DisplayNameFor(model => model.IsApproved)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ApprovedById" class="control-label"></label>
+                <select asp-for="ApprovedById" class ="form-control" asp-items="ViewBag.ApprovedById"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectId" class="control-label"></label>
+                <select asp-for="ProjectId" class ="form-control" asp-items="ViewBag.ProjectId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

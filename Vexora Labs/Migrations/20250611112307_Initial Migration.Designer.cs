@@ -9,21 +9,36 @@ using Vexora_Labs.Data;
 
 #nullable disable
 
-namespace Vexora_Labs.Data.Migrations
+namespace Vexora_Labs.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250508051027_userform")]
-    partial class userform
+    [Migration("20250611112307_Initial Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ApplicationUserProject", b =>
+                {
+                    b.Property<string>("AssignedEmployeesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AssignedEmployeesId", "ProjectId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectEmployees", (string)null);
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -211,9 +226,8 @@ namespace Vexora_Labs.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ServiceType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ServiceType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -253,6 +267,212 @@ namespace Vexora_Labs.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserForms");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.CommitFileChange", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ChangeType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("CommitLogId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommitLogId");
+
+                    b.ToTable("CommitFileChanges");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.CommitLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CommitId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CommittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CommitLogs");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.Project", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GitHubRepoUrl")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.ProjectRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ApprovedById")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ClientEmail")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("ClientName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ProjectType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApprovedById");
+
+                    b.HasIndex("ProjectId")
+                        .IsUnique()
+                        .HasFilter("[ProjectId] IS NOT NULL");
+
+                    b.ToTable("ProjectRequests");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.ProjectStep", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("ProjectSteps");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.ProjectStepLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StepId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedById")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("StepId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("ProjectStepLogs");
                 });
 
             modelBuilder.Entity("Vexora_Labs.Areas.Identity.Data.ApplicationUser", b =>
@@ -325,6 +545,21 @@ namespace Vexora_Labs.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("ApplicationUserProject", b =>
+                {
+                    b.HasOne("Vexora_Labs.Areas.Identity.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("AssignedEmployeesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vexora_Labs.Areas.Admin.Models.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -374,6 +609,129 @@ namespace Vexora_Labs.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.CommitFileChange", b =>
+                {
+                    b.HasOne("Vexora_Labs.Areas.Admin.Models.CommitLog", "CommitLog")
+                        .WithMany("FileChanges")
+                        .HasForeignKey("CommitLogId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CommitLog");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.CommitLog", b =>
+                {
+                    b.HasOne("Vexora_Labs.Areas.Admin.Models.Project", "Project")
+                        .WithMany("Commits")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vexora_Labs.Areas.Identity.Data.ApplicationUser", "User")
+                        .WithMany("CommitLogs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.Project", b =>
+                {
+                    b.HasOne("Vexora_Labs.Areas.Identity.Data.ApplicationUser", "Client")
+                        .WithMany("Projects")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.ProjectRequest", b =>
+                {
+                    b.HasOne("Vexora_Labs.Areas.Identity.Data.ApplicationUser", "ApprovedBy")
+                        .WithMany()
+                        .HasForeignKey("ApprovedById")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Vexora_Labs.Areas.Admin.Models.Project", "Project")
+                        .WithOne()
+                        .HasForeignKey("Vexora_Labs.Areas.Admin.Models.ProjectRequest", "ProjectId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("ApprovedBy");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.ProjectStep", b =>
+                {
+                    b.HasOne("Vexora_Labs.Areas.Admin.Models.Project", "Project")
+                        .WithMany("Steps")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.ProjectStepLog", b =>
+                {
+                    b.HasOne("Vexora_Labs.Areas.Admin.Models.Project", "Project")
+                        .WithMany("StepLogs")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Vexora_Labs.Areas.Admin.Models.ProjectStep", "Step")
+                        .WithMany("Logs")
+                        .HasForeignKey("StepId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Vexora_Labs.Areas.Identity.Data.ApplicationUser", "UpdatedBy")
+                        .WithMany("StepLogs")
+                        .HasForeignKey("UpdatedById")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Step");
+
+                    b.Navigation("UpdatedBy");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.CommitLog", b =>
+                {
+                    b.Navigation("FileChanges");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.Project", b =>
+                {
+                    b.Navigation("Commits");
+
+                    b.Navigation("StepLogs");
+
+                    b.Navigation("Steps");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Admin.Models.ProjectStep", b =>
+                {
+                    b.Navigation("Logs");
+                });
+
+            modelBuilder.Entity("Vexora_Labs.Areas.Identity.Data.ApplicationUser", b =>
+                {
+                    b.Navigation("CommitLogs");
+
+                    b.Navigation("Projects");
+
+                    b.Navigation("StepLogs");
                 });
 #pragma warning restore 612, 618
         }

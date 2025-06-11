@@ -1,4 +1,5 @@
-﻿@model ServiceInquiryViewModel
+﻿@using Vexora_Labs.Areas.Admin.Models
+@model ServiceInquiryViewModel
 
 @{
     ViewData["Title"] = "Get in Touch";
@@ -108,20 +109,14 @@
         </div>
 
         <div class="col-md-6">
-            <div class="form-floating">
-                <select asp-for="ServiceType" class="form-select" required >
-                    <option value="">Select a service</option>
-                    <option value="web-development">Web Development</option>
-                    <option value="mobile-app">Mobile Application</option>
-                    <option value="cloud-solutions">Cloud Solutions</option>
-                    <option value="data-analytics">Data Analytics</option>
-                    <option value="cybersecurity">Cybersecurity</option>
-                    <option value="ai-ml">AI & Machine Learning</option>
-                    <option value="other">Other</option>
-                </select>
-                <label asp-for="ServiceType"></label>
-                <span asp-validation-for="ServiceType" class="invalid-feedback"></span>
-            </div>
+                                <div class="form-floating">
+                                    <select asp-for="ServiceType" class="form-select" asp-items="Html.GetEnumSelectList<ProjectType>()" required>
+                                        <option value="">Select a service</option>
+                                    </select>
+                                    <label asp-for="ServiceType"></label>
+                                    <span asp-validation-for="ServiceType" class="invalid-feedback"></span>
+                                </div>
+
         </div>
         <div class="col-md-6">
             <div class="form-floating">
