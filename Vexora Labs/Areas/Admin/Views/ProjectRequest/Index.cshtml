@@ -1,0 +1,1217 @@
+﻿@model IEnumerable<Vexora_Labs.Areas.Admin.Models.ProjectRequest>
+
+@{
+    ViewData["Title"] = "Project Requests";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["PageCss"] = "Vexora-Theme.css";
+}
+
+<div class="vx-dashboard">
+    <!-- Sidebar Toggle for Mobile -->
+    <button id="vxSidebarToggle" class="vx-sidebar-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Content Area -->
+    <div class="vx-content">
+        <!-- Header Section with Stats -->
+        <div class="vx-header">
+            <div class="vx-header-title">
+                <h1>Project Requests</h1>
+                <p>Manage and track client project requests</p>
+            </div>
+
+            <div class="vx-header-actions">
+                <div class="vx-dropdown">
+                    <button class="vx-btn vx-btn-outline">
+                        <i class="fas fa-file-export"></i> Export
+                    </button>
+                    <div class="vx-dropdown-content">
+                        <a href="#" id="vxExportCSV"><i class="fas fa-file-csv"></i> Export as CSV</a>
+                        <a href="#" id="vxExportPDF"><i class="fas fa-file-pdf"></i> Export as PDF</a>
+                        <a href="#" id="vxExportExcel"><i class="fas fa-file-excel"></i> Export as Excel</a>
+                    </div>
+                </div>
+                <button id="vxThemeToggle" class="vx-btn vx-btn-icon">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a asp-action="Create" class="vx-btn vx-btn-primary">
+                    <i class="fas fa-plus"></i> New Request
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="vx-stats-container">
+            <div class="vx-stat-card vx-stat-total">
+                <div class="vx-stat-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <div class="vx-stat-content">
+                    <h3>@Model.Count()</h3>
+                    <p>Total Requests</p>
+                </div>
+                <div class="vx-stat-chart">
+                    <canvas id="totalRequestsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="vx-stat-card vx-stat-approved">
+                <div class="vx-stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="vx-stat-content">
+                    <h3>@Model.Count(r => r.IsApproved)</h3>
+                    <p>Approved</p>
+                </div>
+                <div class="vx-stat-chart">
+                    <canvas id="approvedRequestsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="vx-stat-card vx-stat-pending">
+                <div class="vx-stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="vx-stat-content">
+                    <h3>@Model.Count(r => !r.IsApproved)</h3>
+                    <p>Pending</p>
+                </div>
+                <div class="vx-stat-chart">
+                    <canvas id="pendingRequestsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="vx-stat-card vx-stat-recent">
+                <div class="vx-stat-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="vx-stat-content">
+                    <h3>@Model.Count(r => r.SubmittedAt >= DateTime.Now.AddDays(-7))</h3>
+                    <p>Last 7 Days</p>
+                </div>
+                <div class="vx-stat-chart">
+                    <canvas id="recentRequestsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="vx-filter-section">
+            <div class="vx-search-container">
+                <i class="fas fa-search vx-search-icon"></i>
+                <input type="text" id="vxSearchInput" class="vx-search-input" placeholder="Search by name, email, project type..." />
+                <button id="vxAdvancedSearchBtn" class="vx-btn vx-btn-text">
+                    <i class="fas fa-sliders-h"></i>
+                </button>
+            </div>
+
+            <div class="vx-filter-container">
+                <div class="vx-filter-group">
+                    <label>Status</label>
+                    <div class="vx-filter-options">
+                        <button class="vx-filter-btn vx-active" data-filter="all">All</button>
+                        <button class="vx-filter-btn" data-filter="approved">Approved</button>
+                        <button class="vx-filter-btn" data-filter="pending">Pending</button>
+                    </div>
+                </div>
+
+                <div class="vx-filter-group">
+                    <label>Project Type</label>
+                    <select id="vxProjectTypeFilter" class="vx-select">
+                        <option value="">All Types</option>
+                        @foreach (var type in Model.Select(x => x.ProjectType).Distinct())
+                        {
+                            <option value="@type">@type</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="vx-filter-group">
+                    <label>Date Range</label>
+                    <div class="vx-date-range">
+                        <input type="date" id="vxDateFrom" class="vx-date-input" />
+                        <span>to</span>
+                        <input type="date" id="vxDateTo" class="vx-date-input" />
+                    </div>
+                </div>
+
+                <div class="vx-filter-group">
+                    <label>Sort By</label>
+                    <select id="vxSortBy" class="vx-select">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="nameAsc">Name (A-Z)</option>
+                        <option value="nameDesc">Name (Z-A)</option>
+                    </select>
+                </div>
+
+                <button id="vxResetFilters" class="vx-btn vx-btn-text">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- View Toggle -->
+        <div class="vx-view-toggle">
+            <button class="vx-view-btn vx-active" data-view="grid">
+                <i class="fas fa-th-large"></i> Grid
+            </button>
+            <button class="vx-view-btn" data-view="list">
+                <i class="fas fa-list"></i> List
+            </button>
+            <button class="vx-view-btn" data-view="kanban">
+                <i class="fas fa-columns"></i> Kanban
+            </button>
+        </div>
+
+        <!-- Grid View (Default) -->
+        <div id="vxGridView" class="vx-grid-view">
+            @foreach (var item in Model)
+            {
+                <div class="vx-request-card" data-id="@item.Id" data-status="@(item.IsApproved ? "approved" : "pending")" data-type="@item.ProjectType" data-date="@item.SubmittedAt.ToString("yyyy-MM-dd")">
+                    <div class="vx-card-header">
+                        <div class="vx-client-info">
+                            <div class="vx-client-avatar">
+                                @item.ClientName.Substring(0, 1).ToUpper()
+                            </div>
+                            <div>
+                                <h3 class="vx-client-name">@item.ClientName</h3>
+                                <a href="mailto:@item.ClientEmail" class="vx-client-email">@item.ClientEmail</a>
+                            </div>
+                        </div>
+                        <div class="vx-card-actions">
+                            <div class="vx-dropdown">
+                                <button class="vx-btn vx-btn-icon">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div class="vx-dropdown-content">
+                                    <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-eye"></i> View Details</a>
+                                    <a href="#" class="vx-delete-btn" data-id="@item.Id"><i class="fas fa-trash"></i> Delete</a>
+                                    @if (!item.IsApproved)
+                                    {
+                                        <a href="#" class="vx-approve-btn" data-id="@item.Id"><i class="fas fa-check"></i> Approve</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vx-card-body">
+
+                        <div class="vx-project-type">
+                            <span class="vx-badge ">
+                                @item.ProjectType
+                            </span>
+                        </div>
+
+                        <div class="vx-description">
+                            <p>@(item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
+                            @if (item.Description.Length > 100)
+                            {
+                                <button class="vx-btn vx-btn-text vx-read-more" data-description="@item.Description">
+                                    Read More
+                                </button>
+                            }
+                        </div>
+
+                        <div class="vx-card-meta">
+                            <div class="vx-meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>@item.SubmittedAt.ToString("MMM dd, yyyy")</span>
+                            </div>
+
+                            @if (item.Project != null)
+                            {
+                                <div class="vx-meta-item">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <a asp-controller="Project" asp-action="Details" asp-route-id="@item.Project.Id">
+                                        @item.Project.Name
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="vx-card-footer">
+                        <div class="vx-status @(item.IsApproved ? "vx-status-approved" : "vx-status-pending")">
+                            <i class="fas @(item.IsApproved ? "fa-check-circle" : "fa-clock")"></i>
+                            <span>@(item.IsApproved ? "Approved" : "Pending")</span>
+                        </div>
+
+                        @if (item.IsApproved && item.ApprovedBy != null)
+                        {
+                            <div class="vx-approved-by" title="Approved by @item.ApprovedBy.Id">
+                                <i class="fas fa-user-check"></i>
+                                <span>@item.ApprovedBy.Name</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- List View (Hidden by default) -->
+        <div id="vxListView" class="vx-list-view" style="display: none;">
+            <table class="vx-table">
+                <thead>
+                    <tr>
+                        <th>Client</th>
+                        <th>Project Type</th>
+                        <th>Description</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                        <th>Project</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr data-id="@item.Id" data-status="@(item.IsApproved ? "approved" : "pending")" data-type="@item.ProjectType" data-date="@item.SubmittedAt.ToString("yyyy-MM-dd")">
+                            <td>
+                                <div class="vx-client-row">
+                                    <div class="vx-client-avatar-sm">
+                                        @item.ClientName.Substring(0, 1).ToUpper()
+                                    </div>
+                                    <div>
+                                        <div class="vx-client-name-sm">@item.ClientName</div>
+                                        <div class="vx-client-email-sm">@item.ClientEmail</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="vx-badge ">
+                                    @item.ProjectType
+                                </span>
+                            </td>
+                            <td>
+                                <div class="vx-description-sm">
+                                    @(item.Description.Length > 50 ? item.Description.Substring(0, 50) + "..." : item.Description)
+                                    @if (item.Description.Length > 50)
+                                    {
+                                        <button class="vx-btn vx-btn-text vx-read-more-sm" data-description="@item.Description">
+                                            <i class="fas fa-expand-alt"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                            <td>@item.SubmittedAt.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                <div class="vx-status-sm @(item.IsApproved ? "vx-status-approved" : "vx-status-pending")">
+                                    <i class="fas @(item.IsApproved ? "fa-check-circle" : "fa-clock")"></i>
+                                    <span>@(item.IsApproved ? "Approved" : "Pending")</span>
+                                </div>
+                            </td>
+                            <td>
+                                @if (item.Project != null)
+                                {
+                                    <a asp-controller="Project" asp-action="Details" asp-route-id="@item.Project.Id" class="vx-project-link">
+                                        @item.Project.Name
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="vx-action-buttons">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="vx-btn vx-btn-icon vx-btn-sm" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="vx-btn vx-btn-icon vx-btn-sm" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <button class="vx-btn vx-btn-icon vx-btn-sm vx-delete-btn" data-id="@item.Id" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    @if (!item.IsApproved)
+                                    {
+                                        <button class="vx-btn vx-btn-icon vx-btn-sm vx-approve-btn" data-id="@item.Id" title="Approve">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Kanban View (Hidden by default) -->
+        <div id="vxKanbanView" class="vx-kanban-view" style="display: none;">
+            <div class="vx-kanban-container">
+                <div class="vx-kanban-column vx-kanban-pending">
+                    <div class="vx-kanban-header">
+                        <h3><i class="fas fa-clock"></i> Pending</h3>
+                        <span class="vx-kanban-count">@Model.Count(r => !r.IsApproved)</span>
+                    </div>
+                    <div class="vx-kanban-body">
+                        @foreach (var item in Model.Where(r => !r.IsApproved))
+                        {
+                            <div class="vx-kanban-card" data-id="@item.Id">
+                                <div class="vx-kanban-card-header">
+                                    <span class="vx-badge">
+                                        @item.ProjectType
+                                    </span>
+                                    <div class="vx-kanban-actions">
+                                        <div class="vx-dropdown">
+                                            <button class="vx-btn vx-btn-icon vx-btn-sm">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div class="vx-dropdown-content">
+                                                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
+                                                <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-eye"></i> View Details</a>
+                                                <a href="#" class="vx-delete-btn" data-id="@item.Id"><i class="fas fa-trash"></i> Delete</a>
+                                                <a href="#" class="vx-approve-btn" data-id="@item.Id"><i class="fas fa-check"></i> Approve</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="vx-kanban-card-body">
+                                    <div class="vx-client-info-sm">
+                                        <div class="vx-client-avatar-sm">
+                                            @item.ClientName.Substring(0, 1).ToUpper()
+                                        </div>
+                                        <div>
+                                            <h4>@item.ClientName</h4>
+                                            <small>@item.ClientEmail</small>
+                                        </div>
+                                    </div>
+                                    <p class="vx-kanban-description">
+                                        @(item.Description.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)
+                                    </p>
+                                </div>
+                                <div class="vx-kanban-card-footer">
+                                    <div class="vx-kanban-date">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span>@item.SubmittedAt.ToString("MMM dd")</span>
+                                    </div>
+                                    <button class="vx-btn vx-btn-sm vx-btn-outline vx-approve-btn" data-id="@item.Id">
+                                        Approve
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="vx-kanban-column vx-kanban-approved">
+                    <div class="vx-kanban-header">
+                        <h3><i class="fas fa-check-circle"></i> Approved</h3>
+                        <span class="vx-kanban-count">@Model.Count(r => r.IsApproved)</span>
+                    </div>
+                    <div class="vx-kanban-body">
+                        @foreach (var item in Model.Where(r => r.IsApproved))
+                        {
+                            <div class="vx-kanban-card" data-id="@item.Id">
+                                <div class="vx-kanban-card-header">
+                                    <span class="vx-badge ">
+                                        @item.ProjectType
+                                    </span>
+                                    <div class="vx-kanban-actions">
+                                        <div class="vx-dropdown">
+                                            <button class="vx-btn vx-btn-icon vx-btn-sm">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div class="vx-dropdown-content">
+                                                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i> Edit</a>
+                                                <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-eye"></i> View Details</a>
+                                                <a href="#" class="vx-delete-btn" data-id="@item.Id"><i class="fas fa-trash"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="vx-kanban-card-body">
+                                    <div class="vx-client-info-sm">
+                                        <div class="vx-client-avatar-sm">
+                                            @item.ClientName.Substring(0, 1).ToUpper()
+                                        </div>
+                                        <div>
+                                            <h4>@item.ClientName</h4>
+                                            <small>@item.ClientEmail</small>
+                                        </div>
+                                    </div>
+                                    <p class="vx-kanban-description">
+                                        @(item.Description.Length > 80 ? item.Description.Substring(0, 80) + "..." : item.Description)
+                                    </p>
+                                </div>
+                                <div class="vx-kanban-card-footer">
+                                    <div class="vx-kanban-date">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <span>@item.SubmittedAt.ToString("MMM dd")</span>
+                                    </div>
+                                    @if (item.Project != null)
+                                    {
+                                        <a asp-controller="Project" asp-action="Details" asp-route-id="@item.Project.Id" class="vx-btn vx-btn-sm vx-btn-outline">
+                                            <i class="fas fa-project-diagram"></i> View Project
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="vx-pagination">
+            <div class="vx-pagination-info">
+                Showing <span id="vxStartRange">1</span> to <span id="vxEndRange">@Model.Count()</span> of <span id="vxTotalItems">@Model.Count()</span> entries
+            </div>
+            <div class="vx-pagination-controls">
+                <button id="vxPrevPage" class="vx-pagination-btn" disabled>
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <div id="vxPaginationPages" class="vx-pagination-pages">
+                    <button class="vx-pagination-page vx-active">1</button>
+                </div>
+                <button id="vxNextPage" class="vx-pagination-btn" disabled>
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+<!-- Description Modal -->
+<div id="vxDescriptionModal" class="vx-modal">
+    <div class="vx-modal-content">
+        <div class="vx-modal-header">
+            <h2>Project Description</h2>
+            <button class="vx-modal-close">&times;</button>
+        </div>
+        <div class="vx-modal-body">
+            <p id="vxModalDescription"></p>
+        </div>
+        <div class="vx-modal-footer">
+            <button class="vx-btn vx-btn-secondary vx-modal-close">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="vxDeleteModal" class="vx-modal">
+    <div class="vx-modal-content">
+        <div class="vx-modal-header">
+            <h2>Confirm Deletion</h2>
+            <button class="vx-modal-close">&times;</button>
+        </div>
+        <div class="vx-modal-body">
+            <p>Are you sure you want to delete this project request? This action cannot be undone.</p>
+        </div>
+        <div class="vx-modal-footer">
+            <button class="vx-btn vx-btn-secondary vx-modal-close">Cancel</button>
+            <form id="vxDeleteForm" asp-action="Delete" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="vxDeleteId" name="id" />
+                <button type="submit" class="vx-btn vx-btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Approve Confirmation Modal -->
+<div id="vxApproveModal" class="vx-modal">
+    <div class="vx-modal-content">
+        <div class="vx-modal-header">
+            <h2>Approve Request</h2>
+            <button class="vx-modal-close">&times;</button>
+        </div>
+        <div class="vx-modal-body">
+            <p>Are you sure you want to approve this project request?</p>
+            <div class="vx-form-group">
+                <label for="vxProjectSelect">Assign to Project:</label>
+                <select id="vxProjectSelect" class="vx-select">
+                    <option value="">Create New Project</option>
+                    @foreach (var project in ViewBag.Projects ?? new List<dynamic>())
+                    {
+                        <option value="@project.Id">@project.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="vx-modal-footer">
+            <button class="vx-btn vx-btn-secondary vx-modal-close">Cancel</button>
+            <form id="vxApproveForm" asp-action="Approve" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="vxApproveId" name="id" />
+                <input type="hidden" id="vxProjectId" name="projectId" />
+                <button type="submit" class="vx-btn vx-btn-success">Approve</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Advanced Search Modal -->
+<div id="vxAdvancedSearchModal" class="vx-modal">
+    <div class="vx-modal-content vx-modal-lg">
+        <div class="vx-modal-header">
+            <h2>Advanced Search</h2>
+            <button class="vx-modal-close">&times;</button>
+        </div>
+        <div class="vx-modal-body">
+            <div class="vx-advanced-search">
+                <div class="vx-form-row">
+                    <div class="vx-form-group">
+                        <label for="vxAdvClientName">Client Name</label>
+                        <input type="text" id="vxAdvClientName" class="vx-input" placeholder="Search by client name" />
+                    </div>
+                    <div class="vx-form-group">
+                        <label for="vxAdvClientEmail">Client Email</label>
+                        <input type="email" id="vxAdvClientEmail" class="vx-input" placeholder="Search by email" />
+                    </div>
+                </div>
+
+                <div class="vx-form-row">
+                    <div class="vx-form-group">
+                        <label for="vxAdvProjectType">Project Type</label>
+                        <select id="vxAdvProjectType" class="vx-select">
+                            <option value="">All Types</option>
+                            @foreach (var type in Model.Select(x => x.ProjectType).Distinct())
+                            {
+                                <option value="@type">@type</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="vx-form-group">
+                        <label for="vxAdvStatus">Status</label>
+                        <select id="vxAdvStatus" class="vx-select">
+                            <option value="">All Statuses</option>
+                            <option value="approved">Approved</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="vx-form-row">
+                    <div class="vx-form-group">
+                        <label for="vxAdvDateFrom">Date From</label>
+                        <input type="date" id="vxAdvDateFrom" class="vx-input" />
+                    </div>
+                    <div class="vx-form-group">
+                        <label for="vxAdvDateTo">Date To</label>
+                        <input type="date" id="vxAdvDateTo" class="vx-input" />
+                    </div>
+                </div>
+
+                <div class="vx-form-group">
+                    <label for="vxAdvDescription">Description Contains</label>
+                    <input type="text" id="vxAdvDescription" class="vx-input" placeholder="Search in description" />
+                </div>
+            </div>
+        </div>
+        <div class="vx-modal-footer">
+            <button id="vxAdvSearchReset" class="vx-btn vx-btn-text">
+                <i class="fas fa-undo"></i> Reset
+            </button>
+            <button class="vx-btn vx-btn-secondary vx-modal-close">Cancel</button>
+            <button id="vxAdvSearchApply" class="vx-btn vx-btn-primary">Apply Filters</button>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Toast -->
+<div id="vxToast" class="vx-toast">
+    <div class="vx-toast-icon">
+        <i class="fas fa-check-circle"></i>
+    </div>
+    <div class="vx-toast-content">
+        <h4 id="vxToastTitle">Success!</h4>
+        <p id="vxToastMessage">Operation completed successfully.</p>
+    </div>
+    <button class="vx-toast-close">&times;</button>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme Toggle
+            const vxThemeToggle = document.getElementById('vxThemeToggle');
+            const body = document.body;
+
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('vxTheme');
+            if (savedTheme === 'dark') {
+                body.classList.add('vx-dark-theme');
+                vxThemeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+
+            vxThemeToggle.addEventListener('click', function() {
+                body.classList.toggle('vx-dark-theme');
+                const isDark = body.classList.contains('vx-dark-theme');
+
+                if (isDark) {
+                    vxThemeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    localStorage.setItem('vxTheme', 'dark');
+                } else {
+                    vxThemeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                    localStorage.setItem('vxTheme', 'light');
+                }
+
+                // Redraw charts with new theme
+                initCharts();
+            });
+
+            // Mobile Sidebar Toggle
+            const vxSidebarToggle = document.getElementById('vxSidebarToggle');
+            vxSidebarToggle.addEventListener('click', function() {
+                document.querySelector('.sidebar').classList.toggle('vx-sidebar-open');
+            });
+
+            // View Toggle
+            const vxViewBtns = document.querySelectorAll('.vx-view-btn');
+            const vxGridView = document.getElementById('vxGridView');
+            const vxListView = document.getElementById('vxListView');
+            const vxKanbanView = document.getElementById('vxKanbanView');
+
+            vxViewBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    vxViewBtns.forEach(b => b.classList.remove('vx-active'));
+                    this.classList.add('vx-active');
+
+                    const view = this.getAttribute('data-view');
+                    vxGridView.style.display = 'none';
+                    vxListView.style.display = 'none';
+                    vxKanbanView.style.display = 'none';
+
+                    switch(view) {
+                        case 'grid':
+                            vxGridView.style.display = 'grid';
+                            break;
+                        case 'list':
+                            vxListView.style.display = 'block';
+                            break;
+                        case 'kanban':
+                            vxKanbanView.style.display = 'block';
+                            break;
+                    }
+                });
+            });
+
+            // Filter Functionality
+            const vxSearchInput = document.getElementById('vxSearchInput');
+            const vxFilterBtns = document.querySelectorAll('.vx-filter-btn');
+            const vxProjectTypeFilter = document.getElementById('vxProjectTypeFilter');
+            const vxDateFrom = document.getElementById('vxDateFrom');
+            const vxDateTo = document.getElementById('vxDateTo');
+            const vxSortBy = document.getElementById('vxSortBy');
+            const vxResetFilters = document.getElementById('vxResetFilters');
+
+            // Filter items based on current filters
+            function filterItems() {
+                const searchTerm = vxSearchInput.value.toLowerCase();
+                const statusFilter = document.querySelector('.vx-filter-btn.vx-active').getAttribute('data-filter');
+                const typeFilter = vxProjectTypeFilter.value;
+                const dateFromFilter = vxDateFrom.value ? new Date(vxDateFrom.value) : null;
+                const dateToFilter = vxDateTo.value ? new Date(vxDateTo.value) : null;
+
+                // Grid items
+                const gridItems = document.querySelectorAll('.vx-request-card');
+                let visibleCount = 0;
+
+                gridItems.forEach(item => {
+                    const clientName = item.querySelector('.vx-client-name').textContent.toLowerCase();
+                    const clientEmail = item.querySelector('.vx-client-email').textContent.toLowerCase();
+                    const projectType = item.getAttribute('data-type').toLowerCase();
+                    const status = item.getAttribute('data-status');
+                    const description = item.querySelector('.vx-description p').textContent.toLowerCase();
+                    const itemDate = new Date(item.getAttribute('data-date'));
+
+                    // Check if item matches all filters
+                    const matchesSearch = clientName.includes(searchTerm) ||
+                                         clientEmail.includes(searchTerm) ||
+                                         projectType.includes(searchTerm) ||
+                                         description.includes(searchTerm);
+
+                    const matchesStatus = statusFilter === 'all' || status === statusFilter;
+                    const matchesType = !typeFilter || projectType === typeFilter.toLowerCase();
+
+                    let matchesDate = true;
+                    if (dateFromFilter && dateToFilter) {
+                        matchesDate = itemDate >= dateFromFilter && itemDate <= dateToFilter;
+                    } else if (dateFromFilter) {
+                        matchesDate = itemDate >= dateFromFilter;
+                    } else if (dateToFilter) {
+                        matchesDate = itemDate <= dateToFilter;
+                    }
+
+                    if (matchesSearch && matchesStatus && matchesType && matchesDate) {
+                        item.style.display = '';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // List items
+                const listItems = document.querySelectorAll('#vxListView tbody tr');
+                listItems.forEach(item => {
+                    const clientInfo = item.querySelector('.vx-client-name-sm').textContent.toLowerCase() +
+                                      item.querySelector('.vx-client-email-sm').textContent.toLowerCase();
+                    const projectType = item.getAttribute('data-type').toLowerCase();
+                    const status = item.getAttribute('data-status');
+                    const description = item.querySelector('.vx-description-sm').textContent.toLowerCase();
+                    const itemDate = new Date(item.getAttribute('data-date'));
+
+                    // Check if item matches all filters
+                    const matchesSearch = clientInfo.includes(searchTerm) ||
+                                         projectType.includes(searchTerm) ||
+                                         description.includes(searchTerm);
+
+                    const matchesStatus = statusFilter === 'all' || status === statusFilter;
+                    const matchesType = !typeFilter || projectType === typeFilter.toLowerCase();
+
+                    let matchesDate = true;
+                    if (dateFromFilter && dateToFilter) {
+                        matchesDate = itemDate >= dateFromFilter && itemDate <= dateToFilter;
+                    } else if (dateFromFilter) {
+                        matchesDate = itemDate >= dateFromFilter;
+                    } else if (dateToFilter) {
+                        matchesDate = itemDate <= dateToFilter;
+                    }
+
+                    if (matchesSearch && matchesStatus && matchesType && matchesDate) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Update pagination info
+                document.getElementById('vxStartRange').textContent = visibleCount > 0 ? '1' : '0';
+                document.getElementById('vxEndRange').textContent = visibleCount.toString();
+                document.getElementById('vxTotalItems').textContent = gridItems.length.toString();
+
+                // Update pagination controls
+                updatePagination(visibleCount);
+            }
+
+            // Sort items based on selected sort option
+            function sortItems() {
+                const sortOption = vxSortBy.value;
+                const gridContainer = document.getElementById('vxGridView');
+                const listContainer = document.querySelector('#vxListView tbody');
+
+                // Get all grid items and convert to array for sorting
+                const gridItems = Array.from(document.querySelectorAll('.vx-request-card'));
+
+                // Get all list items and convert to array for sorting
+                const listItems = Array.from(document.querySelectorAll('#vxListView tbody tr'));
+
+                // Sort function based on selected option
+                const sortFunction = (a, b) => {
+                    switch(sortOption) {
+                        case 'newest':
+                            return new Date(b.getAttribute('data-date')) - new Date(a.getAttribute('data-date'));
+                        case 'oldest':
+                            return new Date(a.getAttribute('data-date')) - new Date(b.getAttribute('data-date'));
+                        case 'nameAsc':
+                            const nameA = a.querySelector('.vx-client-name, .vx-client-name-sm').textContent.toLowerCase();
+                            const nameB = b.querySelector('.vx-client-name, .vx-client-name-sm').textContent.toLowerCase();
+                            return nameA.localeCompare(nameB);
+                        case 'nameDesc':
+                            const nameC = a.querySelector('.vx-client-name, .vx-client-name-sm').textContent.toLowerCase();
+                            const nameD = b.querySelector('.vx-client-name, .vx-client-name-sm').textContent.toLowerCase();
+                            return nameD.localeCompare(nameC);
+                        default:
+                            return 0;
+                    }
+                };
+
+                // Sort and reappend grid items
+                gridItems.sort(sortFunction).forEach(item => {
+                    gridContainer.appendChild(item);
+                });
+
+                // Sort and reappend list items
+                listItems.sort(sortFunction).forEach(item => {
+                    listContainer.appendChild(item);
+                });
+            }
+
+            // Event listeners for filters
+            vxSearchInput.addEventListener('input', filterItems);
+
+            vxFilterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    vxFilterBtns.forEach(b => b.classList.remove('vx-active'));
+                    this.classList.add('vx-active');
+                    filterItems();
+                });
+            });
+
+            vxProjectTypeFilter.addEventListener('change', filterItems);
+            vxDateFrom.addEventListener('change', filterItems);
+            vxDateTo.addEventListener('change', filterItems);
+            vxSortBy.addEventListener('change', function() {
+                sortItems();
+                filterItems();
+            });
+
+            vxResetFilters.addEventListener('click', function() {
+                vxSearchInput.value = '';
+                vxFilterBtns.forEach(b => b.classList.remove('vx-active'));
+                document.querySelector('[data-filter="all"]').classList.add('vx-active');
+                vxProjectTypeFilter.value = '';
+                vxDateFrom.value = '';
+                vxDateTo.value = '';
+                vxSortBy.value = 'newest';
+                filterItems();
+                sortItems();
+            });
+
+            // Modal functionality
+            const vxDescriptionModal = document.getElementById('vxDescriptionModal');
+            const vxDeleteModal = document.getElementById('vxDeleteModal');
+            const vxApproveModal = document.getElementById('vxApproveModal');
+            const vxAdvancedSearchModal = document.getElementById('vxAdvancedSearchModal');
+            const vxModalDescription = document.getElementById('vxModalDescription');
+            const vxDeleteId = document.getElementById('vxDeleteId');
+            const vxApproveId = document.getElementById('vxApproveId');
+            const vxProjectId = document.getElementById('vxProjectId');
+            const vxProjectSelect = document.getElementById('vxProjectSelect');
+            const vxAdvancedSearchBtn = document.getElementById('vxAdvancedSearchBtn');
+
+            // Read More buttons
+            document.querySelectorAll('.vx-read-more, .vx-read-more-sm').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const description = this.getAttribute('data-description');
+                    vxModalDescription.textContent = description;
+                    openModal(vxDescriptionModal);
+                });
+            });
+
+            // Delete buttons
+            document.querySelectorAll('.vx-delete-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    vxDeleteId.value = id;
+                    openModal(vxDeleteModal);
+                });
+            });
+
+            // Approve buttons
+            document.querySelectorAll('.vx-approve-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    vxApproveId.value = id;
+                    openModal(vxApproveModal);
+                });
+            });
+
+            // Project select in approve modal
+            vxProjectSelect.addEventListener('change', function() {
+                vxProjectId.value = this.value;
+            });
+
+            // Advanced search button
+            vxAdvancedSearchBtn.addEventListener('click', function() {
+                openModal(vxAdvancedSearchModal);
+            });
+
+            // Advanced search apply button
+            document.getElementById('vxAdvSearchApply').addEventListener('click', function() {
+                const clientName = document.getElementById('vxAdvClientName').value.toLowerCase();
+                const clientEmail = document.getElementById('vxAdvClientEmail').value.toLowerCase();
+                const projectType = document.getElementById('vxAdvProjectType').value;
+                const status = document.getElementById('vxAdvStatus').value;
+                const dateFrom = document.getElementById('vxAdvDateFrom').value;
+                const dateTo = document.getElementById('vxAdvDateTo').value;
+                const description = document.getElementById('vxAdvDescription').value.toLowerCase();
+
+                // Apply filters to main filter controls
+                vxSearchInput.value = clientName || clientEmail || description;
+
+                if (status) {
+                    vxFilterBtns.forEach(b => b.classList.remove('vx-active'));
+                    document.querySelector(`[data-filter="${status}"]`).classList.add('vx-active');
+                }
+
+                vxProjectTypeFilter.value = projectType;
+                vxDateFrom.value = dateFrom;
+                vxDateTo.value = dateTo;
+
+                // Close modal and apply filters
+                closeModal(vxAdvancedSearchModal);
+                filterItems();
+            });
+
+            // Advanced search reset button
+            document.getElementById('vxAdvSearchReset').addEventListener('click', function() {
+                document.getElementById('vxAdvClientName').value = '';
+                document.getElementById('vxAdvClientEmail').value = '';
+                document.getElementById('vxAdvProjectType').value = '';
+                document.getElementById('vxAdvStatus').value = '';
+                document.getElementById('vxAdvDateFrom').value = '';
+                document.getElementById('vxAdvDateTo').value = '';
+                document.getElementById('vxAdvDescription').value = '';
+            });
+
+            // Close modal buttons
+            document.querySelectorAll('.vx-modal-close').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const modal = this.closest('.vx-modal');
+                    closeModal(modal);
+                });
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('vx-modal')) {
+                    closeModal(event.target);
+                }
+            });
+
+            // Toast functionality
+            const vxToast = document.getElementById('vxToast');
+            const vxToastTitle = document.getElementById('vxToastTitle');
+            const vxToastMessage = document.getElementById('vxToastMessage');
+
+            document.querySelector('.vx-toast-close').addEventListener('click', function() {
+                vxToast.classList.remove('vx-show');
+            });
+
+            // Function to show toast notification
+            function showToast(title, message, type = 'success') {
+                vxToastTitle.textContent = title;
+                vxToastMessage.textContent = message;
+
+                vxToast.className = 'vx-toast';
+                vxToast.classList.add(`vx-toast-${type}`);
+                vxToast.classList.add('vx-show');
+
+                setTimeout(() => {
+                    vxToast.classList.remove('vx-show');
+                }, 5000);
+            }
+
+            // Function to open modal
+            function openModal(modal) {
+                modal.style.display = 'block';
+                setTimeout(() => {
+                    modal.classList.add('vx-modal-open');
+                }, 10);
+            }
+
+            // Function to close modal
+            function closeModal(modal) {
+                modal.classList.remove('vx-modal-open');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+
+            // Pagination functionality
+            function updatePagination(itemCount) {
+                const itemsPerPage = 12;
+                const pageCount = Math.ceil(itemCount / itemsPerPage);
+                const paginationPages = document.getElementById('vxPaginationPages');
+                const prevBtn = document.getElementById('vxPrevPage');
+                const nextBtn = document.getElementById('vxNextPage');
+
+                // Clear pagination
+                paginationPages.innerHTML = '';
+
+                // Add page buttons
+                for (let i = 1; i <= pageCount; i++) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.className = 'vx-pagination-page';
+                    pageBtn.textContent = i;
+
+                    if (i === 1) {
+                        pageBtn.classList.add('vx-active');
+                    }
+
+                    pageBtn.addEventListener('click', function() {
+                        document.querySelectorAll('.vx-pagination-page').forEach(btn => {
+                            btn.classList.remove('vx-active');
+                        });
+                        this.classList.add('vx-active');
+
+                        // Update prev/next buttons
+                        prevBtn.disabled = i === 1;
+                        nextBtn.disabled = i === pageCount;
+
+                        // Update visible items
+                        const startIndex = (i - 1) * itemsPerPage;
+                        const endIndex = Math.min(startIndex + itemsPerPage, itemCount);
+
+                        document.getElementById('vxStartRange').textContent = startIndex + 1;
+                        document.getElementById('vxEndRange').textContent = endIndex;
+
+                        // TODO: Implement actual pagination of items
+                    });
+
+                    paginationPages.appendChild(pageBtn);
+                }
+
+                // Update prev/next buttons
+                prevBtn.disabled = true;
+                nextBtn.disabled = pageCount <= 1;
+
+                // Add event listeners for prev/next
+                prevBtn.onclick = function() {
+                    const activePage = document.querySelector('.vx-pagination-page.vx-active');
+                    const prevPage = activePage.previousElementSibling;
+
+                    if (prevPage) {
+                        prevPage.click();
+                    }
+                };
+
+                nextBtn.onclick = function() {
+                    const activePage = document.querySelector('.vx-pagination-page.vx-active');
+                    const nextPage = activePage.nextElementSibling;
+
+                    if (nextPage) {
+                        nextPage.click();
+                    }
+                };
+            }
+
+            // Initialize charts
+            function initCharts() {
+                // Chart configuration
+                const chartOptions = {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false
+                        },
+                        y: {
+                            display: false,
+                            beginAtZero: true
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.4
+                        }
+                    }
+                };
+
+                // Get theme colors
+                const isDark = document.body.classList.contains('vx-dark-theme');
+                const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--vx-primary-color').trim();
+                const successColor = getComputedStyle(document.documentElement).getPropertyValue('--vx-success-color').trim();
+                const warningColor = getComputedStyle(document.documentElement).getPropertyValue('--vx-warning-color').trim();
+                const infoColor = getComputedStyle(document.documentElement).getPropertyValue('--vx-info-color').trim();
+
+                // Total Requests Chart
+                const totalCtx = document.getElementById('totalRequestsChart').getContext('2d');
+                const totalChart = new Chart(totalCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            data: [12, 19, 10, 15, 22, 30],
+                            backgroundColor: primaryColor + '20',
+                            borderColor: primaryColor,
+                            borderWidth: 2,
+                            fill: true
+                        }]
+                    },
+                    options: chartOptions
+                });
+
+                // Approved Requests Chart
+                const approvedCtx = document.getElementById('approvedRequestsChart').getContext('2d');
+                const approvedChart = new Chart(approvedCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            data: [8, 15, 7, 12, 17, 22],
+                            backgroundColor: successColor + '20',
+                            borderColor: successColor,
+                            borderWidth: 2,
+                            fill: true
+                        }]
+                    },
+                    options: chartOptions
+                });
+
+                // Pending Requests Chart
+                const pendingCtx = document.getElementById('pendingRequestsChart').getContext('2d');
+                const pendingChart = new Chart(pendingCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            data: [4, 4, 3, 3, 5, 8],
+                            backgroundColor: warningColor + '20',
+                            borderColor: warningColor,
+                            borderWidth: 2,
+                            fill: true
+                        }]
+                    },
+                    options: chartOptions
+                });
+
+                // Recent Requests Chart
+                const recentCtx = document.getElementById('recentRequestsChart').getContext('2d');
+                const recentChart = new Chart(recentCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            data: [2, 3, 1, 4, 2, 0, 3],
+                            backgroundColor: infoColor + '20',
+                            borderColor: infoColor,
+                            borderWidth: 2,
+                            fill: true
+                        }]
+                    },
+                    options: chartOptions
+                });
+            }
+
+            // Initialize the page
+            initCharts();
+            filterItems();
+            sortItems();
+
+            // Check for success message in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('success')) {
+                showToast('Success', urlParams.get('message') || 'Operation completed successfully.');
+            }
+        });
+    </script>
+}
+
+@functions {
+    public string GetProjectTypeBadgeClass(string projectType)
+    {
+        switch (projectType?.ToLower())
+        {
+            case "web development":
+                return "blue";
+            case "mobile app":
+                return "green";
+            case "branding":
+                return "purple";
+            case "data analysis":
+                return "orange";
+            case "software development":
+                return "teal";
+            default:
+                return "gray";
+        }
+    }
+}

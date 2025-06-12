@@ -11,11 +11,11 @@ using Vexora_Labs.Data;
 namespace Vexora_Labs.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProjectsController : Controller
+    public class ProjectRequestController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectRequestController(ApplicationDbContext context)
         {
             _context = context;
         }

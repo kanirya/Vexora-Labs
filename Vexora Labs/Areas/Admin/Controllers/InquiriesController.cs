@@ -47,14 +47,15 @@ public class InquiriesController : Controller
                 SubmittedAt = DateTime.Now,
             };
 
-            await _context.ProjectRequests.AddAsync(project);
+            _context.ProjectRequests.Add(project);
+            _context.ServiceInquiryViewModels.Remove(inquiry);
+
             await _context.SaveChangesAsync();
         }
 
         return RedirectToAction("Index");
     }
-
-
+ 
 
 
 

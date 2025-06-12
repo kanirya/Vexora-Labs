@@ -1,4 +1,4 @@
-/* Admin Dashboard Styles - Light Theme */
+﻿/* Admin Dashboard Styles - Light Theme */
 :root {
     /* Light Theme Colors */
     --admin-primary: #7928ca;
@@ -9,46 +9,40 @@
     --admin-warning: #f59e0b;
     --admin-danger: #ef4444;
     --admin-info: #0ea5e9;
-
+    --admin-button-background: #f1f2f4;
+    --admin-button-text: #0f0f0f;
     /* Light Theme UI Colors */
     --admin-bg: #f8fafc;
     --admin-card-bg: #ffffff;
     --admin-sidebar-bg: #ffffff;
     --admin-header-bg: #ffffff;
     --admin-footer-bg: #ffffff;
-
     /* Text Colors */
     --admin-text: #334155;
     --admin-text-light: #64748b;
     --admin-text-lighter: #94a3b8;
     --admin-text-dark: #1e293b;
     --admin-text-white: #ffffff;
-
     /* Border Colors */
     --admin-border: #e2e8f0;
     --admin-border-light: #f1f5f9;
-
     /* UI Elements */
     --admin-sidebar-width: 280px;
     --admin-sidebar-collapsed-width: 70px;
     --admin-header-height: 70px;
     --admin-footer-height: 60px;
-
     /* Shadows */
     --admin-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
     --admin-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     --admin-shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
     --admin-shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
     --admin-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-
     --admin-gradient-primary: linear-gradient(135deg, #7928ca, #ff0080);
     --admin-gradient-success: linear-gradient(135deg, #10b981, #0ea5e9);
     --admin-gradient-warning: linear-gradient(135deg, #f59e0b, #ef4444);
-
     --admin-transition-fast: 0.15s ease;
     --admin-transition: 0.3s ease;
     --admin-transition-slow: 0.5s ease;
-
     --admin-border-radius-sm: 4px;
     --admin-border-radius: 8px;
     --admin-border-radius-lg: 12px;
@@ -126,6 +120,9 @@ a {
     color: var(--admin-primary);
     transition: color var(--admin-transition-fast);
 }
+
+
+
 
 a:hover {
     color: var(--admin-secondary);
@@ -1400,18 +1397,50 @@ a:hover {
 .admin-btn i {
     margin-right: 0.5rem;
 }
-
 .admin-btn-secondary {
-    background-color: var(--admin-bg);
-    color: var(--admin-text);
-    border: 1px solid var(--admin-border);
+    background-color: var(--admin-button-background);
+    color: var(--admin-button-text);
+    border: none;
+    border-radius: 9999px;
+    padding: 4px 10px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    outline: none;
+    user-select: none;
+  
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.admin-btn-secondary:hover {
-    background-color: var(--admin-card-bg);
-    color: var(--admin-primary);
-    border-color: var(--admin-primary);
-}
+    .admin-btn-secondary:hover {
+        background-color: #e2e3e5;
+        color: #0f0f0f;
+        text-decoration: none;
+    }
+
+    .admin-btn-secondary:focus,
+    .admin-btn-secondary:active {
+        outline: none;
+        box-shadow: none;
+        background-color: #e2e3e5;
+    }
+
+    .admin-btn-secondary::after {
+        content: ' →';
+        font-size: 14px;
+        margin-left: 4px;
+        transition: margin-left 0.2s;
+        display: inline-block;
+    }
+
+    .admin-btn-secondary:hover::after {
+        margin-left: 8px;
+    }
+
 
 .admin-btn-success {
     background-color: var(--admin-success);
