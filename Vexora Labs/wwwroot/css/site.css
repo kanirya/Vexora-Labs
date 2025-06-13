@@ -113,6 +113,7 @@ body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-decoration:none;
     overflow-x: hidden;
 }
 
@@ -126,6 +127,7 @@ h6 {
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: 1rem;
+    text-decoration:none;
     color: var(--text-dark);
 }
 
@@ -336,6 +338,7 @@ select.form-select option {
 /* ===== BUTTONS ===== */
 .btn {
     padding: 0.75rem 1.75rem;
+    text-decoration:none;
     font-family: var(--font-body);
     font-size: 0.95rem;
     font-weight: 500;
@@ -376,6 +379,7 @@ select.form-select option {
 }
 
     .btn-primary:hover {
+        text-decoration:none;
         background-color: var(--primary-dark);
         color: var(--light);
         transform: translateY(-3px);
@@ -392,6 +396,7 @@ select.form-select option {
         color: var(--light);
         transform: translateY(-3px);
         box-shadow: var(--shadow-md);
+        text-decoration: none;
     }
 
 .btn-gradient {
@@ -405,6 +410,7 @@ select.form-select option {
         color: var(--light);
         transform: translateY(-3px);
         box-shadow: var(--shadow-glow);
+        text-decoration: none;
     }
 
 .btn-outline {
@@ -430,6 +436,7 @@ select.form-select option {
 
     .btn-outline:hover {
         color: var(--light);
+        text-decoration: none;
         border-color: transparent;
     }
 

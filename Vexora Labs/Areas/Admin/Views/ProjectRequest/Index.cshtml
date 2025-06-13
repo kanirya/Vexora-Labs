@@ -200,10 +200,14 @@
 
                     <div class="vx-card-body">
 
-                        <div class="vx-project-type">
+                        <div class="vx-project-type d-flex justify-content-between">
                             <span class="vx-badge ">
                                 @item.ProjectType
                             </span>
+                            <div class="vx-meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>@item.SubmittedAt.ToString("MMM dd, yyyy")</span>
+                            </div>
                         </div>
 
                         <div class="vx-description">
@@ -217,10 +221,7 @@
                         </div>
 
                         <div class="vx-card-meta">
-                            <div class="vx-meta-item">
-                                <i class="fas fa-calendar"></i>
-                                <span>@item.SubmittedAt.ToString("MMM dd, yyyy")</span>
-                            </div>
+                           
 
                             @if (item.Project != null)
                             {
@@ -230,6 +231,11 @@
                                         @item.Project.Name
                                     </a>
                                 </div>
+                            }
+                            else
+                            {
+                                <a asp-controller="Projects" asp-action="Create" asp-route-id="@item.Id" asp-route-clientName="@item.ClientName" class="vx-btn vx-btn-primary"><i class="fa-solid fa-plus"></i>Project</a>
+                              
                             }
                         </div>
                     </div>
@@ -313,7 +319,7 @@
                                 }
                                 else
                                 {
-                                    <span>-</span>
+                                    <a asp-controller="Projects" asp-action="Create" asp-route-id="@item.Id" class="vx-btn vx-btn-primary"><i class="fa-solid fa-plus"></i>Project</a>
                                 }
                             </td>
                             <td>
@@ -324,9 +330,8 @@
                                     <a asp-action="Details" asp-route-id="@item.Id" class="vx-btn vx-btn-icon vx-btn-sm" title="View Details">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <button class="vx-btn vx-btn-icon vx-btn-sm vx-delete-btn" data-id="@item.Id" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                   
+                                   
                                     @if (!item.IsApproved)
                                     {
                                         <button class="vx-btn vx-btn-icon vx-btn-sm vx-approve-btn" data-id="@item.Id" title="Approve">

@@ -11,11 +11,11 @@ using Vexora_Labs.Data;
 namespace Vexora_Labs.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProjectRequestController : Controller
+    public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProjectRequestController(ApplicationDbContext context)
+        public ProjectsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,7 +23,7 @@ namespace Vexora_Labs.Areas.Admin.Controllers
         // GET: Admin/Projects
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ProjectRequests.Include(p => p.ApprovedBy).Include(p => p.Project);
+            var applicationDbContext = _context.Projects.Include(p => p.Client);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,23 +35,21 @@ namespace Vexora_Labs.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var projectRequest = await _context.ProjectRequests
-                .Include(p => p.ApprovedBy)
-                .Include(p => p.Project)
+            var project = await _context.Projects
+                .Include(p => p.Client)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (projectRequest == null)
+            if (project == null)
             {
                 return NotFound();
             }
 
-            return View(projectRequest);
+            return View(project);
         }
 
         // GET: Admin/Projects/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id, string? clientName)
         {
-            ViewData["ApprovedById"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name");
+            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -60,18 +58,17 @@ namespace Vexora_Labs.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ClientName,ClientEmail,ProjectType,Description,SubmittedAt,IsApproved,ApprovedById,ProjectId")] ProjectRequest projectRequest)
+        public async Task<IActionResult> Create([Bind("Id,Name,GitHubRepoUrl,Status,ClientId,CreatedAt,UpdatedAt")] Project project)
         {
             if (ModelState.IsValid)
             {
-                projectRequest.Id = Guid.NewGuid();
-                _context.Add(projectRequest);
+                project.Id = Guid.NewGuid();
+                _context.Add(project);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApprovedById"] = new SelectList(_context.Users, "Id", "Id", projectRequest.ApprovedById);
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", projectRequest.ProjectId);
-            return View(projectRequest);
+            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", project.ClientId);
+            return View(project);
         }
 
         // GET: Admin/Projects/Edit/5
@@ -82,14 +79,13 @@ namespace Vexora_Labs.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var projectRequest = await _context.ProjectRequests.FindAsync(id);
-            if (projectRequest == null)
+            var project = await _context.Projects.FindAsync(id);
+            if (project == null)
             {
                 return NotFound();
             }
-            ViewData["ApprovedById"] = new SelectList(_context.Users, "Id", "Id", projectRequest.ApprovedById);
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", projectRequest.ProjectId);
-            return View(projectRequest);
+            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", project.ClientId);
+            return View(project);
         }
 
         // POST: Admin/Projects/Edit/5
@@ -97,9 +93,9 @@ namespace Vexora_Labs.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,ClientName,ClientEmail,ProjectType,Description,SubmittedAt,IsApproved,ApprovedById,ProjectId")] ProjectRequest projectRequest)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,Name,GitHubRepoUrl,Status,ClientId,CreatedAt,UpdatedAt")] Project project)
         {
-            if (id != projectRequest.Id)
+            if (id != project.Id)
             {
                 return NotFound();
             }
@@ -108,12 +104,12 @@ namespace Vexora_Labs.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(projectRequest);
+                    _context.Update(project);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjectRequestExists(projectRequest.Id))
+                    if (!ProjectExists(project.Id))
                     {
                         return NotFound();
                     }
@@ -124,9 +120,8 @@ namespace Vexora_Labs.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApprovedById"] = new SelectList(_context.Users, "Id", "Id", projectRequest.ApprovedById);
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", projectRequest.ProjectId);
-            return View(projectRequest);
+            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Id", project.ClientId);
+            return View(project);
         }
 
         // GET: Admin/Projects/Delete/5
@@ -137,16 +132,15 @@ namespace Vexora_Labs.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var projectRequest = await _context.ProjectRequests
-                .Include(p => p.ApprovedBy)
-                .Include(p => p.Project)
+            var project = await _context.Projects
+                .Include(p => p.Client)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (projectRequest == null)
+            if (project == null)
             {
                 return NotFound();
             }
 
-            return View(projectRequest);
+            return View(project);
         }
 
         // POST: Admin/Projects/Delete/5
@@ -154,27 +148,19 @@ namespace Vexora_Labs.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var projectRequest = await _context.ProjectRequests.FindAsync(id);
-            if (projectRequest != null)
+            var project = await _context.Projects.FindAsync(id);
+            if (project != null)
             {
-                _context.ProjectRequests.Remove(projectRequest);
+                _context.Projects.Remove(project);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddProject(Guid id)
+        private bool ProjectExists(Guid id)
         {
-            return RedirectToAction("Index");
-        }
-
-
-        private bool ProjectRequestExists(Guid id)
-        {
-            return _context.ProjectRequests.Any(e => e.Id == id);
+            return _context.Projects.Any(e => e.Id == id);
         }
     }
 }
