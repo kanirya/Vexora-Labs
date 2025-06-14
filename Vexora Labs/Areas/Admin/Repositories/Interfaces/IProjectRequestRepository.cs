@@ -1,0 +1,8 @@
+﻿using Vexora_Labs.Areas.Admin.Models;
+
+namespace Vexora_Labs.Areas.Admin.Repositories.Interfaces
+{
+    public interface IProjectRequestRepository:IReadRepository<ProjectRequest>,IWriteRepository<ProjectRequest>
+    {
+    }
+}

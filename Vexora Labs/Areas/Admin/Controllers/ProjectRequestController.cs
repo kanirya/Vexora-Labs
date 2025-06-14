@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Vexora_Labs.Areas.Admin.Models;
+using Vexora_Labs.Areas.Admin.Services;
+using Vexora_Labs.Areas.Admin.Services.Interfaces;
 using Vexora_Labs.Data;
 
 namespace Vexora_Labs.Areas.Admin.Controllers
@@ -14,17 +16,19 @@ namespace Vexora_Labs.Areas.Admin.Controllers
     public class ProjectRequestController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IProjectRequestService _projectRequestService;
 
-        public ProjectRequestController(ApplicationDbContext context)
+        public ProjectRequestController(ApplicationDbContext context,IProjectRequestService projectRequestService)
         {
             _context = context;
+            _projectRequestService = projectRequestService;
         }
 
         // GET: Admin/Projects
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ProjectRequests.Include(p => p.ApprovedBy).Include(p => p.Project);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext =await _projectRequestService.GetAllAsync();
+            return View(applicationDbContext);
         }
 
         // GET: Admin/Projects/Details/5
@@ -55,9 +59,7 @@ namespace Vexora_Labs.Areas.Admin.Controllers
             return View();
         }
 
-        // POST: Admin/Projects/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ClientName,ClientEmail,ProjectType,Description,SubmittedAt,IsApproved,ApprovedById,ProjectId")] ProjectRequest projectRequest)

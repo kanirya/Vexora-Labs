@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
 using Microsoft.EntityFrameworkCore;
 using Vexora_Labs.Areas.Admin.Models;
+using Vexora_Labs.Areas.Admin.Services.Interfaces;
 using Vexora_Labs.Data;
 
 namespace Vexora_Labs.Areas.Admin.Controllers
@@ -14,10 +16,12 @@ namespace Vexora_Labs.Areas.Admin.Controllers
     public class ProjectsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IProjectService _projectService;
 
-        public ProjectsController(ApplicationDbContext context)
+        public ProjectsController(ApplicationDbContext context,IProjectService projectService)
         {
             _context = context;
+            _projectService = projectService;
         }
 
         // GET: Admin/Projects

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vexora.Models;
 using Vexora_Labs.Areas.Admin.Models;
+using Vexora_Labs.Areas.Admin.Services.Interfaces;
 using Vexora_Labs.Areas.Identity.Data;
 using Vexora_Labs.Data;
 
@@ -15,12 +16,14 @@ public class InquiriesController : Controller
      
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IProjectRequestService _projectRequestService;
 
-        public InquiriesController(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
+    public InquiriesController(ApplicationDbContext context,UserManager<ApplicationUser> userManager,IProjectRequestService projectRequestService)
         {
             _context = context;
         _userManager=userManager;
-        }
+            _projectRequestService = projectRequestService;
+    }
 
         public IActionResult Index()
         {
@@ -46,17 +49,15 @@ public class InquiriesController : Controller
                 Description = inquiry.ProjectDescription,
                 SubmittedAt = DateTime.Now,
             };
-
-            _context.ProjectRequests.Add(project);
             _context.ServiceInquiryViewModels.Remove(inquiry);
+            await _context.SaveChangesAsync(); 
 
-            await _context.SaveChangesAsync();
+           await  _projectRequestService.CreateAsync(project);
+            return RedirectToAction("Index", "ProjectRequest");
         }
 
         return RedirectToAction("Index");
     }
- 
-
 
 
 }
