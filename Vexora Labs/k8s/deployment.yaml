@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vexoralabs-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vexoralabs
+  template:
+    metadata:
+      labels:
+        app: vexoralabs
+    spec:
+      containers:
+        - name: vexoralabs
+          image: vexoralabs:dev
+          ports:
+            - containerPort: 80
