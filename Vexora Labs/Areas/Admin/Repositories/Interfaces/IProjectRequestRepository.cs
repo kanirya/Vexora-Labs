@@ -2,7 +2,7 @@
 
 namespace Vexora_Labs.Areas.Admin.Repositories.Interfaces
 {
-    public interface IProjectRequestRepository:IReadRepository<ProjectRequest>,IWriteRepository<ProjectRequest>
+    public interface IInquiryRepository:IReadRepository<ProjectRequest>,IWriteRepository<ProjectRequest>
     {
     }
 }

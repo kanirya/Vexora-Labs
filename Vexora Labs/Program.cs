@@ -7,6 +7,10 @@ using Vexora_Labs.Areas.Admin.Services.Interfaces;
 using Vexora_Labs.Areas.Identity.Data;
 using Vexora_Labs.Data;
 using Vexora_Labs.Repo.SignalR;
+using Vexora_Labs.Repositories;
+using Vexora_Labs.Repositories.Interfaces;
+using Vexora_Labs.Services;
+using Vexora_Labs.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR();
@@ -31,8 +35,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
-builder.Services.AddScoped<IProjectRequestRepository, ProjectRequestRepository>();
+builder.Services.AddScoped<IInquiryRepository, ProjectRequestRepository>();
 builder.Services.AddScoped<IProjectRequestService, ProjectRequestService>();
+builder.Services.AddScoped<IServicesInquiryRepository, ServicesInquiryRepository>();
+builder.Services.AddScoped<IServicesInquiryServices, ServicesInquiryServices>();
 
 
 var app = builder.Build();

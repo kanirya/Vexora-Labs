@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Vexora_Labs.Data;
 using Vexora_Labs.Models;
 using Vexora_Labs.Repo.SignalR;
+using Vexora_Labs.Services.Interfaces;
 
 namespace Vexora_Labs.Controllers
 {
@@ -11,17 +12,17 @@ namespace Vexora_Labs.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
-
-
         private readonly IHubContext<ChatHub> _hubContext;
-
+        private readonly IServicesInquiryServices _serviceInquiryServices;
 
         public HomeController(
+            IServicesInquiryServices servicesInquiryServices,
             ILogger<HomeController> logger,
             ApplicationDbContext context,
             IHubContext<ChatHub> hubContext)
         {
             _context = context;
+            _serviceInquiryServices = servicesInquiryServices;
             _logger = logger;
             _hubContext = hubContext; // ✅ this was missing
         }
@@ -47,9 +48,7 @@ namespace Vexora_Labs.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            // Save inquiry to database
-            await _context.ServiceInquiryViewModels.AddAsync(model);
-            await _context.SaveChangesAsync();
+            await _serviceInquiryServices.CreateAsync(model);
 
             // Send SignalR message to Admin group
             await _hubContext.Clients.Group("Admins")

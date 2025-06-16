@@ -6,8 +6,8 @@ namespace Vexora_Labs.Areas.Admin.Services
 {
     public class ProjectRequestService : IProjectRequestService
     {
-        private readonly IProjectRequestRepository _repository;
-        public ProjectRequestService(IProjectRequestRepository repository)
+        private readonly IInquiryRepository _repository;
+        public ProjectRequestService(IInquiryRepository repository)
         {
             _repository = repository;
         }

@@ -5,7 +5,7 @@ using Vexora_Labs.Data;
 
 namespace Vexora_Labs.Areas.Admin.Repositories
 {
-    public class ProjectRequestRepository : IProjectRequestRepository
+    public class ProjectRequestRepository : IInquiryRepository
     {
         private readonly ApplicationDbContext _context;
         private readonly DbSet<ProjectRequest> _dbSet;
