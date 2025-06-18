@@ -1,15 +1,16 @@
 ﻿#nullable disable
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 using Vexora_Labs.Areas.Identity.Data;
+using Vexora_Labs.Services;
 
 namespace Vexora_Labs.Areas.Identity.Pages.Account
 {
@@ -17,12 +18,20 @@ namespace Vexora_Labs.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly JwtTokenService _jwtTokenService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
+                          ILogger<LoginModel> logger,
+                          JwtTokenService jwtTokenService,
+                          UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _jwtTokenService = jwtTokenService;
+            _userManager = userManager;
         }
+
 
         [BindProperty]
         public InputModel Input { get; set; }

@@ -39,6 +39,9 @@ builder.Services.AddScoped<IInquiryRepository, ProjectRequestRepository>();
 builder.Services.AddScoped<IProjectRequestService, ProjectRequestService>();
 builder.Services.AddScoped<IServicesInquiryRepository, ServicesInquiryRepository>();
 builder.Services.AddScoped<IServicesInquiryServices, ServicesInquiryServices>();
+//jwt
+builder.Services.AddScoped<JwtTokenService>();
+
 
 
 var app = builder.Build();
