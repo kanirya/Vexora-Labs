@@ -14,8 +14,9 @@ public class ApplicationUser : IdentityUser
     [Required]
     [StringLength(80)]
     public string Name { get; set; }
-    public string RefreshToken { get; set; }
-    public DateTime RefreshTokenExpiryTime { get; set; }
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenExpiryTime { get; set; } // note the '?'
+
 
     public ICollection<Project> Projects { get; set; }
     public ICollection<CommitLog> CommitLogs { get; set; }

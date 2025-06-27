@@ -1,6 +1,64 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿<h2>Weather forecast (fetched with JWT)</h2>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<table id="wxTable" class="table" hidden>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Temp (°C)</th>
+            <th>Summary</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<p id="msg" class="text-danger"></p>
+
+<script>
+    // -------- helper: read a cookie by name ----------
+    function getCookie(name) {
+        const v = document.cookie.split('; ')
+            .find(row => row.startsWith(name + '='));    // "access_token=eyJ..."
+        return v ? decodeURIComponent(v.split('=')[1]) : null;
+    }
+
+    // -------- call API with the token -----------------
+    async function loadWeather() {
+        const token = getCookie('access_token');
+        if (!token) {
+            document.getElementById('msg').textContent =
+                'No access token found – please log in.';
+            return;
+        }
+
+        try {
+            const res = await fetch('https://localhost:5153/WeatherForecast', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (res.status === 401) {
+                document.getElementById('msg').textContent =
+                    'Token expired – refresh or log in again.';
+                return;
+            }
+
+            if (!res.ok) throw new Error('API error: ' + res.status);
+            const data = await res.json();           // ← WeatherForecast[]
+
+            const tbody = document.querySelector('#wxTable tbody');
+            data.forEach(row => {
+                tbody.insertAdjacentHTML('beforeend', `
+                    <tr>
+                        <td>${row.date}</td>
+                        <td>${row.temperatureC}</td>
+                        <td>${row.summary}</td>
+                    </tr>`);
+            });
+            document.getElementById('wxTable').hidden = false;
+        }
+        catch (err) {
+            document.getElementById('msg').textContent = err.message;
+        }
+    }
+
+    loadWeather();      // fire on page load
+</script>

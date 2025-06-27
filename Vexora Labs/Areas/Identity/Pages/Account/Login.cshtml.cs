@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Vexora_Labs.Areas.Identity.Data;
 using Vexora_Labs.Services;
+using System;
 
 namespace Vexora_Labs.Areas.Identity.Pages.Account
 {
@@ -31,7 +32,6 @@ namespace Vexora_Labs.Areas.Identity.Pages.Account
             _jwtTokenService = jwtTokenService;
             _userManager = userManager;
         }
-
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -84,9 +84,35 @@ namespace Vexora_Labs.Areas.Identity.Pages.Account
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("User logged in.");
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                var accessToken = _jwtTokenService.GenerateAccessToken(user);
+                var refreshToken = _jwtTokenService.GenerateRefreshToken();
+
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+                await _userManager.UpdateAsync(user);
+
+                Response.Cookies.Append("refresh_token", refreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddDays(7)
+                });
+
+                Response.Cookies.Append("access_token", accessToken, new CookieOptions
+                {
+                    HttpOnly = false,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddMinutes(15)
+                });
+
+                _logger.LogInformation("User logged in and tokens generated.");
                 return LocalRedirect(returnUrl);
             }
+
             if (result.RequiresTwoFactor)
                 return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
 
@@ -124,9 +150,36 @@ namespace Vexora_Labs.Areas.Identity.Pages.Account
             var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
 
             if (signInResult.Succeeded)
-                return LocalRedirect(returnUrl);
+            {
+                var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
 
-            // New external user, redirect to registration or handle account creation
+                var accessToken = _jwtTokenService.GenerateAccessToken(user);
+                var refreshToken = _jwtTokenService.GenerateRefreshToken();
+
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+                await _userManager.UpdateAsync(user);
+
+                Response.Cookies.Append("refresh_token", refreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddDays(7)
+                });
+
+                Response.Cookies.Append("access_token", accessToken, new CookieOptions
+                {
+                    HttpOnly = false,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddMinutes(15)
+                });
+
+                return LocalRedirect(returnUrl);
+            }
+
+            // First-time external login → redirect to Register
             return RedirectToPage("/Account/Register", new { ReturnUrl = returnUrl });
         }
     }
