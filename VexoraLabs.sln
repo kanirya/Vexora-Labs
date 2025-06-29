@@ -6,11 +6,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VexoraLabs", "Vexora Labs\V
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VexoraAPI", "VexoraAPI\VexoraAPI.csproj", "{34B138D5-092C-48C9-93F7-B41CB5CD83D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{09646D3A-388D-41A2-BFEE-E21C2EFAAC83}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vexora.Domain", "Domain\Vexora.Domain.csproj", "{09646D3A-388D-41A2-BFEE-E21C2EFAAC83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{3DA95575-965E-4941-BD5D-C8AB786BDBB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vexora.Application", "Application\Vexora.Application.csproj", "{3DA95575-965E-4941-BD5D-C8AB786BDBB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{51B57CAD-5229-4526-8F14-5F61CE17D46D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vexora.Infrastructure", "Infrastructure\Vexora.Infrastructure.csproj", "{51B57CAD-5229-4526-8F14-5F61CE17D46D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
