@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application\Vexora.Application.csproj" />
     <ProjectReference Include="..\Domain\Vexora.Domain.csproj" />
-    <ProjectReference Include="..\Infrastructure\Vexora.Infrastructure.csproj" />
+    <ProjectReference Include="..\Vexora.Application\Vexora.Application.csproj" />
+    <ProjectReference Include="..\Vexora.Domain\Vexora.Domain.csproj" />
   </ItemGroup>
 
 </Project>

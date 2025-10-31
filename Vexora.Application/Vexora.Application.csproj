@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Vexora.Domain\Vexora.Domain.csproj" />
   </ItemGroup>
 
 </Project>

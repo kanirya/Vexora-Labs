@@ -1,4 +1,4 @@
-﻿namespace Domain
+﻿namespace Vexora.Domain
 {
     public class Class1
     {
